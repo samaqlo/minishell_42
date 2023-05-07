@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/03 17:04:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/05 15:35:37 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 typedef struct s_infos
 {
     int     n_pipes;
+    int     is_quote;
+    int     flag;
+    int     pos;
+    int     start;
+    int     len;
+    int     is_finish;
 }               t_infos;
 
 typedef struct s_data
@@ -43,12 +49,15 @@ typedef struct s_data
 
 int quoting_checker(char *str);
 void    lexer(char *str);
+char	*ft_substr_parse(char const *s, t_infos	*infos);
 //linked_list
 void	ft_lstadd_back(t_data **lst, t_data *new);
 void	ft_lstadd_front(t_data **lst, t_data *new);
 int	ft_lstsize(t_data *lst);
 t_data	*ft_lstlast(t_data *lst);
-t_data	*ft_lstnew(char *content);
+t_data	*ft_lstnew(char *content, t_infos	*infos);
+//cleaners
+void     clean_list(t_data   *lst_words);
 
 #endif
 

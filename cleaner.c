@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/05 11:22:11 by astalha          ###   ########.fr       */
+/*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
+/*   Updated: 2023/05/05 15:35:32 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int     main(int ac, char **av, char **env)
+void     clean_list(t_data   *lst_words)
 {
-    char *str;
-(void)ac;
-(void)av;
-(void)env;
-    while(1)
+    t_data  *tmp;
+
+    while(lst_words)
     {
-       str = readline("minishel> ");
-        if (quoting_checker(str))
-            return (perror("opened quotes\n"), 0);
-        lexer(str);
-        add_history(str);
-        free(str);
-    }
+        tmp = lst_words;
+        lst_words = lst_words->next;
+        free(tmp);
+    }   
+    free(lst_words);
 }

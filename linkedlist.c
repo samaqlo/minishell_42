@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/02 11:24:54 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/05 15:20:09 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	ft_lstadd_back(t_data **lst, t_data *new)
 {
 	t_data	*lastlst;
 
+	if (!new->word)
+		{
+			new->infos->is_finish = 1;
+			return ;
+		}
 	if (!*lst && new)
 	{
 		*lst = new;
@@ -61,8 +66,23 @@ t_data	*ft_lstlast(t_data *lst)
 		plst = plst->next;
 	return (plst);
 }
-
-t_data	*ft_lstnew(char *content)
+void	set_type(t_data *new)
+{
+	if (!ft_strncmp(new->word, "|",ft_strlen(new->word)))
+		new->type = pi_pe;
+	else if (!ft_strncmp(new->word, ">",ft_strlen(new->word)) || !ft_strncmp(new->word, ">|",ft_strlen(new->word)))
+		new->type = r_redirect;
+	else if (!ft_strncmp(new->word, "<",ft_strlen(new->word)))
+		new->type = l_redirect;
+	else if (!ft_strncmp(new->word, ">>",ft_strlen(new->word)))
+		new->type = append;
+	else if (!ft_strncmp(new->word, "<<",ft_strlen(new->word)))
+		new->type = here_doc;
+	else
+		new->type = word;
+		
+}
+t_data	*ft_lstnew(char *content, t_infos	*infos)
 {
 	t_data	*new;
 
@@ -70,7 +90,18 @@ t_data	*ft_lstnew(char *content)
 	if (!new)
 		return (NULL);
 	new->word = content;
-	new->type = word;
+	set_type(new);
+	if (infos->flag == 1)
+	{
+		new->type = sq_word;
+		infos->flag = 0;
+	}
+	else if (infos->flag == 2)
+	{
+		new->type = dq_word;
+		infos->flag = 0;
+	}
+	new->infos = infos;
 	new->next = NULL;
 	return (new);
 }
