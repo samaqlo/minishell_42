@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/03 17:04:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/08 12:37:04 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include "libft/libft.h"
 #include <readline/readline.h>
 #include <readline/readline.h>
+# define GREEN "\033[32m"
+# define YELLOW "\033[33m"
+# define BOLD "\033[1m"
+# define RESET "\033[0m"
 
  enum words_types{
     word,
@@ -40,6 +44,14 @@ typedef struct s_data
     t_infos *infos;
     struct  s_data *next;
 }              t_data;
+
+typedef struct s_list_env
+{
+    char *variable;
+    char *content;
+    struct s_list_env *next;
+} t_list_env;
+
 
 int quoting_checker(char *str);
 void    lexer(char *str);
