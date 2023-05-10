@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/05 15:20:09 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/08 22:56:34 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ t_data	*ft_lstlast(t_data *lst)
 void	set_type(t_data *new)
 {
 	if (!ft_strncmp(new->word, "|",ft_strlen(new->word)))
+	{
+		puts("ok");
+		printf("%s\n", new->word);
 		new->type = pi_pe;
+	}
 	else if (!ft_strncmp(new->word, ">",ft_strlen(new->word)) || !ft_strncmp(new->word, ">|",ft_strlen(new->word)))
 		new->type = r_redirect;
 	else if (!ft_strncmp(new->word, "<",ft_strlen(new->word)))
@@ -92,15 +96,18 @@ t_data	*ft_lstnew(char *content, t_infos	*infos)
 	new->word = content;
 	set_type(new);
 	if (infos->flag == 1)
-	{
 		new->type = sq_word;
-		infos->flag = 0;
-	}
 	else if (infos->flag == 2)
-	{
 		new->type = dq_word;
-		infos->flag = 0;
-	}
+	else if(infos->flag == 3)
+		new->type = sq_jn;
+	else if (infos->flag == 4)
+		new->type = dq_jn;
+	else if (infos->flag == 5)
+		new->type = dollar;
+	else if (infos->flag == 6)
+		new->type = dollar_jn;
+	infos->flag = 0;
 	new->infos = infos;
 	new->next = NULL;
 	return (new);

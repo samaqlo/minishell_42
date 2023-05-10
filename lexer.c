@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/07 15:21:20 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/08 22:50:39 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,27 @@ int quoting_checker(char *str)
 
 // void    check_the_$(char    *str)
 // {
-    
+//     int 
 // }
 
-int     quote_len(char *str, int flag, int *pos, int lenght)
+int     quote_len(char *str, t_infos *infos, int lenght)
 {
     int i;
     int len;
 
-    i = (*pos) + 1;
+    i = infos->pos + 1;
     len = 0;
     if (lenght)
         len += lenght;
     while(str[i])
     {
-        if (str[i] == '\'' && flag == 1 && ft_strchr("|>< \t\n\v\f\r", str[i + 1]))
+        if (str[i] == '\'' && infos->is_quote == 1 && ft_strchr("|>< \t\n\v\f\r\"", str[i + 1]))
             break;
-        else if (str[i] == '\"' && flag == 2 && ft_strchr("|>< \t\n\v\f\r", str[i + 1]))
+        else if (str[i] == '\"' && infos->is_quote == 2 && ft_strchr("|>< \t\n\v\f\r\'", str[i + 1]))
             break;
-        else if (str[i] == '\"' && flag == 2) 
+        else if (str[i] == '\"' && infos->is_quote == 2) 
             i++;
-        else if (str[i] == '\'' && flag == 1)
+        else if (str[i] == '\'' && infos->is_quote == 1)
             i++;
         else
         {
@@ -76,8 +76,38 @@ int     quote_len(char *str, int flag, int *pos, int lenght)
     }
     }
         i++;
-        *pos = i;
+        if (ft_strchr("\'", str[i]) && infos->is_quote == 2)
+        {
+        // printf("hh %c\n", str[i]);
+            infos->flag = 4;
+        }
+        else if (ft_strchr("\"", str[i]) && infos->is_quote == 1)
+            infos->flag = 3;
+            //  printf("%d [%c]\n", infos->is_quote, str[i]);
+        infos->pos = i;
     return (len);
+}
+
+int     dollar_len(char *str, t_infos   *infos)
+{
+    int i;
+    int len = 0;
+    i = infos->pos;
+    // infos->flag = 5;
+    // printf("str %c\n", str[i]);
+    while(str[i])
+    {
+        if (!ft_isalnum(str[i]))
+            break;
+        i++;
+        len++;
+    }
+    i++;
+    // if (str[i] == '\'' || str[i] == '\"')
+    //     infos->flag = 6;
+    len++;
+    infos->pos = i;
+    return len;
 }
 int word_len(char *str, t_infos *infos)
 {
@@ -89,15 +119,28 @@ int word_len(char *str, t_infos *infos)
         i++;
     while(str[i])
     {
-        if (ft_strchr("<>", str[i]) && !ft_strchr(" \t\n\v\f\r><|&", str[i+1]))
+        if (ft_strchr("<>", str[i]) && !ft_strchr(" \t\n\v\f\r><|", str[i+1]))
             return ((infos->pos) = i + 1, 1);
+        // else if (str[i] == '$')
+        //     infos->flag = 5;
+        // else if (infos->flag == 5 && !ft_isalnum(str[i]))
+        // {
+        //     if (!ft_strchr(" \t\n\v\f\r", str[i]))
+        //         infos->flag = 6;
+        //     return (infos->pos = i, len);
+        // }
+        // else if (str[i] == '$' && ft_strchr(" \t\n\v\f\r", str[i - 1]))
+        //     return (infos->pos = i + 1, dollar_len(str, infos));
+        // else if (str[i + 1] == '$' && ft_strchr(" \t\n\v\f\r", str[i]))
+        //     return (infos->pos = i + 1, len + 1);
         else if (ft_strchr(" \t\n\v\f\r", str[i]))
             break;
+        // else if (ft_strchr("\'\"", str[i]) && !infos->is_quote)
         else if (!infos->is_quote && str[i] == '\'')
-            return (infos->flag = 1, infos->pos = i, infos->is_quote = 1, quote_len(str, 1, &infos->pos, len));
+            return (infos->flag = 1, infos->pos = i, infos->is_quote = 1, quote_len(str, infos, len));
         else if (!infos->is_quote && str[i] == '\"')
-            return (infos->flag = 2, infos->pos = i, infos->is_quote = 2, quote_len(str, 2, &infos->pos, len));
-        else if (ft_strchr("<>|", str[i + 1]) || ft_strchr("|", str[i]))
+            return (infos->flag = 2, infos->pos = i, infos->is_quote = 2, quote_len(str, infos, len));
+        else if ((ft_strchr("<>|", str[i + 1]) || ft_strchr("|", str[i])) && str[i + 1])
         {
             if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '|'))
             {
@@ -110,10 +153,8 @@ int word_len(char *str, t_infos *infos)
         }
             len++;
             i++;
-
     }
     infos->pos = i;
-    printf("%d\n", len);
     return (len);
 }
 

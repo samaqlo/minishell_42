@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/05 15:35:37 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/07 22:47:13 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@
  enum words_types{
     word,
     sq_word,
-    dq_word, 
+    dq_word,
     r_redirect,
     l_redirect,
     here_doc, 
-    append, 
-    pi_pe};
+    append,
+    pi_pe, 
+    dq_jn,
+    sq_jn,
+    dollar,
+    dollar_jn};
     
 typedef struct s_infos
 {
