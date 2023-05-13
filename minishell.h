@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/08 12:37:04 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/05/13 16:27:19 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_list_env
 {
     char *variable;
     char *content;
+    int     c;
     struct s_list_env *next;
 } t_list_env;
 

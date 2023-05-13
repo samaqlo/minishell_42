@@ -34,6 +34,7 @@ t_list_env	*ft_lstnew_env(char *content, char *variable)
 		return (NULL);
     new->variable = variable;
     new->content = content;
+    new->c = 1;
 	new->next = NULL;
 	return (new);
 }
@@ -67,9 +68,9 @@ void    grep_env(char **env, t_list_env **enev)
     {
         len_eq = check_equal(env[i]);
         len = ft_strlen(env[i]);
-        variable = ft_substr(env[i], 0, check_equal(env[i]));
+        variable = ft_substr(env[i], 0, check_equal(env[i]) + 1);
         content = ft_substr(env[i], check_equal(env[i]) + 1, ft_strlen(env[i]) - check_equal(env[i]));
-        ft_lstadd_back_env(enev, ft_lstnew_env(variable, content));
+        ft_lstadd_back_env(enev, ft_lstnew_env(content, variable));
         if (i == 0)
             tmp = *enev;
         i++;
@@ -95,30 +96,33 @@ int check_n(char *av)
 void    built_echo(char **av)
 {
     int i;
+    int c;
     int test;
 
     i = 1;
     test = 1;
+    c = 1;
     while(av[i])
     {
-        if(!ft_strncmp(av[i], "-n", 2))
+        while(!check_n(av[i]) && c)
         {
-            if (check_n(av[i]))
-            {
-                test = 1;
-                printf("%s ", av[i]);
-            }
-            else
-                test = 0;
+            test = 0;
+            i++;
         }
-        else
-            printf("%s ", av[i]);
-        i++;
+        c = 0;
+        printf("%s", av[i++]);
     }
     if (test == 1)
         printf("\n");
 }
-
+void built_pwd()
+{
+    char str[1024];
+    if(getcwd(str, sizeof(str)))
+        printf("%s\n", str);
+    else
+        printf("\n");
+}
 char *getpath(char **env)
 {
     int i = 0;
@@ -129,6 +133,39 @@ char *getpath(char **env)
         i++;
     }
     return(NULL);
+}
+
+// unset don't remove $pwd $old_pwd $HOME
+void    built_env(t_list_env *enev)
+{
+    while(enev)
+    {
+        if (enev->c)
+        {printf("%s", enev->variable);
+        printf("%s\n", enev->content);}
+        enev = enev->next;
+    }
+}
+
+
+void    built_unset(t_list_env *enev, char **av)
+{
+    int i;
+    t_list_env *head;
+    
+    i = 1;
+    head = enev;
+    while(av[i])
+    {
+        while(enev)
+        {
+            if(!ft_strcmp(av[i], ft_substr(enev->variable, 0, ft_strlen(enev->variable) - 1)))
+                enev->c = 0;
+            enev = enev->next;
+        }
+        enev = head;
+        i++;
+    }
 }
 
 int main(int ac, char **av, char **env)
@@ -144,19 +181,21 @@ int main(int ac, char **av, char **env)
         return(0);
     while(1){ 
         line = readline(BOLD YELLOW"minishell> "RESET);
-        if(!*line)
+        if (!line)
+            break ;
+        if (!*line)
             continue;
-        else 
-        {
-            args_1 = ft_split(line, ' ');
-            if(!(strncmp(args_1[0], "echo", 4)))
-                built_echo(args_1);
-        }
+        args_1 = ft_split(line, ' ');
+        if(!(strcmp(args_1[0], "echo")))
+            built_echo(args_1);
+        else if(!(strcmp(args_1[0], "env")))
+            built_env(enev);
+        else if(!(strcmp(args_1[0], "pwd")))
+                built_pwd();
+         else if(!(strcmp(args_1[0], "unset")))
+                built_unset(enev, args_1);
+        
+    
     }
-        // while((enev))
-        // {
-        //     printf("[%s]\n", (enev)->content);
-        //     printf("[%s]\n", (enev)->variable);
-        //     (enev) = (enev)->next;
-        // }
 }
+
