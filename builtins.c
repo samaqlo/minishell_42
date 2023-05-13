@@ -115,14 +115,17 @@ void    built_echo(char **av)
     if (test == 1)
         printf("\n");
 }
-void built_pwd()
+
+char *built_pwd()
 {
     char str[1024];
     if(getcwd(str, sizeof(str)))
         printf("%s\n", str);
     else
         printf("\n");
+    return(ft_strdup(str));
 }
+
 char *getpath(char **env)
 {
     int i = 0;
@@ -141,12 +144,13 @@ void    built_env(t_list_env *enev)
     while(enev)
     {
         if (enev->c)
-        {printf("%s", enev->variable);
-        printf("%s\n", enev->content);}
+        {
+            printf("%s", enev->variable);
+            printf("%s\n", enev->content);
+        }
         enev = enev->next;
     }
 }
-
 
 void    built_unset(t_list_env *enev, char **av)
 {
@@ -167,7 +171,13 @@ void    built_unset(t_list_env *enev, char **av)
         i++;
     }
 }
-
+void    built_cd(t_list_env *env, char **args)
+{
+    char str[1024];
+    getcwd(str, sizeof(str));
+    if (!ft_strcmp(args[1], ".."))
+        chdir(ft_strrchr_env(str, ' ));
+}
 int main(int ac, char **av, char **env)
 {
     char *path;
@@ -179,7 +189,8 @@ int main(int ac, char **av, char **env)
     grep_env(env, &enev);
     if(!path)
         return(0);
-    while(1){ 
+    while(1)
+    { 
         line = readline(BOLD YELLOW"minishell> "RESET);
         if (!line)
             break ;
@@ -191,11 +202,12 @@ int main(int ac, char **av, char **env)
         else if(!(strcmp(args_1[0], "env")))
             built_env(enev);
         else if(!(strcmp(args_1[0], "pwd")))
-                built_pwd();
-         else if(!(strcmp(args_1[0], "unset")))
-                built_unset(enev, args_1);
+            built_pwd();
+        else if(!(strcmp(args_1[0], "unset")))
+               built_unset(enev, args_1);
+        else if(!(strcmp(args_1[0], "cd")))
+                built_cd(enev, args_1);
         
-    
     }
 }
 
