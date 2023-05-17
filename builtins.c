@@ -32,8 +32,8 @@ t_list_env	*ft_lstnew_env(char *content, char *variable)
 	new = (t_list_env *) malloc (sizeof (t_list_env));
 	if (!new)
 		return (NULL);
-    new->variable = variable;
-    new->content = content;
+    new->variable = ft_strdup(variable);
+    new->content = ft_strdup(content);
     new->c = 1;
 	new->next = NULL;
 	return (new);
@@ -60,24 +60,19 @@ void    grep_env(char **env, t_list_env **enev)
     int len_eq;
     char *content;
     char *variable;
-    t_list_env *tmp;
 
     i = 0;
-    tmp = NULL;
     while(env[i])
     {
         len_eq = check_equal(env[i]);
         len = ft_strlen(env[i]);
-        variable = ft_substr(env[i], 0, check_equal(env[i]) + 1);
-        content = ft_substr(env[i], check_equal(env[i]) + 1, ft_strlen(env[i]) - check_equal(env[i]));
+        variable = ft_substr(env[i], 0, len_eq + 1);
+        content = ft_substr(env[i], len_eq + 1, ft_strlen(env[i]) - len_eq);
         ft_lstadd_back_env(enev, ft_lstnew_env(content, variable));
-        if (i == 0)
-            tmp = *enev;
         i++;
-    }
         free(variable);
         free(content);
-    *enev = tmp;
+    }
 }
 
 int check_n(char *av)
@@ -110,7 +105,7 @@ void    built_echo(char **av)
             i++;
         }
         c = 0;
-        printf("%s", av[i++]);
+        printf("%s ", av[i++]);
     }
     if (test == 1)
         printf("\n");
@@ -176,16 +171,18 @@ void    built_cd(t_list_env *env, char **args)
     char str[1024];
     getcwd(str, sizeof(str));
     if (!ft_strcmp(args[1], ".."))
-        chdir(ft_strrchr_env(str, ' ));
+        chdir(ft_strrchr_env(str, '/'));
+    
 }
 int main(int ac, char **av, char **env)
 {
     char *path;
     char *line;
     char **args_1;
-    t_list_env *enev = NULL;
-    path = getpath(env);
+    t_list_env *enev;
 
+    enev = NULL;
+    path = getpath(env);
     grep_env(env, &enev);
     if(!path)
         return(0);
