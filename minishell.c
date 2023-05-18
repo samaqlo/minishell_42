@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/05 11:22:11 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:09:01 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int     main(int ac, char **av, char **env)
     {
        str = readline("minishel> ");
         if (quoting_checker(str))
-            return (perror("opened quotes\n"), 0);
+            return (ft_putstr_fd("quote opened\n", 2),free(str), 0);
         lexer(str);
         add_history(str);
         free(str);

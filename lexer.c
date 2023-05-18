@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/08 22:50:39 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/17 12:21:53 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,51 +50,36 @@ int quoting_checker(char *str)
 //     int 
 // }
 
-int     quote_len(char *str, t_infos *infos, int lenght)
+int     quote_len(char *str, t_infos *infos)
 {
     int i;
     int len;
 
     i = infos->pos + 1;
     len = 0;
-    if (lenght)
-        len += lenght;
     while(str[i])
     {
-        if (str[i] == '\'' && infos->is_quote == 1 && ft_strchr("|>< \t\n\v\f\r\"", str[i + 1]))
+        if (str[i] == '\'' && infos->is_quote == 1)
             break;
-        else if (str[i] == '\"' && infos->is_quote == 2 && ft_strchr("|>< \t\n\v\f\r\'", str[i + 1]))
+        else if (str[i] == '\"' && infos->is_quote == 2)
             break;
-        else if (str[i] == '\"' && infos->is_quote == 2) 
-            i++;
-        else if (str[i] == '\'' && infos->is_quote == 1)
-            i++;
         else
         {
             len++;
             i++;
     }
     }
-        i++;
-        if (ft_strchr("\'", str[i]) && infos->is_quote == 2)
-        {
-        // printf("hh %c\n", str[i]);
-            infos->flag = 4;
-        }
-        else if (ft_strchr("\"", str[i]) && infos->is_quote == 1)
-            infos->flag = 3;
-            //  printf("%d [%c]\n", infos->is_quote, str[i]);
-        infos->pos = i;
+    i++;
+    infos->pos = i;
     return (len);
 }
 
 int     dollar_len(char *str, t_infos   *infos)
-{
+{           
     int i;
     int len = 0;
     i = infos->pos;
-    // infos->flag = 5;
-    // printf("str %c\n", str[i]);
+
     while(str[i])
     {
         if (!ft_isalnum(str[i]))
@@ -103,11 +88,23 @@ int     dollar_len(char *str, t_infos   *infos)
         len++;
     }
     i++;
-    // if (str[i] == '\'' || str[i] == '\"')
-    //     infos->flag = 6;
     len++;
     infos->pos = i;
     return len;
+}
+int white_sp(char *str, t_infos *infos)
+{
+    int i = infos->pos;
+    int len = 0;
+    
+    while(ft_strchr(" \t\n\v\f\r", str[i]))
+    {
+        len++;
+        i++;
+    }
+    infos->flag = 3;
+    infos->pos = i;
+    return (len);
 }
 int word_len(char *str, t_infos *infos)
 {
@@ -115,31 +112,20 @@ int word_len(char *str, t_infos *infos)
     int len = 0;
 
     i = infos->pos;
-    while(ft_strchr(" \t\n\v\f\r", str[i]))
-        i++;
+    if (ft_strchr(" \t\n\v\f\r", str[i]))
+        return (white_sp(str, infos));
     while(str[i])
     {
         if (ft_strchr("<>", str[i]) && !ft_strchr(" \t\n\v\f\r><|", str[i+1]))
             return ((infos->pos) = i + 1, 1);
-        // else if (str[i] == '$')
-        //     infos->flag = 5;
-        // else if (infos->flag == 5 && !ft_isalnum(str[i]))
-        // {
-        //     if (!ft_strchr(" \t\n\v\f\r", str[i]))
-        //         infos->flag = 6;
-        //     return (infos->pos = i, len);
-        // }
-        // else if (str[i] == '$' && ft_strchr(" \t\n\v\f\r", str[i - 1]))
-        //     return (infos->pos = i + 1, dollar_len(str, infos));
-        // else if (str[i + 1] == '$' && ft_strchr(" \t\n\v\f\r", str[i]))
-        //     return (infos->pos = i + 1, len + 1);
-        else if (ft_strchr(" \t\n\v\f\r", str[i]))
+        else if (!infos->is_finish && ft_strchr(" \t\n\v\f\r", str[i]))
             break;
-        // else if (ft_strchr("\'\"", str[i]) && !infos->is_quote)
+        else if (str[i + 1] == '\"' || str[i + 1] == '\'')
+            return (infos->pos = i + 1, len);
         else if (!infos->is_quote && str[i] == '\'')
-            return (infos->flag = 1, infos->pos = i, infos->is_quote = 1, quote_len(str, infos, len));
+            return (infos->flag = 1, infos->pos = i, infos->is_quote = 1, quote_len(str, infos));
         else if (!infos->is_quote && str[i] == '\"')
-            return (infos->flag = 2, infos->pos = i, infos->is_quote = 2, quote_len(str, infos, len));
+            return (infos->flag = 2, infos->pos = i, infos->is_quote = 2, quote_len(str, infos));
         else if ((ft_strchr("<>|", str[i + 1]) || ft_strchr("|", str[i])) && str[i + 1])
         {
             if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '|'))
@@ -172,6 +158,7 @@ void    lexer(char *str)
 {
     t_data *lst_words = NULL;
     t_infos infos;
+    char *str1;
     if (quoting_checker(str))
         return ;
     init_args(&infos);
@@ -179,14 +166,18 @@ void    lexer(char *str)
     {
         infos.start = infos.pos;
         infos.len = word_len(str, &infos);
-        ft_lstadd_back(&lst_words, ft_lstnew(ft_substr_parse(str, &infos), &infos));
+        str1 = ft_substr_parse(str, &infos);
+        printf("str : %s || %p\n", str1, &str1);
+        ft_lstadd_back(&lst_words, ft_lstnew(str1, &infos));
             if (infos.is_finish)
                 break;
     }
+    t_data *head = lst_words;
     while(lst_words)
     {
         printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);
         lst_words = lst_words->next;
     }
-    clean_list(lst_words);
+    clean_list(&head);
+    free(str1);
 }

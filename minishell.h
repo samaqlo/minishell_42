@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/07 22:47:13 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/17 11:50:11 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@
     l_redirect,
     here_doc, 
     append,
-    pi_pe, 
-    dq_jn,
-    sq_jn,
+    pi_pe,
     dollar,
-    dollar_jn};
+    dollar_jn,
+    space};
     
 typedef struct s_infos
 {
@@ -61,7 +60,7 @@ int	ft_lstsize(t_data *lst);
 t_data	*ft_lstlast(t_data *lst);
 t_data	*ft_lstnew(char *content, t_infos	*infos);
 //cleaners
-void     clean_list(t_data   *lst_words);
+void     clean_list(t_data   **lst_words);
 
 #endif
 
