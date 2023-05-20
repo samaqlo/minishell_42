@@ -166,14 +166,57 @@ void    built_unset(t_list_env *enev, char **av)
         i++;
     }
 }
+void    change_env(t_list_env **env, char *var , char *cont)
+{
+    t_list_env *tmp;
+    
+    tmp = *env;
+
+    while(tmp)
+    {
+        if (!ft_strcmp(tmp->variable, var) && tmp->content)
+        {
+            free(tmp->content);
+            tmp->content = ft_strdup(cont);
+        }
+        tmp = tmp->next;
+    }
+}
+char    *print_env(t_list_env **env, char *var)
+{
+    t_list_env *tmp;
+
+    tmp = *env;
+    while(tmp)
+    {
+        if (!ft_strcmp(tmp->variable, var) && tmp->content)
+            return(tmp->content);
+        tmp = tmp->next;
+    }
+    return(NULL);
+}
 void    built_cd(t_list_env *env, char **args)
 {
     char str[1024];
-    getcwd(str, sizeof(str));
-    if (!ft_strcmp(args[1], ".."))
+
+    change_env(&env, "OLDPWD=", getcwd(str, sizeof(str)));
+    if (args[1] && !ft_strcmp(args[1], ".."))
+    {
         chdir(ft_strrchr_env(str, '/'));
-    
+        change_env(&env, "PWD=", getcwd(str, sizeof(str)));
+    }
+    else if (args[1])
+    {
+        chdir(args[1]);
+        change_env(&env, "PWD=", getcwd(str, sizeof(str)));
+    }
+    else if (!args[1])
+    {   
+        chdir(print_env(&env, "HOME="));
+        change_env(&env, "PWD=", getcwd(str, sizeof(str)));
+    }
 }
+
 int main(int ac, char **av, char **env)
 {
     char *path;
@@ -201,9 +244,9 @@ int main(int ac, char **av, char **env)
         else if(!(strcmp(args_1[0], "pwd")))
             built_pwd();
         else if(!(strcmp(args_1[0], "unset")))
-               built_unset(enev, args_1);
+            built_unset(enev, args_1);
         else if(!(strcmp(args_1[0], "cd")))
-                built_cd(enev, args_1);
+            built_cd(enev, args_1);
         
     }
 }
