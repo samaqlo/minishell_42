@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/17 11:50:11 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/21 21:44:06 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@
     append,
     pi_pe,
     dollar,
-    dollar_jn,
     space};
-    
+
 typedef struct s_infos
 {
     int     n_pipes;
@@ -50,8 +49,16 @@ typedef struct s_data
     struct  s_data *next;
 }              t_data;
 
+typedef struct s_list_env
+{
+    char *variable;
+    char *content;
+    int     c;
+    struct s_list_env *next;
+}               t_list_env;
+
 int quoting_checker(char *str);
-void    lexer(char *str);
+int    lexer(char *str);
 char	*ft_substr_parse(char const *s, t_infos	*infos);
 //linked_list
 void	ft_lstadd_back(t_data **lst, t_data *new);
@@ -62,5 +69,8 @@ t_data	*ft_lstnew(char *content, t_infos	*infos);
 //cleaners
 void     clean_list(t_data   **lst_words);
 
+
+int     syntaxe_checker(t_data  *cmd_line);
+int     strat_end_checker(char *str);
 #endif
 

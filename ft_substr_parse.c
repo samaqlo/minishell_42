@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:34:59 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/17 12:02:53 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/20 15:33:43 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ char	*ft_substr_parse(char const *s, t_infos	*infos)
 	{
 		while ((infos->is_quote == 1 && s[infos->start] == '\'') || (infos->is_quote == 2 && s[infos->start] == '\"'))
 				infos->start++;
-		ptr[i++] = s[infos->start++];    
+		ptr[i++] = s[infos->start++];
 	}
 	ptr[i] = 0;
 	if(infos->is_quote && (s[infos->start] == '\'' || s[infos->start] == '\"'))
 		infos->is_quote= 0;
 	return (ptr);
+	
 }

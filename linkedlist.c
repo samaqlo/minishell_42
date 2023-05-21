@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/16 19:46:40 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:06:20 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ t_data	*ft_lstnew(char *content, t_infos	*infos)
 		new->type = space;
 	infos->flag = 0;
 	new->next = NULL;
+	// free(content);
 	return (new);
 }

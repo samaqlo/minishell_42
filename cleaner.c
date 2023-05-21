@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/17 12:06:45 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:10:21 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void     clean_list(t_data   **lst_words)
 	{
 		tmp = words;
 		words = words->next;
+		free(tmp->word);
 		free(tmp);
 	}
 	*lst_words = NULL;
