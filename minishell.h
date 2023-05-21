@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/21 21:44:06 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/22 00:10:00 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 #include <stdlib.h>
 #include "libft/libft.h"
 #include <readline/readline.h>
-#include <readline/readline.h>
+#include <readline/history.h>
+# define GREEN "\033[32m"
+# define YELLOW "\033[33m"
+# define BOLD "\033[1m"
+# define RESET "\033[0m"
 
  enum words_types{
     word,
@@ -72,5 +76,9 @@ void     clean_list(t_data   **lst_words);
 
 int     syntaxe_checker(t_data  *cmd_line);
 int     strat_end_checker(char *str);
+
+int	ft_strcmp(const char *s1, const char *s2);
+char	*ft_strrchr_env(const char *s, int c);
+int	builts_in(int ac, char **av, char **env);
 #endif
 

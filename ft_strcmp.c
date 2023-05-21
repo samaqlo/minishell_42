@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   hc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/22 00:11:24 by astalha          ###   ########.fr       */
+/*   Created: 2023/05/22 00:00:35 by ohaimad           #+#    #+#             */
+/*   Updated: 2023/05/22 00:06:46 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     main(int ac, char **av, char **env)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-    char *str;
-// (void)ac;
-// (void)av;
-// (void)env;
-if (!av[1])
-{
-    while(1)
-    {
-       str = readline("minishel> ");
-       
-        lexer(str);
-        add_history(str);
-        free(str);
-    }
-}
-    else 
-        builts_in(ac, av, env);
+	size_t			i;
+	unsigned char	*ss1;
+	unsigned char	*ss2;
+
+	ss1 = (unsigned char *)s1;
+	ss2 = (unsigned char *)s2;
+	i = 0;
+	while ((ss1[i] || ss2[i]))
+	{
+		if (ss1[i] != ss2[i])
+			return (ss1[i] - ss2[i]);
+		i++;
+	}
+	return (0);
 }

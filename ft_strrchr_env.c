@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/22 00:11:24 by astalha          ###   ########.fr       */
+/*   Created: 2023/05/21 23:59:35 by ohaimad           #+#    #+#             */
+/*   Updated: 2023/05/22 00:06:07 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     main(int ac, char **av, char **env)
+char	*ft_strrchr_env(const char *s, int c)
 {
-    char *str;
-// (void)ac;
-// (void)av;
-// (void)env;
-if (!av[1])
-{
-    while(1)
-    {
-       str = readline("minishel> ");
-       
-        lexer(str);
-        add_history(str);
-        free(str);
-    }
-}
-    else 
-        builts_in(ac, av, env);
+	size_t	i;
+
+	i = ft_strlen(s);
+	while (i > 0)
+	{
+		if (s[i] == c)
+			return (ft_substr(s, 0, i));
+		i--;
+	}
+	if (s[i] == c)
+		return (ft_substr(s, 0, i));
+	return (0);
 }
