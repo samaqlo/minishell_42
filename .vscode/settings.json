@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.excalidraw": "json",
-        "*.excalidrawlib": "json",
-        "readline.h": "c",
-        "minishell.h": "c",
-        "libc.h": "c"
-    }
-}
