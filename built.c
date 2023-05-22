@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/22 00:13:45 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:27:32 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ char	*print_env(t_list_env **env, char *var)
 	tmp = *env;
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->variable, var) && tmp->content)
+		if (!ft_strcmp(tmp->variable, var) && tmp->content && tmp->c)
 			return (tmp->content);
 		tmp = tmp->next;
 	}
@@ -222,7 +222,8 @@ void	built_cd(t_list_env *env, char **args)
 	change_env(&env, "OLDPWD=", getcwd(str, sizeof(str)));
 	if (!args[1])
 	{
-		if (print_env(&env, "HOME="))
+		// printf("%s\n", print_env(&env, "HOME="));
+		if (!print_env(&env, "HOME="))
 		{
 			printf("cd: HOME not set\n");
 			return ;
