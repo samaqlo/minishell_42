@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/22 00:10:00 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/24 00:56:37 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
     here_doc, 
     append,
     pi_pe,
-    dollar,
     space};
 
 typedef struct s_infos
@@ -62,7 +61,7 @@ typedef struct s_list_env
 }               t_list_env;
 
 int quoting_checker(char *str);
-int    lexer(char *str);
+t_data    *lexer(char *str);
 char	*ft_substr_parse(char const *s, t_infos	*infos);
 //linked_list
 void	ft_lstadd_back(t_data **lst, t_data *new);
@@ -80,5 +79,7 @@ int     strat_end_checker(char *str);
 int	ft_strcmp(const char *s1, const char *s2);
 char	*ft_strrchr_env(const char *s, int c);
 int	builts_in(int ac, char **av, char **env);
+void    print_error(int code, int type);
+void	grep_env(char **env, t_list_env **enev);
 #endif
 

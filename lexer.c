@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/21 21:55:15 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/24 00:13:53 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int quoting_checker(char *str)
     flag = 0;
     while(str[i])
     {
+        if (!flag && ft_strchr(";&", str[i]))
+            return (print_error(2, 0), 3);
         if (str[i] == '\'')
         {
             if (!flag)
@@ -121,12 +123,12 @@ int word_len(char *str, t_infos *infos)
             return ((infos->pos) = i + 1, 1);
         else if (!infos->is_finish && ft_strchr(" \t\n\v\f\r", str[i]))
             break;
-        else if (str[i + 1] == '\"' || str[i + 1] == '\'')
-            return (infos->pos = i + 1, ++len);
         else if (!infos->is_quote && str[i] == '\'')
             return (infos->flag = 1, infos->pos = i, infos->is_quote = 1, quote_len(str, infos));
         else if (!infos->is_quote && str[i] == '\"')
             return (infos->flag = 2, infos->pos = i, infos->is_quote = 2, quote_len(str, infos));
+        else if (!ft_strchr(" \t\n\v\f\r><|", str[i]) && (str[i + 1] == '\"' || str[i + 1] == '\''))
+            return (infos->pos = i + 1, ++len);
         else if ((ft_strchr("<>|", str[i + 1]) || ft_strchr("|", str[i])) && str[i + 1])
         {
             if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i + 1] == '<'))
@@ -155,16 +157,18 @@ void    init_args(t_infos *infos)
     infos->pos = 0;
     infos->start = 0;
 }
-int    lexer(char *str)
+t_data    *lexer(char *str)
 {
     t_data *lst_words = NULL;
     t_data *tmp;
     t_infos infos;
+    int c;
     char *str1;
-    if (quoting_checker(str))
-            return (ft_putstr_fd("quote opened\n", 2),free(str), 0);
-    // if (!strat_end_checker(str))
-    //         return 0;
+    c = quoting_checker(str);
+    if (c == 2 || c == 1)
+        return (ft_putstr_fd("quote opened\n", 2),free(str), NULL);
+    else if (c == 3)
+        return (free(str), NULL);
     init_args(&infos);
     while(1)
     {
@@ -180,7 +184,9 @@ int    lexer(char *str)
             }
     }
     t_data *head = lst_words;
-    printf("%d\n", syntaxe_checker(lst_words));
+    if (!syntaxe_checker(lst_words))
+        return (free(str1), clean_list(&lst_words), NULL);
+    // printf("syn [%d]\n", syntaxe_checker(lst_words));
     while(lst_words)
     {
         printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);
@@ -188,7 +194,6 @@ int    lexer(char *str)
         // free(lst_words->word);
         lst_words = lst_words->next;
     }
-    // free(str1);
-    clean_list(&head);
-    return (1);
+    free(str1);
+    return (head);
 }

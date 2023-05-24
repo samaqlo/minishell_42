@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   the_expander.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 04:49:07 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/22 22:54:45 by astalha          ###   ########.fr       */
+/*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
+/*   Updated: 2023/05/24 02:12:28 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int     dollar_in(char *str)
 {
-	if (!s)
-		return ;
-	while (*s)
-		ft_putchar_fd (*(s++), fd);
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        if (str[i] == '$')
+            return (1);
+        i++;
+    }
+    return (0);
 }
-void	ft_putstr_fd_edit(char *s, char *s2, int fd)
+void    get_the_dollar(t_data   *cmd_line)
 {
-	if (!s)
-		return ;
-	while (*s)
-		ft_putchar_fd (*(s++), fd);
-	ft_putstr_fd(s2, fd);
-	ft_putstr_fd("\'\n", fd);
-	free(s2);
+    
+}
+char     *find_vr(char    *str, char **envp)
+{
+    t_list_env  *env;
+
+    grep_env(envp, env);
 }

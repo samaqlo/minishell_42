@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/20 19:06:20 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:08:29 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	ft_lstsize(t_data *lst)
 	plst = lst;
 	while (plst != NULL)
 	{
-		i++;
+		if (plst->type != space)
+			i++;
 		plst = plst->next;
 	}
 	return (i);

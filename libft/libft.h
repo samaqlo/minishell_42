@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 17:41:00 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/08 16:41:52 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:48:06 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void		*ft_memset(void *b, int c, size_t len);
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd_edit(char *s, char *s2, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 int        ft_strchr(const char *s, int c);
