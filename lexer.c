@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/24 00:13:53 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/26 16:22:18 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,7 @@ int     quote_len(char *str, t_infos *infos)
     return (len);
 }
 
-int     dollar_len(char *str, t_infos   *infos)
-{           
-    int i;
-    int len = 0;
-    i = infos->pos;
 
-    while(str[i])
-    {
-        if (!ft_isalnum(str[i]))
-            break;
-        i++;
-        len++;
-    }
-    i++;
-    len++;
-    infos->pos = i;
-    return len;
-}
 int white_sp(char *str, t_infos *infos)
 {
     int i = infos->pos;
@@ -157,27 +140,27 @@ void    init_args(t_infos *infos)
     infos->pos = 0;
     infos->start = 0;
 }
-t_data    *lexer(char *str)
+t_data    *lexer(char *str, t_infos *infos)
 {
     t_data *lst_words = NULL;
     t_data *tmp;
-    t_infos infos;
     int c;
     char *str1;
+
     c = quoting_checker(str);
     if (c == 2 || c == 1)
         return (ft_putstr_fd("quote opened\n", 2),free(str), NULL);
     else if (c == 3)
         return (free(str), NULL);
-    init_args(&infos);
+    init_args(infos);
     while(1)
     {
-        infos.start = infos.pos;
-        infos.len = word_len(str, &infos);
-        str1 = ft_substr_parse(str, &infos);
-        tmp = ft_lstnew(str1, &infos);
+        infos->start = infos->pos;
+        infos->len = word_len(str, infos);
+        str1 = ft_substr_parse(str, infos);
+        tmp = ft_lstnew(str1, infos);
         ft_lstadd_back(&lst_words, tmp);
-            if (infos.is_finish)
+            if (infos->is_finish)
             {
                 free(tmp);
                 break;

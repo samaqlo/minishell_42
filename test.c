@@ -1,67 +1,59 @@
 #include "minishell.h"
 
-int     quote_len(char *str, int flag, int *pos)
+int white_sp_len(char *str, int *i)
 {
-    int i;
-    int len;
-
-    i = (*pos) + 1;
-    len = 0;
-    while(str[i])
+    int len = 0;
+    
+    while(str[*i])
     {
-        if (str[i] == '\'' && flag == 1 && ft_strchr("|>< \t\n", str[i + 1]))
+        if (!ft_strchr(" \t\n\v\f\r", str[*i]))
             break;
-        else if (str[i] == '\"' && flag == 2 && ft_strchr("|>< \t\n", str[i + 1]))
-            break;
-        else if (str[i] == '\"' && flag == 2) 
-            i++;
-        else if (str[i] == '\'' && flag == 1)
-            i++;
-        else
-        {
-            len++;
-            i++;
+        len++;
+        (*i)++;
     }
-    }
-        i++;
-        *pos = i;
     return (len);
 }
-int word_len(char *str, int *pos, int *is_quote)
-{
-    int i;
+int     dollar_len(char *str, int *i)
+{           
     int len = 0;
-
-    i = *pos;
-    while(ft_strchr(" \t\n\v\f\r", str[i]))
-        i++;
-    while(str[i])
+    len++;
+    (*i)++;
+    while(str[*i])
     {
-        if (ft_strchr("<>", str[i]) && !ft_strchr(" \t\n\v\f\r><|&", str[i+1]))
-            return ((*pos) = i + 1, 1);
-        else if (ft_strchr(" \t\n\v\f\r", str[i]))
+        if (str[*i - 1] == '$' && str[*i] == '$')
+            return ((*i)++, 2);
+        else if (!ft_isalnum(str[*i]) && str[*i] != '_')
             break;
-        else if (*is_quote == 0 && str[i] == '\'')
-            return (*pos = i, *is_quote = 1, quote_len(str, 1, pos));
-        else if (*is_quote == 0 && str[i] == '\"')
-            return (*pos = i, *is_quote = 2, quote_len(str, 2, pos));
-        else if (ft_strchr("<>|", str[i + 1]) || ft_strchr("|", str[i]))
-        {
-            if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '|'))
-            {
-                len++;
-                i++;
-            }
-            len++;
-            i++;
-            break;
-        }
-            len++;
-            i++;
-
+        (*i)++;
+        len++;
     }
-    *pos = i;
+    return len;
+}
+int     len_of_word(char *str, int *i)
+{
+    int len = 0;
+    while(str[*i])
+        {
+            if (ft_strchr(" \t\n\v\f\r$", str[*i]))
+                return (len);
+            (*i)++;
+        }
     return (len);
+}
+int     get_len(char *str, int *i)
+{
+    printf("%d\n", str[*i]);
+    while (str[*i])
+    {
+        if (ft_strchr(" \t\n\v\f\r", str[*i]))
+            return (white_sp_len(str, i));
+        else if(ft_strchr("$", str[*i]))
+            return (dollar_len(str, i));
+        else
+            return (len_of_word(str, i));
+        (*i)++;
+    }
+    return (0);
 }
 
 int main()
@@ -74,16 +66,15 @@ int main()
     int len = 0;
     char *extractedstr;
     char *str = malloc(200); 
-    str = "find . -type f -name         \'   *.t  xt\' -print0|xargs -0 >grep> -i \"search term\" >|> <djhcnjdnh>lcdk,cl,<>d;pl,c,;dl,c awk   \'{print $1}\' | sort | uniq << results.txt 2>>&1";
-    while(1)
-    {
-        start = pos;
-        len = word_len(str, &pos, &is_quote);
-        extractedstr = ft_substr(str, start, len, &is_quote);
-            if (!extractedstr)
-                break;
-        printf("[%s]\n", extractedstr);
-        free(extractedstr);
-        i++;
-    }
+    str = "lslslsl    hhh   $jjj";
+    // while(str[i])
+    // {
+    //     len = get_len(str, &i);
+    //     if (!len)
+    //         break;
+    //         i++;
+    //     printf("[%d]\n", len);
+    // }
+    printf("[%d]\n", dollar_len("$hhh$", &i));
+    printf("[%d]\n", i);
 }

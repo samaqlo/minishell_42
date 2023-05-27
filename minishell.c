@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/24 00:14:43 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/24 18:09:18 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int     main(int ac, char **av, char **env)
 {
     char *str;
     t_data *lst_words;
+    t_infos infos;
 // (void)ac;
 // (void)av;
 // (void)env;
+    grep_env(env, &infos.env);
 if (!av[1])
 {
     while(1)
@@ -27,7 +29,8 @@ if (!av[1])
        if (!*str)
         free(str);
      else{
-            lst_words = lexer(str);
+            lst_words = lexer(str, &infos);
+            get_the_dollar(lst_words);
             add_history(str);
             free(str);
             if (!lst_words)
