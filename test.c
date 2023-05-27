@@ -37,12 +37,12 @@ int     len_of_word(char *str, int *i)
             if (ft_strchr(" \t\n\v\f\r$", str[*i]))
                 return (len);
             (*i)++;
+            len++;
         }
     return (len);
 }
 int     get_len(char *str, int *i)
 {
-    printf("%d\n", str[*i]);
     while (str[*i])
     {
         if (ft_strchr(" \t\n\v\f\r", str[*i]))
@@ -66,7 +66,7 @@ int main()
     int len = 0;
     char *extractedstr;
     char *str = malloc(200); 
-    str = "lslslsl    hhh   $jjj";
+    str = "egfdhgbefhegfehf hdbchdbc    $hh  ";
     // while(str[i])
     // {
     //     len = get_len(str, &i);
@@ -75,6 +75,13 @@ int main()
     //         i++;
     //     printf("[%d]\n", len);
     // }
-    printf("[%d]\n", dollar_len("$hhh$", &i));
-    printf("[%d]\n", i);
+    printf("strlen --> [%zu]\n", ft_strlen(str));
+    while(str[i])
+    {
+        start = i;
+        len = get_len(str, &i);
+    printf("len--> [%d]\n", len);
+    printf("substr --> [%s]\n", ft_substr(str, start, len));
+    printf("i--> [%d]\n", i);
+    }
 }

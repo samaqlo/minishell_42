@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/26 16:22:18 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:03:47 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ t_data    *lexer(char *str, t_infos *infos)
         infos->len = word_len(str, infos);
         str1 = ft_substr_parse(str, infos);
         tmp = ft_lstnew(str1, infos);
+
         ft_lstadd_back(&lst_words, tmp);
             if (infos->is_finish)
             {
@@ -166,6 +167,7 @@ t_data    *lexer(char *str, t_infos *infos)
                 break;
             }
     }
+
     t_data *head = lst_words;
     if (!syntaxe_checker(lst_words))
         return (free(str1), clean_list(&lst_words), NULL);

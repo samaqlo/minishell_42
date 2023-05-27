@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/26 18:01:55 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/27 19:58:26 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,10 @@ int white_sp_len(char *str, int *i)
 {
     int len = 0;
     
-    while(ft_strchr(" \t\n\v\f\r", str[*i]))
+    while(str[*i])
     {
+        if (!ft_strchr(" \t\n\v\f\r", str[*i]))
+            break;
         len++;
         (*i)++;
     }
@@ -173,14 +175,15 @@ int white_sp_len(char *str, int *i)
 int     dollar_len(char *str, int *i)
 {           
     int len = 0;
-
+    len++;
+    (*i)++;
     while(str[*i])
     {
-        if (str[*i + 1] == '$')
-            return ((*i) += 2, 2);
+        if (str[*i - 1] == '$' && str[*i] == '$')
+            return ((*i)++, 2);
         else if (!ft_isalnum(str[*i]) && str[*i] != '_')
             break;
-        i++;
+        (*i)++;
         len++;
     }
     return len;
@@ -193,14 +196,12 @@ int     len_of_word(char *str, int *i)
             if (ft_strchr(" \t\n\v\f\r$", str[*i]))
                 return (len);
             (*i)++;
+            len++;
         }
     return (len);
 }
 int     get_len(char *str, int *i)
 {
-    int len;
-
-    len = 0;
     while (str[*i])
     {
         if (ft_strchr(" \t\n\v\f\r", str[*i]))
@@ -209,11 +210,32 @@ int     get_len(char *str, int *i)
             return (dollar_len(str, i));
         else
             return (len_of_word(str, i));
+        (*i)++;
     }
-    return (len);
+    return (0);
 }
 void    split_line(t_data   *cmd_line)
 {
+    t_expand *expands = NULL;
     char *tmp;
-    
+    int start;
+    int i;
+    int len;
+
+    while(cmd_line)
+    {
+        i = 0;
+        while(i <= (int)ft_strlen(cmd_line->word))
+        {
+            len = 0;
+            start = i;
+            len = get_len(cmd_line->word, &i);
+            tmp = ft_substr(cmd_line->word, start, len);
+            ft_lstadd_back_exp(&expands, ft_lstnew_exp(tmp));
+            free(tmp);
+        }
+        cmd_line->vars = expands;
+        cmd_line = cmd_line->next;
+    }
+    puts("ok");
 }

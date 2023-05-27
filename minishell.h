@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/26 15:16:30 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:00:05 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ int	builts_in(int ac, char **av, char **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_expand	*ft_lstnew_exp(char *content, t_infos	*infos);
+t_expand	*ft_lstnew_exp(char *content);
 void	ft_lstadd_back_exp(t_expand **lst, t_expand *new);
+void    split_line(t_data   *cmd_line);
+t_expand	*ft_lstlast_exp(t_expand *lst);
+
 #endif
 
