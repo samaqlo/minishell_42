@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/28 06:40:25 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/28 10:00:24 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,7 +340,8 @@ void    the_fucking_expand(t_data *lst_words)
         split_line(lst_words);
         while (lst_words)
         {
-            printf("joined line --> [%s]\n", two_to_one(lst_words->vars));
+            free(lst_words->word);
+            lst_words->word = two_to_one(lst_words->vars);
             lst_words = lst_words->next;
         }
 }
