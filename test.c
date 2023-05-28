@@ -55,7 +55,60 @@ int     get_len(char *str, int *i)
     }
     return (0);
 }
-
+int     count_words(char *str)
+{
+    int i = 0;
+    int count = 0;
+    while (str[i])
+    {
+        if (ft_strchr(" \t\n\v\f\r", str[i]))
+        {
+            count++;
+            white_sp_len(str, &i);
+        }
+        else if(ft_strchr("$", str[i]))
+        {
+            count++;
+            dollar_len(str, &i);
+        }
+        else
+        {
+            count++;
+            len_of_word(str, &i);
+        }
+    }
+    return (count);
+}
+char  *replace_space(char *str)
+{
+    int i;
+    int j;
+    i = 0;
+    j = 0;
+    while(str[i])
+    {
+        while (ft_strchr(" \t\n\v\f\r", str[i]))
+            i++;
+        i++;
+        j++;
+    }
+    j++;
+    char *tmp = malloc(j);
+    i = 0;
+    j = 0;
+    while(str[i])
+    {
+        if ((ft_strchr(" \t\n\v\f\r", str[i]) && (!ft_strchr(" \t\n\v\f\r", str[i + 1]) || !str[i + 1])) || !ft_strchr(" \t\n\v\f\r", str[i]))
+        {
+            tmp[j] = str[i];
+             i++;
+            j++;
+            }
+        else if (ft_strchr(" \t\n\v\f\r", str[i]))
+            i++;
+    }
+    return tmp;
+}
 int main()
 {
     int i = 0;
@@ -66,7 +119,7 @@ int main()
     int len = 0;
     char *extractedstr;
     char *str = malloc(200); 
-    str = "egfdhgbefhegfehf hdbchdbc    $hh  ";
+    str = "\'$PWD\'$$";
     // while(str[i])
     // {
     //     len = get_len(str, &i);
@@ -75,13 +128,14 @@ int main()
     //         i++;
     //     printf("[%d]\n", len);
     // }
-    printf("strlen --> [%zu]\n", ft_strlen(str));
-    while(str[i])
-    {
-        start = i;
-        len = get_len(str, &i);
-    printf("len--> [%d]\n", len);
-    printf("substr --> [%s]\n", ft_substr(str, start, len));
-    printf("i--> [%d]\n", i);
-    }
+    // printf("strlen --> [%d]\n", count_words(str));
+    // while(str[i])
+    // {
+    //     start = i;
+    //     len = get_len(str, &i);
+    // printf("len--> [%d]\n", len);
+    // printf("substr --> [%s]\n", ft_substr(str, start, len));
+    // printf("i--> [%d]\n", i);
+    // }
+    printf("[%s]\n", replace_space("   hahahah       hahahah     "));
 }

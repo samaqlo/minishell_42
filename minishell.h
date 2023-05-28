@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/27 20:00:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/28 06:33:47 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_data
 {
     char    *word;
     int    type;
-    t_expand    *vars;
+    char    **vars;
     t_infos *infos;
     struct  s_data *next;
 }              t_data;
@@ -96,6 +96,6 @@ t_expand	*ft_lstnew_exp(char *content);
 void	ft_lstadd_back_exp(t_expand **lst, t_expand *new);
 void    split_line(t_data   *cmd_line);
 t_expand	*ft_lstlast_exp(t_expand *lst);
-
+void    the_fucking_expand(t_data *lst_words);
 #endif
 

@@ -6,12 +6,26 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/24 00:11:45 by astalha          ###   ########.fr       */
+/*   Updated: 2023/05/28 00:11:56 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	freealloc2(char **ptr)
+{
+	int	i;
+
+	i = 0;
+	if (!ptr[i])
+		i++;
+	while (ptr[i])
+	{
+		free (ptr[i]);
+		i++;
+	}
+	free(ptr);
+}
 void     clean_list(t_data   **lst_words)
 {
     t_data	*words;
@@ -24,6 +38,7 @@ void     clean_list(t_data   **lst_words)
 	{
 		tmp = words;
 		words = words->next;
+		// freealloc2(tmp->vars);
 		free(tmp->word);
 		free(tmp);
 	}
