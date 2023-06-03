@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/28 10:07:00 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/03 17:42:10 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ if (!av[1])
         free(str);
      else{
             lst_words = lexer(str, &infos);
-            // get_the_dollar(lst_words);
+            here_doc_func(lst_words);
+            while(1);
             the_fucking_expand(lst_words);
             print_list(lst_words);
             add_history(str);

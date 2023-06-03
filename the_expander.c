@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/28 10:00:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/03 21:44:57 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,14 +131,16 @@ char  *skip_space(char *str)
 char    *set_value(char *var, t_list_env *env)
 {
     char *tmp;
-
+    char *str;
     tmp = ft_strdup(var + 1);
     while(env)
     {
+        str = ft_substr(env->variable, 0, ft_strlen(env->variable) - 1);
         if (!ft_strncmp(tmp, "$", ft_strlen(tmp)))
-            return(free(tmp),ft_itoa(getpid()));
-        else if (!ft_strcmp(tmp, ft_substr(env->variable, 0, ft_strlen(env->variable) - 1)))
-            return (free(tmp),env->content);
+            return(free(str), free(tmp), ft_strdup(""));
+        else if (!ft_strcmp(tmp, str))
+            return (free(str), free(tmp), env->content);
+        free(str);
         env = env->next;
     }
     return (free(tmp), ft_strdup(""));
@@ -202,9 +204,9 @@ char    *set_value(char *var, t_list_env *env)
 //         }
 //      }   
 //      head = head->next;
-//     }
-    
+//     }    
 // }
+
 int white_sp_len(char *str, int *i)
 {
     int len = 0;
@@ -284,6 +286,29 @@ int     count_words(char *str)
     }
     return (count);
 }
+void    set_ids(t_data *lst_words)
+{
+    int i;
+
+    i = 0;
+    while(lst_words)
+    {
+        lst_words->id = i;
+        i++;
+        lst_words = lst_words->next;
+    }
+}
+int     check_prev(t_data   *lst_words, int id)
+{
+    printf("id [%d]\n", id);
+    while (lst_words->id != id)
+    {
+        if (lst_words->type == here_doc && lst_words->next->next->id == id)
+            return (1);
+        lst_words = lst_words->next;
+    }
+    return (0);
+}
 void    split_line(t_data   *cmd_line)
 {
     char *tmp;
@@ -291,18 +316,20 @@ void    split_line(t_data   *cmd_line)
     int i;
     int j = 0;
     int len;
+    t_data *head;
+    head = cmd_line;
     while(cmd_line)
     {
         i = 0;
         j = 0;
         cmd_line->vars = (char **)malloc((count_words(cmd_line->word) + 1) * sizeof(char *));
-        while(cmd_line->word[i  ])
+        while(cmd_line->word[i])
         {
             len = 0;
-            start = i;
+            start = i;  
             len = get_len(cmd_line->word, &i);
             tmp = ft_substr(cmd_line->word, start, len);
-            if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word))
+            if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
             {
                 if (cmd_line->type == word)
                     cmd_line->vars[j] = skip_space(set_value(tmp, cmd_line->infos->env));
@@ -327,19 +354,18 @@ char    *two_to_one(char **vars)
     while(vars[i])
     {
         line = ft_strjoin(line, vars[i]);
+        free(vars[i]);
         i++;
     }
+    free(vars);
     return (line);
 }
-// void    join_line(t_data *lst_words)
-// {
-      
-// }
+
 void    the_fucking_expand(t_data *lst_words)
 {
         split_line(lst_words);
         while (lst_words)
-        {
+        {    
             free(lst_words->word);
             lst_words->word = two_to_one(lst_words->vars);
             lst_words = lst_words->next;
