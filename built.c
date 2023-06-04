@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/03 23:38:31 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/04 16:29:21 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,7 +308,7 @@ void	built_export(t_list_env *env, char **av)
 	}
 	while(av[i])
 	{
-		plus = ft_strchr_env(av[i], '+');
+		plus = ft_strrchr_env(av[i], '+');
 		if(plus)
 			var = ft_substr(av[i], 0, check_equal(av[i]) - 1);
 		else
