@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/03 21:44:57 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 11:36:53 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ char    *set_value(char *var, t_list_env *env)
 {
     char *tmp;
     char *str;
+    if (ft_strlen(var) == 1)
+        return (ft_strdup(var));
     tmp = ft_strdup(var + 1);
     while(env)
     {
@@ -300,7 +302,6 @@ void    set_ids(t_data *lst_words)
 }
 int     check_prev(t_data   *lst_words, int id)
 {
-    printf("id [%d]\n", id);
     while (lst_words->id != id)
     {
         if (lst_words->type == here_doc && lst_words->next->next->id == id)

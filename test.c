@@ -211,7 +211,7 @@ int main()
     int len = 0;
     char *extractedstr;
     char *str = malloc(200); 
-    str = "\'$PWD\'\"$PW\"\"    \";\"";
+    str = "ff$";
     // while(str[i])
     // {
     //     len = get_len(str, &i);

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/03 15:52:20 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 09:48:24 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_infos
 typedef struct s_data
 {
     char    *word;
+    int      tfree;
     int     id;
     int    type;
     char    **vars;
@@ -113,6 +114,7 @@ int     count_words(char *str);
 char     *expand_in_hd(char *str, t_list_env *env);
 char    *two_to_one(char **vars);
 void	freealloc2(char **ptr);
+void    set_ids(t_data *lst_words);
 
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 11:05:04 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/03 20:57:52 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 11:28:54 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ char     *expand_in_hd(char *str, t_list_env *env)
         start = i;
         len = get_len(str, &i);
         word =  ft_substr(str, start, len);
-        if (dollar_in(word))
+        if (*word == '$')
             vars[j] = set_value(word, env);
         else
-            vars[j] = word;
+            vars[j] = ft_strdup(word);
         free(word);
         j++;
     }
