@@ -6,17 +6,31 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/27 19:58:26 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 11:36:53 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+int     space_in(char *str)
+{
+    int i;
 
+    i = 0;
+    while (str[i])
+    {
+        if (ft_strchr(" \t\n\v\f\r", str[i]))
+            return (1);
+        i++;
+    }
+    return (0);
+}
 int     dollar_in(char *str)
 {
     int i;
 
     i = 0;
+    if (ft_strlen(str) <= 1)
+        return (0);
     while(str[i])
     {
         if (str[i] == '$')
@@ -73,7 +87,6 @@ char   **find_vr(t_data *cmd_line)
             {
                i++;
                vars[j] = get_var(cmd_line->word, &i);
-               printf("var --- >[%s]\n", vars[j]);
                j++;
             }
         else
@@ -82,21 +95,58 @@ char   **find_vr(t_data *cmd_line)
     vars[j] = NULL;
     return (vars);
 }
-// char    *set_value(char *var, t_list_env *env)
-// {
-//     while(env)
-//     {
-//         if (!ft_strncmp(var, "$", ft_strlen(var)))
-//             return(ft_itoa(getpid()));
-//         else if (!ft_strcmp(var, ft_substr(env->variable, 0, ft_strlen(env->variable) - 1)))
-//         {
-//             printf("env %s\n", env->variable);
-//             return (env->content);
-//         }
-//         env = env->next;
-//     }
-//     return (ft_strdup(""));
-// }
+
+char  *skip_space(char *str)
+{
+    int i;
+    int j;
+    i = 0;
+    j = 0;
+    if (!space_in(str))
+        return (str);
+    while(str[i])
+    {
+        while (ft_strchr(" \t\n\v\f\r", str[i]))
+            i++;
+        i++;
+        j++;
+    }
+    j++;
+    char *tmp = malloc(j);
+    i = 0;
+    j = 0;
+    while(str[i])
+    {
+        if ((ft_strchr(" \t\n\v\f\r", str[i]) && (!ft_strchr(" \t\n\v\f\r", str[i + 1]) || !str[i + 1])) || !ft_strchr(" \t\n\v\f\r", str[i]))
+        {
+            tmp[j] = str[i];
+             i++;
+            j++;
+            }
+        else if (ft_strchr(" \t\n\v\f\r", str[i]))
+            i++;
+    }
+    return tmp;
+}
+char    *set_value(char *var, t_list_env *env)
+{
+    char *tmp;
+    char *str;
+    if (ft_strlen(var) == 1)
+        return (ft_strdup(var));
+    tmp = ft_strdup(var + 1);
+    while(env)
+    {
+        str = ft_substr(env->variable, 0, ft_strlen(env->variable) - 1);
+        if (!ft_strncmp(tmp, "$", ft_strlen(tmp)))
+            return(free(str), free(tmp), ft_strdup(""));
+        else if (!ft_strcmp(tmp, str))
+            return (free(str), free(tmp), env->content);
+        free(str);
+        env = env->next;
+    }
+    return (free(tmp), ft_strdup(""));
+}
 // char    **replace_vars(t_data *cmd_line)
 // {
 //     char **exp;
@@ -156,9 +206,9 @@ char   **find_vr(t_data *cmd_line)
 //         }
 //      }   
 //      head = head->next;
-//     }
-    
+//     }    
 // }
+
 int white_sp_len(char *str, int *i)
 {
     int len = 0;
@@ -214,28 +264,111 @@ int     get_len(char *str, int *i)
     }
     return (0);
 }
+int     count_words(char *str)
+{
+    int i = 0;
+    int count = 0;
+    while (str[i])
+    {
+        if (ft_strchr(" \t\n\v\f\r", str[i]))
+        {
+            count++;
+            white_sp_len(str, &i);
+        }
+        else if(ft_strchr("$", str[i]))
+        {
+            count++;
+            dollar_len(str, &i);
+        }
+        else
+        {
+            count++;
+            len_of_word(str, &i);
+        }
+    }
+    return (count);
+}
+void    set_ids(t_data *lst_words)
+{
+    int i;
+
+    i = 0;
+    while(lst_words)
+    {
+        lst_words->id = i;
+        i++;
+        lst_words = lst_words->next;
+    }
+}
+int     check_prev(t_data   *lst_words, int id)
+{
+    while (lst_words->id != id)
+    {
+        if (lst_words->type == here_doc && lst_words->next->next->id == id)
+            return (1);
+        lst_words = lst_words->next;
+    }
+    return (0);
+}
 void    split_line(t_data   *cmd_line)
 {
-    t_expand *expands = NULL;
     char *tmp;
     int start;
     int i;
+    int j = 0;
     int len;
-
+    t_data *head;
+    head = cmd_line;
     while(cmd_line)
     {
         i = 0;
-        while(i <= (int)ft_strlen(cmd_line->word))
+        j = 0;
+        cmd_line->vars = (char **)malloc((count_words(cmd_line->word) + 1) * sizeof(char *));
+        while(cmd_line->word[i])
         {
             len = 0;
-            start = i;
+            start = i;  
             len = get_len(cmd_line->word, &i);
             tmp = ft_substr(cmd_line->word, start, len);
-            ft_lstadd_back_exp(&expands, ft_lstnew_exp(tmp));
+            if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
+            {
+                if (cmd_line->type == word)
+                    cmd_line->vars[j] = skip_space(set_value(tmp, cmd_line->infos->env));
+                else
+                    cmd_line->vars[j] = set_value(tmp, cmd_line->infos->env);
+            }
+            else
+                cmd_line->vars[j] = ft_strdup(tmp);
+            j++;
             free(tmp);
         }
-        cmd_line->vars = expands;
+        cmd_line->vars[j] = NULL;
         cmd_line = cmd_line->next;
     }
-    puts("ok");
+}
+
+char    *two_to_one(char **vars)
+{
+    int i;
+    char *line = ft_strdup("");
+    i = 0;
+    while(vars[i])
+    {
+        line = ft_strjoin(line, vars[i]);
+        free(vars[i]);
+        i++;
+    }
+    free(vars);
+    return (line);
+}
+
+void    the_fucking_expand(t_data *lst_words)
+{
+        split_line(lst_words);
+        while (lst_words)
+        {    
+            free(lst_words->word);
+            lst_words->word = two_to_one(lst_words->vars);
+            lst_words = lst_words->next;
+        }
 }

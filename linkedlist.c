@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/27 20:03:54 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 09:48:57 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_data	*ft_lstnew(char *content, t_infos	*infos)
 	else if (infos->flag == 3)
 		new->type = space;
 	infos->flag = 0;
+	new->tfree = 0;
 	new->next = NULL;
 	// free(content);
 	return (new);

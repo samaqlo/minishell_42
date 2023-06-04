@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/27 20:00:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 09:48:24 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define MINISHEL_H
 
 #include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -63,9 +65,12 @@ typedef struct s_infos
 typedef struct s_data
 {
     char    *word;
+    int      tfree;
+    int     id;
     int    type;
-    t_expand    *vars;
+    char    **vars;
     t_infos *infos;
+    int     fd_here_doc;
     struct  s_data *next;
 }              t_data;
 
@@ -96,6 +101,20 @@ t_expand	*ft_lstnew_exp(char *content);
 void	ft_lstadd_back_exp(t_expand **lst, t_expand *new);
 void    split_line(t_data   *cmd_line);
 t_expand	*ft_lstlast_exp(t_expand *lst);
+void    the_fucking_expand(t_data *lst_words);
+void    here_doc_func(t_data *lst_words);
+int     dollar_in(char *str);
+int     get_len(char *str, int *i);
+int     len_of_word(char *str, int *i);
+int     dollar_len(char *str, int *i);
+int     white_sp_len(char *str, int *i);
+char    *set_value(char *var, t_list_env *env);
+void    print_list(t_data *lst_words);
+int     count_words(char *str);
+char     *expand_in_hd(char *str, t_list_env *env);
+char    *two_to_one(char **vars);
+void	freealloc2(char **ptr);
+void    set_ids(t_data *lst_words);
 
 #endif
 
