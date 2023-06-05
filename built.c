@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 16:29:21 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/04 19:05:45 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int	check_n(char *av)
 	int	i;
 
 	i = 1;
+	if (av[1] != 'n')
+		return (1);
 	while (av[i])
 	{
 		if (av[i] != 'n')
@@ -106,7 +108,7 @@ int	check_n(char *av)
 	return (0);
 }
 
-void	built_echo(char **av)
+void	built_echo(char **av, int ac)
 {
 	int	i;
 	int	c;
@@ -123,7 +125,10 @@ void	built_echo(char **av)
 			i++;
 		}
 		c = 0;
-		printf("%s ", av[i++]);
+		ft_putstr_fd(av[i], ac);
+		// printf("%s", av[i++]);
+		ft_putstr_fd(" ", ac);
+		i++;
 	}
 	if (test == 1)
 		printf("\n");
@@ -236,12 +241,22 @@ void	built_cd(t_list_env *env, char **args)
 {
 	char	str[1024];
 	
-	change_env(&env, "OLDPWD", print_env(&env, "PWD"));
-	if (!args[1])
+	if(!ft_strcmp(args[1], "-"))
+	{
+		if (print_env(&env, "OLDPWD"))
+			printf("%s\n", print_env(&env, "OLDPWD"));
+		else
+			printf("minishell: cd: OLDPWD not set\n");
+	}
+	else if (!print_env(&env, "OLDPWD"))
+		ft_lstadd_back_env(&env, ft_lstnew_env(print_env(&env, "PWD"), "OLDPWD", 1));
+	else if (print_env(&env, "OLDPWD"))
+		change_env(&env, "OLDPWD", print_env(&env, "PWD"));
+	else if (!args[1])
 	{
 		if (!print_env(&env, "HOME"))
 		{
-			printf("cd: HOME not set\n");
+			printf("minishell: cd: HOME not set\n");
 			return ;
 		}
 		chdir(print_env(&env, "HOME"));
@@ -343,6 +358,18 @@ void	built_export(t_list_env *env, char **av)
 	}
 }
 
+// void	sig_handle(int i)
+// {
+	
+// 	if (i == SIGINT)
+// 	{
+// 		printf("\n");
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 	}
+// }
+
 int	builts_in(int ac, char **av, char **env)
 {
 	char		*path;
@@ -370,7 +397,7 @@ int	builts_in(int ac, char **av, char **env)
 		}
 		args_1 = ft_split(line, ' ');
 		if (!ft_strcmp(args_1[0], "echo") || !ft_strcmp(args_1[0], "ECHO"))
-			built_echo(args_1);
+			built_echo(args_1, 1);
 		else if (!ft_strcmp(args_1[0], "env") || !ft_strcmp(args_1[0], "ENV"))
 			built_env(enev);
 		else if (!ft_strcmp(args_1[0], "pwd") || !ft_strcmp(args_1[0], "PWD"))
