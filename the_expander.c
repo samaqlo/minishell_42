@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 11:36:53 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 17:56:39 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ char    *set_value(char *var, t_list_env *env)
         if (!ft_strncmp(tmp, "$", ft_strlen(tmp)))
             return(free(str), free(tmp), ft_strdup(""));
         else if (!ft_strcmp(tmp, str))
-            return (free(str), free(tmp), env->content);
-        free(str);
+            return (free(str), free(tmp), ft_strdup(env->content));
+        // free(str);
         env = env->next;
     }
     return (free(tmp), ft_strdup(""));

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 14:09:40 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 18:13:59 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ if (!av[1])
        if (!*str)
         free(str);
      else{
+            add_history(str);
             lst_words = lexer(str, &infos);
             if (!lst_words)
                 continue;
             here_doc_func(lst_words);
+            // while(1);
             the_fucking_expand(lst_words);
             print_list(lst_words);
-            add_history(str);
             free(str);
             clean_list(&lst_words);
         }

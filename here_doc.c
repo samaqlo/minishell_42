@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 14:05:45 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/04 17:55:23 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void    fill_here_doc(int fd, t_data *del)
         {
             expand  = expand_in_hd(input, del->infos->env);
             ft_putstr_fd(expand, fd);
-            free(expand);
+            // free(expand);
         }
         else
             ft_putstr_fd(input, fd);
         ft_putchar_fd('\n', fd);
         free(input);
     }
-    free(input);
+    // free(input);
 }
 t_data  *join_del(t_data *lst_words)
 {
