@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 04:32:10 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 13:33:34 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int     main(int ac, char **av, char **env)
 {
     char *str;
     t_data *lst_words;
+    t_cmd_lines *lines;
     t_infos infos;
     // int i=0;
 // (void)ac;
@@ -46,7 +47,9 @@ if (!av[1])
                 continue;
             here_doc_func(lst_words);
             the_fucking_expand(lst_words);
-            join_words(lst_words);
+            lines = join_words(lst_words);
+            delete_adds(lines);
+
             // print_list(lst_words);
             free(str);
             clean_list(&lst_words);

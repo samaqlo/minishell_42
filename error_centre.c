@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 17:53:34 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/24 00:12:26 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 11:22:07 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ void    print_error(int code, int type)
         ft_putstr_fd("minishell: syntax error near unexpected token `newline\'\n", 2);
     else if (code == 2 && !type)
         ft_putstr_fd("minishell: unexpected input\n", 2);
+}
+void    open_err(char *file_name, int code)
+{
+    if (!code)
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(file_name, 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
+        }
+    else 
+         {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(file_name, 2);
+            ft_putstr_fd(": Permission denied\n", 2);
+        }
 }
 int     check_for_errors(int    *types, int len)
 {

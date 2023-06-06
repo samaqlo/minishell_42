@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   join_words.c                                       :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 20:40:35 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 05:38:34 by astalha          ###   ########.fr       */
+/*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
+/*   Updated: 2023/06/06 10:31:30 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 {
     char **vars;
     int id;
+    int fd;
      int i;
 
     i = 0;
     id = 0;
+    fd = STDIN_FILENO;
      vars = (char **)malloc((count_w(lst_words) + 1) * sizeof(char *));
      if (lst_words->type == pi_pe)
         lst_words = lst_words->next;
@@ -60,6 +62,8 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
      {
         if (lst_words->type != space)
         {
+            if (lst_words->fd_here_doc > 0)
+                fd = lst_words->fd_here_doc;
             if (lst_words->type <= dq_word)
             {
                 vars[i] = join(lst_words, &id);
@@ -78,9 +82,9 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
         lst_words = lst_words->next;
      }
      vars[i] = NULL;
-     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars));
+     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd));
 }
-void    join_words(t_data *lst_words)
+t_cmd_lines     *join_words(t_data *lst_words)
 {
     t_cmd_lines *p_to_e;
 
@@ -92,14 +96,15 @@ void    join_words(t_data *lst_words)
             fill_vars(lst_words, &p_to_e);
         lst_words = lst_words->next;
     }
-    int i;
-    while(p_to_e)
-    {
-        i = 0;
-        while (p_to_e->cmd_line[i])
-            printf("pte : [%s]\n", p_to_e->cmd_line[i++]);
-        printf("-----------------------------------------\n");
-        p_to_e = p_to_e->next;
-    }
-    puts("ok");
+    // int i;
+    // while(p_to_e)
+    // {
+    //     i = 0;
+    //     while (p_to_e->cmd_line[i])
+    //         printf("pte : [%s]\n", p_to_e->cmd_line[i++]);
+    //     printf("infile --> [%d]\n", p_to_e->infile);
+    //     printf("-----------------------------------------\n");
+    //     p_to_e = p_to_e->next;
+    // }
+    return (p_to_e);
 }

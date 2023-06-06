@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 04:27:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 13:33:23 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ void     clean_list(t_data   **lst_words);
 
 int     syntaxe_checker(t_data  *cmd_line);
 int     strat_end_checker(char *str);
-void    get_the_dollar(t_data   *cmd_line);
+// void    get_the_dollar(t_data   *cmd_line);
 int	ft_strcmp(char *s1, char *s2);
 char	*ft_strrchr_env(const char *s, int c);
 int	builts_in(int ac, char **av, char **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_cmd_lines	*ft_lstnew_exp(char **content);
+t_cmd_lines	*ft_lstnew_exp(char **content, int fd);
 void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
 void    split_line(t_data   *cmd_line);
 t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst);
@@ -116,7 +116,8 @@ char     *expand_in_hd(char *str, t_list_env *env);
 char    *two_to_one(char **vars);
 void	freealloc2(char **ptr);
 void    set_ids(t_data *lst_words);
-void    join_words(t_data *lst_word);
-
+t_cmd_lines     *join_words(t_data *lst_words);
+void    open_err(char *file_name, int code);
+void    delete_adds(t_cmd_lines *lines);
 #endif
 

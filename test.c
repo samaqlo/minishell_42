@@ -201,7 +201,39 @@ int     count_words(char *str)
     }
     return (count);
 }
-int main()
+#include <stdio.h>
+#include <string.h>
+    #include <errno.h>
+int     is_red(char *str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        if (ft_strchr("<>", str[i]))
+            return (1);
+        i++;
+    }
+    return (0);
+}
+int     get_new_lenght(char **vars)
+{
+    int i;
+    int len;
+
+    len = 0;
+    i = 0;
+    while(vars[i])
+    {
+        if (is_red(vars[i]))
+            i += 2;
+        len++;
+        i++;
+    }
+    return (len);
+}
+int main(int ac, char **av)
 {
     int i = 0;
     // int flag = 0;
@@ -212,6 +244,7 @@ int main()
     char *extractedstr;
     char *str = malloc(200); 
     str = "ff$";
+     i=ac;
     // while(str[i])
     // {
     //     len = get_len(str, &i);
@@ -221,16 +254,25 @@ int main()
     //     printf("[%d]\n", len);
     // }
     // printf("strlen --> [%d]\n", count_words(str));
-    while(str[i])
-    {
-        start = i;
-        len = get_len(str, &i);
-        printf("len--> [%d]\n", len);
-        printf("substr --> [%s]\n", ft_substr(str, start, len));
-        printf("i--> [%d]\n", i);
-    }
+    // while(str[i])
+    // {
+    //     start = i;
+    //     len = get_len(str, &i);
+    //     printf("len--> [%d]\n", len);
+    //     printf("substr --> [%s]\n", ft_substr(str, start, len));
+    //     printf("i--> [%d]\n", i);
+    // }
     // int fd = open("hh.txt", O_CREAT | O_RDWR);
     // fill_here_doc(fd, "hh");
     // printf("[%s]\n", replace_space("   hahahah       hahahah     "));
     // printf("count words : %d\n", count_words("\'$PWD\'\"$PW\"\"    \";\""));
+    char **vars;
+    vars = malloc(6 * sizeof(char *));
+    vars[0] = ft_strdup("cat");
+    vars[1] = ft_strdup(">");
+    vars[2] = ft_strdup("hh");
+    vars[3] = ft_strdup("hh");
+    vars[4] = ft_strdup("hh");
+    vars[5] = NULL;
+   printf("[%d]\n", get_new_lenght(vars));
 }

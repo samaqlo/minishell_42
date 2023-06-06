@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 17:55:23 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 10:27:03 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ char    *get_tmp()
     i = 1;
 
     suffix = ft_itoa(i);
-    name = ft_strjoin(".tmp", suffix);
+    name = ft_strjoin("/tmp/.tmp", suffix);
     while (!access(name, F_OK))
     {
         free(name); 
         free(suffix);
         i++;
         suffix = ft_itoa(i);
-        name = ft_strjoin(".tmp", suffix);
+        name = ft_strjoin("/tmp/.tmp", suffix);
     }
     free(suffix);
     return (name);
