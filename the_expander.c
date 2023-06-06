@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 11:36:53 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/05 20:36:44 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,11 @@ char    *set_value(char *var, t_list_env *env)
     tmp = ft_strdup(var + 1);
     while(env)
     {
-        str = ft_substr(env->variable, 0, ft_strlen(env->variable) - 1);
+        str = ft_substr(env->variable, 0, ft_strlen(env->variable));
         if (!ft_strncmp(tmp, "$", ft_strlen(tmp)))
             return(free(str), free(tmp), ft_strdup(""));
         else if (!ft_strcmp(tmp, str))
-            return (free(str), free(tmp), env->content);
+            return (free(str), free(tmp), ft_strdup(env->content));
         free(str);
         env = env->next;
     }
@@ -300,11 +300,25 @@ void    set_ids(t_data *lst_words)
         lst_words = lst_words->next;
     }
 }
+int     check_next_2hd(t_data *lst_words, int id)
+{
+    if (lst_words->type == space)
+        lst_words = lst_words->next;
+    while(lst_words->id <= id)
+    {
+        if (lst_words->type == space)
+            return (0);
+        else if (lst_words->id == id)
+            return (1);
+        lst_words = lst_words->next;
+    }   
+    return (0);
+}
 int     check_prev(t_data   *lst_words, int id)
 {
     while (lst_words->id != id)
     {
-        if (lst_words->type == here_doc && lst_words->next->next->id == id)
+        if (lst_words->type == here_doc && check_next_2hd(lst_words->next, id))
             return (1);
         lst_words = lst_words->next;
     }
