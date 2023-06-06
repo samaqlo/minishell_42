@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linkedlist_expand.c                                :+:      :+:    :+:   */
+/*   linkedlist_p_to_e.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 14:17:15 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 04:21:09 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_lstadd_back_exp(t_expand **lst, t_expand *new)
+void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new)
 {
-	t_expand	*lastlst;
+	t_cmd_lines	*lastlst;
 
 	if (!*lst && new)
 	{
@@ -25,7 +25,7 @@ void	ft_lstadd_back_exp(t_expand **lst, t_expand *new)
 	lastlst->next = new;
 }
 
-void	ft_lstadd_front_exp(t_expand **lst, t_expand *new)
+void	ft_lstadd_front_exp(t_cmd_lines **lst, t_cmd_lines *new)
 {	
 	if (!new)
 		return ;
@@ -33,10 +33,10 @@ void	ft_lstadd_front_exp(t_expand **lst, t_expand *new)
 	*lst = new;
 }
 
-int	ft_lstsize_exp(t_expand *lst)
+int	ft_lstsize_exp(t_cmd_lines *lst)
 {
 	int		i;
-	t_expand	*plst;
+	t_cmd_lines	*plst;
 
 	i = 0;
 	if (!lst)
@@ -50,9 +50,9 @@ int	ft_lstsize_exp(t_expand *lst)
 	return (i);
 }
 
-t_expand	*ft_lstlast_exp(t_expand *lst)
+t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst)
 {
-	t_expand	*plst;
+	t_cmd_lines	*plst;
 
 	if (!lst)
 		return (0);
@@ -62,15 +62,16 @@ t_expand	*ft_lstlast_exp(t_expand *lst)
 	return (plst);
 }
 
-t_expand	*ft_lstnew_exp(char *content)
+t_cmd_lines	*ft_lstnew_exp(char **content)
 {
-	t_expand	*new;
+	t_cmd_lines	*new;
 
-	new = (t_expand *) malloc (sizeof (t_expand));
+	new = (t_cmd_lines *) malloc (sizeof (t_cmd_lines));
 	if (!new)
 		return (NULL);
-	new->exp = 0;
-	new->word = content;
+	new->cmd_line = content;
+	new->infile = STDIN_FILENO;
+	new->outfile = STDOUT_FILENO; 
 	new->next = NULL;
 	return (new);
 }

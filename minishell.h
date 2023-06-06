@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 15:35:14 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 04:27:19 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@
     pi_pe,
     space};
 
-typedef struct s_expand
+typedef struct s_cmd_lines
 {
-    char    *word;
-    int     exp;
-    struct s_expand *next;
-}               t_expand;
+    char **cmd_line;
+    int infile;
+    int outfile;
+    struct s_cmd_lines *next;
+}               t_cmd_lines;
 
 typedef struct s_list_env
 {
@@ -97,10 +98,10 @@ int	builts_in(int ac, char **av, char **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_expand	*ft_lstnew_exp(char *content);
-void	ft_lstadd_back_exp(t_expand **lst, t_expand *new);
+t_cmd_lines	*ft_lstnew_exp(char **content);
+void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
 void    split_line(t_data   *cmd_line);
-t_expand	*ft_lstlast_exp(t_expand *lst);
+t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst);
 void    the_fucking_expand(t_data *lst_words);
 void    here_doc_func(t_data *lst_words);
 int     dollar_in(char *str);
@@ -115,6 +116,7 @@ char     *expand_in_hd(char *str, t_list_env *env);
 char    *two_to_one(char **vars);
 void	freealloc2(char **ptr);
 void    set_ids(t_data *lst_words);
+void    join_words(t_data *lst_word);
 
 #endif
 

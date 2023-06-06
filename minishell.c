@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 18:13:59 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 04:32:10 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ if (!av[1])
             if (!lst_words)
                 continue;
             here_doc_func(lst_words);
-            // while(1);
             the_fucking_expand(lst_words);
-            print_list(lst_words);
+            join_words(lst_words);
+            // print_list(lst_words);
             free(str);
             clean_list(&lst_words);
         }
@@ -55,4 +55,6 @@ if (!av[1])
 }
     else 
         builts_in(ac, av, env);
+
+    exit(100);
 }
