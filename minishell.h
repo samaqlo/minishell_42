@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 12:01:34 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 21:23:44 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@
     pi_pe,
     space};
 
-typedef struct s_cmd_lines
+typedef struct s_help
 {
-    char **cmd_line;
-    int infile;
-    int outfile;
-    struct s_cmd_lines *next;
-}               t_cmd_lines;
+    int *fds;
+    int index;
+    int n_red;
+}              t_help;
 
 typedef struct s_list_env
 {
@@ -60,6 +59,7 @@ typedef struct s_infos
     int     start;
     int     len;
     int     is_finish;
+    int     index;
     t_list_env  *env;
 }               t_infos;
 
@@ -75,6 +75,14 @@ typedef struct s_data
     struct  s_data *next;
 }              t_data;
 
+typedef struct s_cmd_lines
+{
+    char **cmd_line;
+    int infile;
+    int outfile;
+    t_infos *infos;
+    struct s_cmd_lines *next;
+}               t_cmd_lines;
 
 int quoting_checker(char *str);
 t_data    *lexer(char *str, t_infos *infos);
@@ -98,7 +106,7 @@ int	builts_in(int ac, char **av, char **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_cmd_lines	*ft_lstnew_exp(char **content, int fd);
+t_cmd_lines	*ft_lstnew_exp(char **content, int fd, t_infos **infos);
 void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
 void    split_line(t_data   *cmd_line);
 t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst);

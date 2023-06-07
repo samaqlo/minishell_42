@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 18:17:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 21:23:31 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
         lst_words = lst_words->next;
      }
      vars[i] = NULL;
-     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd));
+     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd, lst_words->infos));
 }
 t_cmd_lines     *join_words(t_data *lst_words)
 {

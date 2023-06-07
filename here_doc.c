@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 10:27:03 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 20:37:47 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void    here_doc_func(t_data *lst_words)
             {
                 name  = get_tmp();
                  lst_words->fd_here_doc = open(name, O_CREAT | O_RDWR, 777);
+                 lst_words->infos->fds[lst_words->infos->index++] = lst_words->fd_here_doc;
                  tmp = get_del(lst_words);
                 fill_here_doc(lst_words->fd_here_doc, tmp);
                 // while(1);

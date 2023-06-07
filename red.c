@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 14:04:29 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 21:24:32 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ int     is_red(char *str)
     }
     return (0);
 }
+void    set_fd(int **fds, int fd)
+{
+    int i = 0;
+    while(*fds[i] != 0)
+        i++;
+    *fds[i] = fd;
+}
 void     open_file(t_cmd_lines *lines, int type)
 {
     int i = 0;
@@ -59,12 +66,15 @@ void     open_file(t_cmd_lines *lines, int type)
                 else if (type == r_redirect)
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+                    lines->infos->fds[0] = lines->outfile;
+                    lines->infos->index++;
                     if (lines->outfile < 0)
                         open_err(lines->cmd_line[i + 1], 1);
                 }
                 else if (type == append)
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_APPEND, 0644);
+                    lines->infos->fds[lines->infos->index++] = lines->outfile;
                     if (lines->outfile < 0)
                         open_err(lines->cmd_line[i + 1], 1);
                 }
@@ -89,6 +99,72 @@ int     get_new_lenght(char **vars)
     }
     return (len);
 }
+int     space_in2(char *str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        if (ft_strchr(" \t\n\v\f\r", str[i]) && !is_red(str))
+            return (1);
+        i++;
+    }
+    return (0);
+}
+int     vars_len(char  **vars)
+{
+    int i;
+
+    i = 0;
+    while(vars[i])
+        i++;
+    i += 2;
+    return (i);
+}
+char   **minisplit(char **vars)
+{
+    int i;
+    int len;
+    int start;
+    char **ret;
+    char *tmp;
+    int j;
+
+    i = 0;
+    j = 0;
+    ret = malloc(vars_len(vars) * sizeof(char *));
+    tmp = vars[i];
+    while(ft_strchr(" \t\n\v\f\r", tmp[i]))
+        i++;
+    while(tmp[i])
+    {
+        start = i;
+        if (j)
+            break;
+        len = get_len(tmp, &i);
+        if (!j)
+            {
+                ret[j] = ft_substr(tmp, start, len);
+                (j)++;
+            }
+    }
+    ret[j] = ft_substr(tmp, start, ft_strlen(tmp + start));
+    j++;
+    i = 1;
+    while(vars[i])
+    {
+        ret[j] = ft_strdup(vars[i]);
+        i++;
+        j++;
+    }
+    ret[j] = NULL;
+    i = 0;
+    while(ret[i])
+        printf("ret [%s]\n", ret[i++]);
+    freealloc2(vars);
+    return(ret);
+}
 char    **delete_red(t_cmd_lines *lines)
 {
     char **tmp;
@@ -98,12 +174,11 @@ char    **delete_red(t_cmd_lines *lines)
     j = 0;
     i = 0;
     tmp = malloc((get_new_lenght(lines->cmd_line) + 1) * sizeof(char *));
-
     while(lines->cmd_line[i])
     {
         if (is_red(lines->cmd_line[i]))
             i += 2;
-        if (lines->cmd_line[i])
+         else if (lines->cmd_line[i])
         {
             tmp[j] = ft_strdup(lines->cmd_line[i]);
             j++;
@@ -113,7 +188,8 @@ char    **delete_red(t_cmd_lines *lines)
     tmp[j] = NULL;
     return (tmp);
 }
-void    delete_adds(t_cmd_lines *lines)
+
+void    delete_adds(t_cmd_lines *lines, t_help *help)
 {
     char **tmp;
     int type;
@@ -123,10 +199,15 @@ void    delete_adds(t_cmd_lines *lines)
     head = lines;
     while(lines)
     {
+        if (space_in2(lines->cmd_line[0]))
+            {
+                tmp = minisplit(lines->cmd_line);
+                lines->cmd_line = tmp;
+            }
         type = get_type(lines);
         if (type)
         {
-            open_file(lines, type);
+            open_file(lines, type, help);
             tmp = delete_red(lines);
             freealloc2(lines->cmd_line);
             lines->cmd_line = tmp;
@@ -144,5 +225,13 @@ void    delete_adds(t_cmd_lines *lines)
         printf("oufile --> [%d]\n", lines->outfile);
         printf("------------------------------------------\n");
         lines = lines->next;
+    }
+    i = 0;
+    lines = head;
+
+    while(i < lines->infos->n_red)
+    {
+        printf("file %d = [%d]\n", i+1, lines->infos->fds[lines->infos->fds[i]]);
+        i++;
     }
 }

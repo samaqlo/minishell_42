@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/03 10:49:29 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 21:16:58 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void    init_args(t_infos *infos)
     infos->pos = 0;
     infos->start = 0;
 }
+
 t_data    *lexer(char *str, t_infos *infos)
 {
     t_data *lst_words = NULL;

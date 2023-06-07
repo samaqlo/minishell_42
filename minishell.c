@@ -6,18 +6,25 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 13:27:02 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 21:23:39 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// typedef struct s_help
-// {
-//     int *fds;
-//     int index;
-// }              t_help;
+t_help help;
 
+int     count_red(t_data *lst_words)
+{
+    int count = 0;
+    while(lst_words)
+    {
+        if (lst_words->type >= r_redirect && lst_words->type <= append)
+            count++;
+        lst_words = lst_words->next;
+    }
+    return (count);
+}
 void    print_list(t_data *lst_words)
 {
     int i;
@@ -27,6 +34,12 @@ void    print_list(t_data *lst_words)
         printf("word : [%s] || type : [%d]\n", lst_words->word, lst_words->type);
         lst_words= lst_words->next;
     }
+}
+void    init_help(t_help *help, t_data *lst_words)
+{
+    help->n_red = count_red(lst_words);
+    help->fds = calloc(help->n_red , sizeof(int));
+    help->index = 0;
 }
 int     main(int ac, char **av, char **env)
 {
@@ -59,6 +72,7 @@ if (!av[1])
                 continue;
             here_doc_func(lst_words);
             the_fucking_expand(lst_words);
+            init_help(&help, lst_words);
             lines = join_words(lst_words);
             delete_adds(lines);
 

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 13:30:45 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 20:00:36 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int     dollar_in(char *str)
         return (0);
     while(str[i])
     {
-        if (str[i] == '$')
+        if (str[i] == '$')  
             return (1);
         i++;
     }
@@ -348,7 +348,6 @@ void    split_line(t_data   *cmd_line)
             start = i;  
             len = get_len(cmd_line->word, &i);
             tmp = ft_substr(cmd_line->word, start, len);
-            printf("tmp [%s] \n", tmp);
             if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
             {
                 if (cmd_line->type == word)
