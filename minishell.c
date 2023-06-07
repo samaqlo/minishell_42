@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 12:11:48 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 13:27:02 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int     main(int ac, char **av, char **env)
 // (void)av;
 // (void)env;
     grep_env(env, &infos.env);
+    // while(infos.env)
+    // {
+    //     printf("[%s] = [%s]\n", infos.env->variable, infos.env->content);
+    //     infos.env = infos.env->next;
+    // }
+    // exit(0);
 if (!av[1])
 {
     while(1)

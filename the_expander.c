@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 18:06:26 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 13:30:45 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int     len_of_word(char *str, int *i)
 }
 int     get_len(char *str, int *i)
 {
-    if (str[*i] == '$' && ft_isdigit(str[*i + 1]))
+    if (str[*i] == '$' && (ft_isdigit(str[*i + 1]) || str[*i + 1] == '?'))
         return ((*i) += 2, 2);
     while (str[*i])
     {
@@ -348,6 +348,7 @@ void    split_line(t_data   *cmd_line)
             start = i;  
             len = get_len(cmd_line->word, &i);
             tmp = ft_substr(cmd_line->word, start, len);
+            printf("tmp [%s] \n", tmp);
             if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
             {
                 if (cmd_line->type == word)

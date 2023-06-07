@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 10:42:36 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 14:04:29 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int     get_new_lenght(char **vars)
 char    **delete_red(t_cmd_lines *lines)
 {
     char **tmp;
-    int i;
+    int i;    
     int j;
 
     j = 0;
