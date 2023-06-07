@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/04 16:29:21 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/07 11:40:49 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	grep_env(char **env, t_list_env **enev)
 		free(variable);
 		free(content);
 	}
+	ft_lstadd_back_env(enev, ft_lstnew_env("0", "?", 1));
 }
 
 int	check_n(char *av)
