@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/05 20:36:44 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 18:06:26 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,8 @@ int     dollar_len(char *str, int *i)
     (*i)++;
     while(str[*i])
     {
+        if (str[*i - 1] == '$' && ft_isdigit(str[*i]))
+            return ((*i)++, 2);
         if (str[*i - 1] == '$' && str[*i] == '$')
             return ((*i)++, 2);
         else if (!ft_isalnum(str[*i]) && str[*i] != '_')
@@ -252,6 +254,8 @@ int     len_of_word(char *str, int *i)
 }
 int     get_len(char *str, int *i)
 {
+    if (str[*i] == '$' && ft_isdigit(str[*i + 1]))
+        return ((*i) += 2, 2);
     while (str[*i])
     {
         if (ft_strchr(" \t\n\v\f\r", str[*i]))

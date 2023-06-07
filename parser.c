@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 10:31:30 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 18:17:19 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_cmd_lines     *join_words(t_data *lst_words)
     p_to_e = NULL;
     while (lst_words)
     {
-        printf("%d\n", lst_words->id);
         if (lst_words->id == 0 || lst_words->type == pi_pe)
             fill_vars(lst_words, &p_to_e);
         lst_words = lst_words->next;
@@ -106,5 +105,7 @@ t_cmd_lines     *join_words(t_data *lst_words)
     //     printf("-----------------------------------------\n");
     //     p_to_e = p_to_e->next;
     // }
+    clean_list(&lst_words);
+    
     return (p_to_e);
 }
