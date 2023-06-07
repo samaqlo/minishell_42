@@ -6,11 +6,17 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 13:33:34 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:11:48 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// typedef struct s_help
+// {
+//     int *fds;
+//     int index;
+// }              t_help;
 
 void    print_list(t_data *lst_words)
 {

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 15:27:34 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/07 10:42:36 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void     open_file(t_cmd_lines *lines, int type)
     {
         if (is_red(lines->cmd_line[i]))
             {
-                if (type == l_redirect)
+                if (type == l_redirect && !ft_strcmp(lines->cmd_line[i], "<"))
                 {
                     lines->infile = open(lines->cmd_line[i + 1], O_RDONLY, 0444);
                     if (lines->infile < 0)
