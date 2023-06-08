@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 11:40:49 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/08 16:04:49 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,12 @@ int	check_n(char *av)
 	int	i;
 
 	i = 1;
+	if(av[0] && av[0] != '-')
+		return 1;
 	while (av[i])
 	{
 		if (av[i] != 'n')
-			return (1);
+			return 1;
 		i++;
 	}
 	return (0);
@@ -110,26 +112,25 @@ int	check_n(char *av)
 void	built_echo(char **av)
 {
 	int	i;
-	int	c;
 	int	test;
 
 	i = 1;
 	test = 1;
-	c = 1;
+	
 	while (av[i])
 	{
-		while (!check_n(av[i]) && c)
+		if  (!check_n(av[i]))
 		{
 			test = 0;
 			i++;
 		}
-		c = 0;
-		printf("%s ", av[i++]);
+		printf("%s", av[i++]);
+		if (!av[i + 1])
+			printf(" ");	
 	}
 	if (test == 1)
 		printf("\n");
 }
-
 
 char	*getpath(char **env)
 {
@@ -344,53 +345,28 @@ void	built_export(t_list_env *env, char **av)
 	}
 }
 
-int	builts_in(int ac, char **av, char **env)
+int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 {
-	char		*path;
-	char		*line;
-	char		**args_1;
-	(void)ac;
-	(void)av;
-	t_list_env	*enev;
-
-	enev = NULL;
-	path = getpath(env);
-	grep_env(env, &enev);
-	if (!path)
-		return (0);
-	while (1)
+	if (!ft_strcmp(cmd->cmd_line[0], "echo") || !ft_strcmp(cmd->cmd_line[0], "ECHO"))
+		built_echo(cmd->cmd_line);
+	else if (!ft_strcmp(cmd->cmd_line[0], "env") || !ft_strcmp(cmd->cmd_line[0], "ENV"))
+		built_env(*enev);
+	else if (!ft_strcmp(cmd->cmd_line[0], "pwd") || !ft_strcmp(cmd->cmd_line[0], "PWD"))
+		built_pwd(enev);
+	else if (!ft_strcmp(cmd->cmd_line[0], "unset") || !ft_strcmp(cmd->cmd_line[0], "UNSET"))
+		built_unset(*enev, cmd->cmd_line);
+	else if (!ft_strcmp(cmd->cmd_line[0], "cd") || !ft_strcmp(cmd->cmd_line[0], "CD"))
+		built_cd(*enev, cmd->cmd_line);
+	else if (!ft_strcmp(cmd->cmd_line[0], "export") || !ft_strcmp(cmd->cmd_line[0], "EXPORT"))
+		built_export(*enev, cmd->cmd_line);
+	int i =0;
+	// puts("done");
+	while(cmd->cmd_line[i])
 	{
-		line = readline(BOLD YELLOW "minishell> " RESET);
-		add_history(line);
-		if (!line)
-			break ;
-		if (!*line)
-		{
-			free(line);
-			continue ;
-		}
-		args_1 = ft_split(line, ' ');
-		if (!ft_strcmp(args_1[0], "echo") || !ft_strcmp(args_1[0], "ECHO"))
-			built_echo(args_1);
-		else if (!ft_strcmp(args_1[0], "env") || !ft_strcmp(args_1[0], "ENV"))
-			built_env(enev);
-		else if (!ft_strcmp(args_1[0], "pwd") || !ft_strcmp(args_1[0], "PWD"))
-			built_pwd(&enev);
-		else if (!ft_strcmp(args_1[0], "unset") || !ft_strcmp(args_1[0], "UNSET"))
-			built_unset(enev, args_1);
-		else if (!ft_strcmp(args_1[0], "cd") || !ft_strcmp(args_1[0], "CD"))
-			built_cd(enev, args_1);
-		else if (!ft_strcmp(args_1[0], "export") || !ft_strcmp(args_1[0], "EXPORT"))
-			built_export(enev, args_1);
-		int i =0;
-		while(args_1[i])
-		{
-			free( args_1[i]);
-			args_1[i] = NULL;
-			i++;
-		}
-		free(args_1);
-		free(line);
+		free( cmd->cmd_line[i]);
+		cmd->cmd_line[i] = NULL;
+		i++;
 	}
+	free(cmd->cmd_line);
 	return (1);
 }

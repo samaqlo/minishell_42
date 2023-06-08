@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 13:33:34 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 20:48:11 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@ void    print_list(t_data *lst_words)
 }
 int     main(int ac, char **av, char **env)
 {
+	t_list_env	*enev;
+	enev = NULL;
     char *str;
+    (void)ac;
+    (void)av;
     t_data *lst_words;
     t_cmd_lines *lines;
     t_infos infos;
+    infos.env = NULL;
     // int i=0;
 // (void)ac;
 // (void)av;
@@ -49,15 +54,14 @@ if (!av[1])
             the_fucking_expand(lst_words);
             lines = join_words(lst_words);
             delete_adds(lines);
-
+            // if(lines->cmd_line[1])
+            //  printf("%c\n", lines->cmd_line[1][0]);
+            builts_in(lines, &infos.env);
             // print_list(lst_words);
             free(str);
             clean_list(&lst_words);
         }
     }
 }
-    else 
-        builts_in(ac, av, env);
-
     exit(100);
 }
