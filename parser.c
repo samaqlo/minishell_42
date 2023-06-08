@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 18:17:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:37:15 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ char    *join(t_data *lst_words, int *id)
 void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 {
     char **vars;
+    t_data *head = lst_words;
     int id;
     int fd;
      int i;
 
     i = 0;
     id = 0;
+    
     fd = STDIN_FILENO;
      vars = (char **)malloc((count_w(lst_words) + 1) * sizeof(char *));
      if (lst_words->type == pi_pe)
@@ -82,19 +84,22 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
         lst_words = lst_words->next;
      }
      vars[i] = NULL;
-     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd));
+
+     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd, head->infos));
 }
 t_cmd_lines     *join_words(t_data *lst_words)
 {
     t_cmd_lines *p_to_e;
 
     p_to_e = NULL;
+
     while (lst_words)
     {
         if (lst_words->id == 0 || lst_words->type == pi_pe)
             fill_vars(lst_words, &p_to_e);
         lst_words = lst_words->next;
     }
+
     // int i;
     // while(p_to_e)
     // {

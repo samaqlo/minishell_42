@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/06 10:27:03 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 17:19:04 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ t_data *get_del(t_data    *lst_words)
     while(lst_words->type == space)
         lst_words = lst_words->next;
     if(lst_words->type == word && (!lst_words->next || lst_words->next->type > dq_word))
-    {
-        puts("ok");
         return (lst_words);
-    }
     // printf("%d\n", lst_words->type);
     return (join_del(lst_words)); 
 }
@@ -115,7 +112,10 @@ void    here_doc_func(t_data *lst_words)
             {
                 name  = get_tmp();
                  lst_words->fd_here_doc = open(name, O_CREAT | O_RDWR, 777);
-                 tmp = get_del(lst_words);
+                 lst_words->infos->fds[lst_words->infos->index] = lst_words->fd_here_doc;
+                 printf("[%d]\n", lst_words->infos->fds[lst_words->infos->index]);
+                 lst_words->infos->index++;
+                 tmp = get_del(lst_words); 
                 fill_here_doc(lst_words->fd_here_doc, tmp);
                 // while(1);
                 free(name);
