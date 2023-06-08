@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 15:52:18 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 19:48:46 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@
     append,
     pi_pe,
     space};
-
-typedef struct s_help
-{
-    int *fds;
-    int index;
-    int n_red;
-}              t_help;
 
 typedef struct s_list_env
 {
