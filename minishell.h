@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 21:23:44 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 15:52:18 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_infos
     int     len;
     int     is_finish;
     int     index;
+    int     n_red;
+    int     *fds;
     t_list_env  *env;
 }               t_infos;
 
@@ -106,7 +108,7 @@ int	builts_in(int ac, char **av, char **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_cmd_lines	*ft_lstnew_exp(char **content, int fd, t_infos **infos);
+t_cmd_lines	*ft_lstnew_exp(char **content, int fd, t_infos *infos);
 void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
 void    split_line(t_data   *cmd_line);
 t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst);

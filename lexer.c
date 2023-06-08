@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 21:16:58 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:49:38 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,19 @@ void    init_args(t_infos *infos)
     infos->n_pipes = 0;
     infos->pos = 0;
     infos->start = 0;
+    infos->index = 0;
 }
-
+int     count_red(t_data *lst_words)
+{
+    int count = 0;
+    while(lst_words)
+    {
+        if (lst_words->type >= r_redirect && lst_words->type <= append)
+            count++;
+        lst_words = lst_words->next;
+    }
+    return (count);
+}
 t_data    *lexer(char *str, t_infos *infos)
 {
     t_data *lst_words = NULL;
@@ -160,7 +171,6 @@ t_data    *lexer(char *str, t_infos *infos)
         infos->len = word_len(str, infos);
         str1 = ft_substr_parse(str, infos);
         tmp = ft_lstnew(str1, infos);
-
         ft_lstadd_back(&lst_words, tmp);
             if (infos->is_finish)
             {
@@ -171,11 +181,13 @@ t_data    *lexer(char *str, t_infos *infos)
     t_data *head = lst_words;
     if (!syntaxe_checker(lst_words))
         return (free(str1), clean_list(&lst_words), NULL);
-    while(lst_words)
-    {
-        printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);
-        lst_words = lst_words->next;
-    }
+    lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
+    lst_words->infos->n_red = count_red(lst_words);
+    // while(lst_words)
+    // {
+    //     printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);
+    //     lst_words = lst_words->next;
+    // }
     free(str1);
     return (head);
 }

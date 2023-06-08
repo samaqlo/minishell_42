@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 21:24:32 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:48:51 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,31 +50,50 @@ void    set_fd(int **fds, int fd)
         i++;
     *fds[i] = fd;
 }
+int     priority(char **vars, int i)
+{
+    int flag;
+
+    flag = 0;
+        printf("pr[%s]\n", vars[i]);
+    while (vars[i])
+    {
+        if (!ft_strcmp(vars[i], "<<"))
+            flag = 0;
+        else if (!ft_strcmp(vars[i], "<"))
+            flag = 1;
+        i++;
+    }
+    return (flag);
+}
 void     open_file(t_cmd_lines *lines, int type)
 {
     int i = 0;
+    int fd;
     while(lines->cmd_line[i])
     {
         if (is_red(lines->cmd_line[i]))
             {
-                if (type == l_redirect && !ft_strcmp(lines->cmd_line[i], "<"))
+                if (!ft_strcmp(lines->cmd_line[i], "<"))
                 {
-                    lines->infile = open(lines->cmd_line[i + 1], O_RDONLY, 0444);
+                    fd = open(lines->cmd_line[i + 1], O_RDONLY, 0444);
+                    if (priority(lines->cmd_line, i))
+                        lines->infile = fd;
+                    lines->infos->fds[lines->infos->index++] = fd;
                     if (lines->infile < 0)
                         open_err(lines->cmd_line[i + 1], 0);
                 }
                 else if (type == r_redirect)
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
-                    lines->infos->fds[0] = lines->outfile;
-                    lines->infos->index++;
+                    lines->infos->fds[lines->infos->index++] = lines->outfile;
                     if (lines->outfile < 0)
                         open_err(lines->cmd_line[i + 1], 1);
                 }
                 else if (type == append)
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_APPEND, 0644);
-                    lines->infos->fds[lines->infos->index++] = lines->outfile;
+                    lines->infos->fds[lines->infos->index++] = lines->outfile;             
                     if (lines->outfile < 0)
                         open_err(lines->cmd_line[i + 1], 1);
                 }
@@ -189,7 +208,7 @@ char    **delete_red(t_cmd_lines *lines)
     return (tmp);
 }
 
-void    delete_adds(t_cmd_lines *lines, t_help *help)
+void    delete_adds(t_cmd_lines *lines)
 {
     char **tmp;
     int type;
@@ -207,7 +226,7 @@ void    delete_adds(t_cmd_lines *lines, t_help *help)
         type = get_type(lines);
         if (type)
         {
-            open_file(lines, type, help);
+            open_file(lines, type);
             tmp = delete_red(lines);
             freealloc2(lines->cmd_line);
             lines->cmd_line = tmp;
@@ -231,7 +250,7 @@ void    delete_adds(t_cmd_lines *lines, t_help *help)
 
     while(i < lines->infos->n_red)
     {
-        printf("file %d = [%d]\n", i+1, lines->infos->fds[lines->infos->fds[i]]);
+        printf("file %d = [%d]\n", i+1, lines->infos->fds[i]);
         i++;
     }
 }
