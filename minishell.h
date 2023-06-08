@@ -6,9 +6,10 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 14:34:40 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/08 21:09:42 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHEL_H
 #define MINISHEL_H
@@ -33,8 +34,8 @@
     here_doc, 
     append,
     pi_pe,
-    space};
-
+    space
+};
 
 typedef struct s_list_env
 {
@@ -43,7 +44,6 @@ typedef struct s_list_env
     int     c;
     struct s_list_env *next;
 }               t_list_env;
-
 typedef struct s_infos
 {
     int     n_pipes;
@@ -53,7 +53,9 @@ typedef struct s_infos
     int     start;
     int     len;
     int     is_finish;
-    int     *fd;
+    int     index;
+    int     n_red;
+    int     *fds;
     t_list_env  *env;
 }               t_infos;
 
@@ -102,7 +104,7 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_cmd_lines	*ft_lstnew_exp(char **content, int fd);
+t_cmd_lines     *ft_lstnew_exp(char **content, int fd, t_infos *infos);
 void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
 void    split_line(t_data   *cmd_line);
 t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst);

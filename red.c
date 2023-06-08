@@ -6,13 +6,10 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/08 14:25:49 by ohaimad          ###   ########.fr       */
-=======
-/*   Updated: 2023/06/08 18:48:51 by astalha          ###   ########.fr       */
->>>>>>> f87cdf7b73a5daf129acdcaec2425108d3cb9c91
+/*   Updated: 2023/06/08 21:10:20 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -238,27 +235,5 @@ void    delete_adds(t_cmd_lines *lines)
         lines = lines->next;
     }
     lines = head;
-<<<<<<< HEAD
 }
-=======
-    int i =0;
-    while(lines)
-    {
-        i = 0;
-        while(lines->cmd_line[i])
-            printf("word : [%s]\n", lines->cmd_line[i++]);
-        printf("infile --> [%d]\n", lines->infile);
-        printf("oufile --> [%d]\n", lines->outfile);
-        printf("------------------------------------------\n");
-        lines = lines->next;
-    }
-    i = 0;
-    lines = head;
 
-    while(i < lines->infos->n_red)
-    {
-        printf("file %d = [%d]\n", i+1, lines->infos->fds[i]);
-        i++;
-    }
-}
->>>>>>> f87cdf7b73a5daf129acdcaec2425108d3cb9c91
