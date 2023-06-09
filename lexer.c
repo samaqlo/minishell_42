@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 18:36:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/09 19:15:43 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,19 +153,21 @@ int     count_red(t_data *lst_words)
     return (count);
 }
 int     is_expandable(t_data *lst_words)
-{ 
+{
+    char *val;
     while(lst_words)
     {
         if ((lst_words->type == word || lst_words->type == dq_word) && dollar_in(lst_words->word))
             {
-                if (!ft_strcmp(set_value(lst_words->word, lst_words->infos->env), ""))
-                    return (0);
+                val = set_value(lst_words->word, lst_words->infos->env);
+                if (!ft_strcmp(val, ""))
+                    return (free(val), 0);
                 else 
-                    return (1);
+                    return (free(val), 1);
             }
             lst_words = lst_words->next;
     }
-    return (0);
+    return (1);
 } 
 char    *get_next_to_red(t_data    *lst_words)
 {
@@ -193,6 +195,7 @@ t_data    *del_line(t_data *lst_words)
     else if (lst_words->type == pi_pe)
     {
         tmp = lst_words->next;
+        free(lst_words->word);
         free(lst_words);
     }
     return (tmp);
@@ -201,6 +204,7 @@ t_data    *amb(t_data *lst_words)
 {
     t_data *head;
     head = lst_words;
+
     while(lst_words)
     {
         if (lst_words->type >= r_redirect && lst_words->type <= append && lst_words->type != here_doc && !is_expandable(lst_words))
@@ -237,21 +241,21 @@ t_data    *lexer(char *str, t_infos *infos)
         str1 = ft_substr_parse(str, infos);
         tmp = ft_lstnew(str1, infos);
         ft_lstadd_back(&lst_words, tmp);
-            if (infos->is_finish)
-            {
-                free(tmp);
-                break;
-            }
+        if (infos->is_finish)
+        {
+            free(tmp);
+            break;
+        }
     }
     t_data *head = lst_words;
     if (!syntaxe_checker(lst_words))
         return (free(str1), clean_list(&lst_words), NULL);
-    lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
-    lst_words->infos->n_red = count_red(lst_words);
     lst_words = amb(lst_words);
     if (!lst_words)
-        return NULL;
+        return (NULL);
     head = lst_words;
+    lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
+    lst_words->infos->n_red = count_red(lst_words);
     // exit(1);
     // while(lst_words)
     // {

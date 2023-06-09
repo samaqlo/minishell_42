@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 13:24:28 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/09 21:42:37 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ char    *set_value(char *var, t_list_env *env)
             return(free(str), free(tmp), ft_strdup(""));
         else if (!ft_strcmp(tmp, str))
             return (free(str), free(tmp), ft_strdup(env->content));
-        free(str);
         env = env->next;
+        free(str);
     }
     return (free(tmp), ft_strdup(""));
 }
@@ -377,10 +377,13 @@ char    *two_to_one(char **vars)
 {
     int i;
     char *line = ft_strdup("");
+    char *tmp ;
     i = 0;
     while(vars[i])
     {
-        line = ft_strjoin(line, vars[i]);
+        tmp = ft_strjoin(line, vars[i]);
+        free(line);
+        line = tmp;
         free(vars[i]);
         i++;
     }
@@ -392,7 +395,7 @@ void    the_fucking_expand(t_data *lst_words)
 {
         split_line(lst_words);
         while (lst_words)
-        {    
+        {
             free(lst_words->word);
             lst_words->word = two_to_one(lst_words->vars);
             lst_words = lst_words->next;

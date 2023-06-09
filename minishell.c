@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 14:47:57 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/09 22:29:13 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ if (!av[1])
             if (!lst_words)
                 continue;
             here_doc_func(lst_words);
+            // while(1);
             the_fucking_expand(lst_words);
             // amb(lst_words);
             lines = join_words(lst_words);
