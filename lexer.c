@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 18:49:38 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/09 18:36:05 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,71 @@ int     count_red(t_data *lst_words)
     }
     return (count);
 }
+int     is_expandable(t_data *lst_words)
+{ 
+    while(lst_words)
+    {
+        if ((lst_words->type == word || lst_words->type == dq_word) && dollar_in(lst_words->word))
+            {
+                if (!ft_strcmp(set_value(lst_words->word, lst_words->infos->env), ""))
+                    return (0);
+                else 
+                    return (1);
+            }
+            lst_words = lst_words->next;
+    }
+    return (0);
+} 
+char    *get_next_to_red(t_data    *lst_words)
+{
+    lst_words = lst_words->next;
+    while(lst_words)
+    {
+        if (lst_words->type != space)
+            return (lst_words->word);
+        lst_words = lst_words->next;
+    }
+    return (NULL);
+}
+t_data    *del_line(t_data *lst_words)
+{
+    t_data *tmp;
+    while (lst_words && lst_words->type != pi_pe)
+    {
+        tmp = lst_words;
+        lst_words = lst_words->next;
+        free(tmp);
+        free(tmp->word);
+    }
+    if (!lst_words)
+        return NULL;
+    else if (lst_words->type == pi_pe)
+    {
+        tmp = lst_words->next;
+        free(lst_words);
+    }
+    return (tmp);
+}
+t_data    *amb(t_data *lst_words)
+{
+    t_data *head;
+    head = lst_words;
+    while(lst_words)
+    {
+        if (lst_words->type >= r_redirect && lst_words->type <= append && lst_words->type != here_doc && !is_expandable(lst_words))
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(get_next_to_red(lst_words), 2);
+            ft_putstr_fd(": ambiguous redirect\n", 2);
+            head = del_line(head);
+            if (!head)
+                return (NULL);
+            lst_words = head;
+        }
+            lst_words = lst_words->next;
+    }
+    return (head);
+}
 t_data    *lexer(char *str, t_infos *infos)
 {
     t_data *lst_words = NULL;
@@ -183,6 +248,11 @@ t_data    *lexer(char *str, t_infos *infos)
         return (free(str1), clean_list(&lst_words), NULL);
     lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
     lst_words->infos->n_red = count_red(lst_words);
+    lst_words = amb(lst_words);
+    if (!lst_words)
+        return NULL;
+    head = lst_words;
+    // exit(1);
     // while(lst_words)
     // {
     //     printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);

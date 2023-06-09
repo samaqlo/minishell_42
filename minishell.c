@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 21:06:30 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/09 14:47:57 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ if (!av[1])
      else{
             add_history(str);
             lst_words = lexer(str, &infos);
-            
             if (!lst_words)
                 continue;
             here_doc_func(lst_words);
@@ -73,7 +72,8 @@ if (!av[1])
             delete_adds(lines);
             // if(lines->cmd_line[1])
             //  printf("%c\n", lines->cmd_line[1][0]);
-            builts_in(lines, &infos.env);
+            // puts("ok");
+            // builts_in(lines, &infos.env);
             // print_list(lst_words);
             free(str);
             clean_list(&lst_words);

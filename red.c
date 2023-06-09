@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 21:10:20 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/09 12:25:31 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,5 +235,26 @@ void    delete_adds(t_cmd_lines *lines)
         lines = lines->next;
     }
     lines = head;
+    int i = 0;
+    while (lines)
+    {
+        i = 0;
+        while (lines->cmd_line[i])
+        {
+            printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
+            i++;
+        }
+        printf("infile : [%d]\n", lines->infile);
+        printf("oufile : [%d]\n", lines->outfile);
+        printf("-------------------------------------------------------------------\n");
+        lines = lines->next;
+    }
+    lines = head;
+    i = 0;
+    while(i < lines->infos->n_red)
+    {
+        printf("[%d]\n",lines->infos->fds[i]);
+        i++;
+    }
 }
 

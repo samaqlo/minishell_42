@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 16:04:49 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/09 14:47:52 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,7 +360,7 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 	else if (!ft_strcmp(cmd->cmd_line[0], "export") || !ft_strcmp(cmd->cmd_line[0], "EXPORT"))
 		built_export(*enev, cmd->cmd_line);
 	int i =0;
-	// puts("done");
+	puts("done");
 	while(cmd->cmd_line[i])
 	{
 		free( cmd->cmd_line[i]);

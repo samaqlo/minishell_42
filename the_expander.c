@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 20:00:36 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/09 13:24:28 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int     dollar_in(char *str)
     int i;
 
     i = 0;
-    if (ft_strlen(str) <= 1)
+    if (ft_strlen(str) < 1)
         return (0);
     while(str[i])
     {
@@ -132,8 +132,9 @@ char    *set_value(char *var, t_list_env *env)
 {
     char *tmp;
     char *str;
-    if (ft_strlen(var) == 1)
-        return (ft_strdup(var));
+    // printf("[%s]\n", var);
+    // if (ft_strlen(var) == 1)
+    //     return (ft_strdup(var));
     tmp = ft_strdup(var + 1);
     while(env)
     {
@@ -344,11 +345,18 @@ void    split_line(t_data   *cmd_line)
         cmd_line->vars = (char **)malloc((count_words(cmd_line->word) + 1) * sizeof(char *));
         while(cmd_line->word[i])
         {
-            len = 0;
-            start = i;  
+            len = 0; 
+            start = i;
             len = get_len(cmd_line->word, &i);
             tmp = ft_substr(cmd_line->word, start, len);
-            if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
+            if (!ft_strcmp(cmd_line->word, "$"))
+            {
+                if ((cmd_line->next && cmd_line->next->type == space) || !cmd_line->next)
+                     cmd_line->vars[j] = ft_strdup(tmp);
+                else
+                  cmd_line->vars[j] = set_value(tmp, cmd_line->infos->env);
+            }
+            else if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
             {
                 if (cmd_line->type == word)
                     cmd_line->vars[j] = skip_space(set_value(tmp, cmd_line->infos->env));
