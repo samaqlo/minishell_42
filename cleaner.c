@@ -1,29 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr_env.c                                   :+:      :+:    :+:   */
+/*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/21 23:59:35 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/05/22 00:36:57 by astalha          ###   ########.fr       */
+/*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
+/*   Updated: 2023/05/28 00:11:56 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strrchr_env(const char *s, int c)
+void	freealloc2(char **ptr)
 {
-	size_t	i;
+	int	i;
 
-	i = ft_strlen(s);
-	while (i > 0)
+	i = 0;
+	if (!ptr[i])
+		i++;
+	while (ptr[i])
 	{
-		if (s[i] == c)
-			return (ft_substr(s, 0, i));
-		i--;
+		free (ptr[i]);
+		i++;
 	}
-	if (s[i] == c)
-		return (ft_substr(s, 0, i));
-	return (0);
+	free(ptr);
+}
+void     clean_list(t_data   **lst_words)
+{
+    t_data	*words;
+	t_data	*tmp;
+
+	if (!lst_words)
+		return ;
+	words = *lst_words;
+	while (words)
+	{
+		tmp = words;
+		words = words->next;
+		// freealloc2(tmp->vars);
+		free(tmp->word);
+		free(tmp);
+	}
+	*lst_words = NULL;
 }

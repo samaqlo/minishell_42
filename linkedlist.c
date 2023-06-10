@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/02 11:24:54 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/06 10:18:09 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	ft_lstadd_back(t_data **lst, t_data *new)
 {
 	t_data	*lastlst;
 
+	if (!new->word)
+		{
+			new->infos->is_finish = 1;
+			return ;
+		}
 	if (!*lst && new)
 	{
 		*lst = new;
@@ -44,7 +49,8 @@ int	ft_lstsize(t_data *lst)
 	plst = lst;
 	while (plst != NULL)
 	{
-		i++;
+		if (plst->type != space)
+			i++;
 		plst = plst->next;
 	}
 	return (i);
@@ -61,16 +67,45 @@ t_data	*ft_lstlast(t_data *lst)
 		plst = plst->next;
 	return (plst);
 }
-
-t_data	*ft_lstnew(char *content)
+void	set_type(t_data *new)
+{
+	if (!ft_strncmp(new->word, "|",ft_strlen(new->word)))
+	{
+		new->infos->n_pipes++;
+		new->type = pi_pe;
+	}
+	else if (!ft_strncmp(new->word, ">",ft_strlen(new->word)) || !ft_strncmp(new->word, ">|",ft_strlen(new->word)))
+		new->type = r_redirect;
+	else if (!ft_strncmp(new->word, "<",ft_strlen(new->word)))
+		new->type = l_redirect;
+	else if (!ft_strncmp(new->word, ">>",ft_strlen(new->word)))
+		new->type = append;
+	else if (!ft_strncmp(new->word, "<<",ft_strlen(new->word)))
+		new->type = here_doc;
+	else
+		new->type = word;
+		
+}
+t_data	*ft_lstnew(char *content, t_infos	*infos)
 {
 	t_data	*new;
 
 	new = (t_data *) malloc (sizeof (t_data));
 	if (!new)
 		return (NULL);
+	new->infos = infos;
 	new->word = content;
-	new->type = word;
+	set_type(new);
+	if (infos->flag == 1)
+		new->type = sq_word;
+	else if (infos->flag == 2)
+		new->type = dq_word;
+	else if (infos->flag == 3)
+		new->type = space;
+	infos->flag = 0;
+	new->tfree = 0;
+	new->fd_here_doc = -1;
 	new->next = NULL;
+	// free(content);
 	return (new);
 }

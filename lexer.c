@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/03 17:05:30 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:49:38 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int quoting_checker(char *str)
     flag = 0;
     while(str[i])
     {
+        if (!flag && ft_strchr(";&", str[i]))
+            return (print_error(2, 0), 3);
         if (str[i] == '\'')
         {
             if (!flag)
@@ -39,52 +41,84 @@ int quoting_checker(char *str)
     }
     return (flag);
 }
-int     quote_len(char *str, int flag, int *pos)
+int     strat_end_checker(char *str)
+{
+    int i;
+
+    i = 0;
+    if (str[i] == '|')
+        return (ft_putstr_fd("minishell: syntax error near unexpected token `|\'\n", 2), 0);
+    i = ft_strlen(str) - 1;
+    if (ft_strchr("><|", str[i]))
+        return (ft_putstr_fd("minishell: syntax error near unexpected token `newline\'\n", 2), 0);
+    return (1);
+}
+int     quote_len(char *str, t_infos *infos)
 {
     int i;
     int len;
 
-    i = (*pos) + 1;
+    i = infos->pos + 1;
     len = 0;
     while(str[i])
     {
-        if (str[i] == '\'' && flag == 1 && ft_strchr("|>< \t\n", str[i + 1]))
+        if (str[i] == '\'' && infos->is_quote == 1)
             break;
-        else if (str[i] == '\"' && flag == 2 && ft_strchr("|>< \t\n", str[i + 1]))
+        else if (str[i] == '\"' && infos->is_quote == 2)
             break;
-        else if (str[i] == '\"' && flag == 2)
-            i++;
-        else if (str[i] == '\'' && flag == 1)
-            i++;
         else
         {
             len++;
             i++;
-        }
     }
-        i++;
-        *pos = i;
+    }
+    i++;
+    infos->pos = i;
     return (len);
 }
-int word_len(char *str, int *pos, int *is_quote)
+
+
+int white_sp(char *str, t_infos *infos)
+{
+    int i = infos->pos;
+    int len = 0;
+    
+    while(ft_strchr(" \t\n\v\f\r", str[i]))
+    {
+        len++;
+        i++;
+    }
+    infos->flag = 3;
+    infos->pos = i;
+    return (len);
+}
+int word_len(char *str, t_infos *infos)
 {
     int i;
     int len = 0;
 
-    i = *pos;
-    while(ft_strchr(" \t\n\v\f\r", str[i]))
-        i++;
+    i = infos->pos;
+    if (ft_strchr(" \t\n\v\f\r", str[i]))
+        return (white_sp(str, infos));
     while(str[i])
     {
-        if (*is_quote == 0 && str[i] == '\'')
-            return (*pos = i, *is_quote = 1, quote_len(str, 1, pos));
-        else if (*is_quote == 0 && str[i] == '\"')
-            return (*pos = i, *is_quote = 2, quote_len(str, 2, pos));
-        else if (ft_strchr(" \t\n\v\f\r", str[i]))
+        if (ft_strchr("<>", str[i]) && !ft_strchr(" \t\n\v\f\r><|", str[i+1]))
+            return ((infos->pos) = i + 1, 1);
+        else if (!infos->is_finish && ft_strchr(" \t\n\v\f\r", str[i]))
             break;
-        else if (ft_strchr("<>|", str[i + 1]) || ft_strchr("<>|", str[i]))
+        else if (!infos->is_quote && str[i] == '\'')
+            return (infos->flag = 1, infos->pos = i, infos->is_quote = 1, quote_len(str, infos));
+        else if (!infos->is_quote && str[i] == '\"')
+            return (infos->flag = 2, infos->pos = i, infos->is_quote = 2, quote_len(str, infos));
+        else if (!ft_strchr(" \t\n\v\f\r><|", str[i]) && (str[i + 1] == '\"' || str[i + 1] == '\''))
+            return (infos->pos = i + 1, ++len);
+        else if ((ft_strchr("<>|", str[i + 1]) || ft_strchr("|", str[i])) && str[i + 1])
         {
-            if (ft_strchr)
+            if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i + 1] == '<'))
+            {
+                len++;
+                i++;
+            }
             len++;
             i++;
             break;
@@ -92,21 +126,68 @@ int word_len(char *str, int *pos, int *is_quote)
             len++;
             i++;
     }
-    *pos = i;
+    infos->pos = i;
     return (len);
 }
 
-void    lexer(char *str)
+void    init_args(t_infos *infos)
 {
-    int i;
-    int flag;
+    infos->is_quote = 0;
+    infos->is_finish = 0;
+    infos->len = 0;
+    infos->flag = 0;
+    infos->n_pipes = 0;
+    infos->pos = 0;
+    infos->start = 0;
+    infos->index = 0;
+}
+int     count_red(t_data *lst_words)
+{
+    int count = 0;
+    while(lst_words)
+    {
+        if (lst_words->type >= r_redirect && lst_words->type <= append)
+            count++;
+        lst_words = lst_words->next;
+    }
+    return (count);
+}
+t_data    *lexer(char *str, t_infos *infos)
+{
     t_data *lst_words = NULL;
-    t_infos infos;
-    
-    i = 0;
-    flag = 0;
-    if (quoting_checker(str))
-        return ;
-    
-    
+    t_data *tmp;
+    int c;
+    char *str1;
+
+    c = quoting_checker(str);
+    if (c == 2 || c == 1)
+        return (ft_putstr_fd("quote opened\n", 2),free(str), NULL);
+    else if (c == 3)
+        return (free(str), NULL);
+    init_args(infos);
+    while(1)
+    {
+        infos->start = infos->pos;
+        infos->len = word_len(str, infos);
+        str1 = ft_substr_parse(str, infos);
+        tmp = ft_lstnew(str1, infos);
+        ft_lstadd_back(&lst_words, tmp);
+            if (infos->is_finish)
+            {
+                free(tmp);
+                break;
+            }
+    }
+    t_data *head = lst_words;
+    if (!syntaxe_checker(lst_words))
+        return (free(str1), clean_list(&lst_words), NULL);
+    lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
+    lst_words->infos->n_red = count_red(lst_words);
+    // while(lst_words)
+    // {
+    //     printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);
+    //     lst_words = lst_words->next;
+    // }
+    free(str1);
+    return (head);
 }
