@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 22:29:13 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/09 22:56:33 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ if (!av[1])
             // if(lines->cmd_line[1])
             //  printf("%c\n", lines->cmd_line[1][0]);
             // puts("ok");
-            // builts_in(lines, &infos.env);
+            builts_in(lines, &infos.env);
             // print_list(lst_words);
             free(str);
             clean_list(&lst_words);
