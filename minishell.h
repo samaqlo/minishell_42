@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/10 16:21:42 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/11 16:42:27 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_list_env
 	int					c;
 	struct s_list_env	*next;
 }						t_list_env;
+
 typedef struct s_infos
 {
 	int					n_pipes;
@@ -82,7 +83,7 @@ typedef struct s_data
 	struct s_data		*next;
 }						t_data;
 
-void					ft_execution(t_cmd_lines *lines);
+// void					ft_execution(t_cmd_lines *lines);
 char					*getpath(char **env);
 int						quoting_checker(char *str);
 t_data					*lexer(char *str, t_infos *infos);
@@ -146,5 +147,7 @@ int						builts_in(t_cmd_lines *cmd, t_list_env **enev);
 int						built_cd(t_list_env *env, char **args);
 int						built_export(t_list_env *env, char **av, int fd);
 // END built fonctions '_'
+char					*path_split(t_cmd_lines *env);
+void					ft_execution(t_cmd_lines *lines, int fd[2]);
 
 #endif

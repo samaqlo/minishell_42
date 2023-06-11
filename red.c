@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 21:10:20 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/11 14:27:04 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int     get_type(t_cmd_lines *line)
     }
     return (0);
 }
+
 int     is_red(char *str)
 {
     int i;

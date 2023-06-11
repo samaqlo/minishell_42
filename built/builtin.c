@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/10 16:14:54 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/11 15:27:31 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,29 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 		i = 0;
 		if (!ft_strcmp(cmd->cmd_line[0], "echo") || !ft_strcmp(cmd->cmd_line[0],
 				"ECHO"))
-			built_echo(cmd->cmd_line, cmd->outfile);
+			return(built_echo(cmd->cmd_line, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "env")
 				|| !ft_strcmp(cmd->cmd_line[0], "ENV"))
-			built_env(*enev, cmd->outfile);
+			return(built_env(*enev, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "pwd")
 				|| !ft_strcmp(cmd->cmd_line[0], "PWD"))
-			built_pwd(enev, cmd->outfile);
+			return(built_pwd(enev, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "unset")
 				|| !ft_strcmp(cmd->cmd_line[0], "UNSET"))
-			built_unset(*enev, cmd->cmd_line);
+			return(built_unset(*enev, cmd->cmd_line));
 		else if (!ft_strcmp(cmd->cmd_line[0], "cd")
 				|| !ft_strcmp(cmd->cmd_line[0], "CD"))
-			built_cd(*enev, cmd->cmd_line);
+			return(built_cd(*enev, cmd->cmd_line));
 		else if (!ft_strcmp(cmd->cmd_line[0], "export")
 				|| !ft_strcmp(cmd->cmd_line[0], "EXPORT"))
-			built_export(*enev, cmd->cmd_line, cmd->outfile);
-		while (cmd->cmd_line[i])
-		{
-			free(cmd->cmd_line[i]);
-			cmd->cmd_line[i] = NULL;
-			i++;
-		}
-		free(cmd->cmd_line);
+			return(built_export(*enev, cmd->cmd_line, cmd->outfile));
+		// while (cmd->cmd_line[i])
+		// {
+		// 	free(cmd->cmd_line[i]);
+		// 	cmd->cmd_line[i] = NULL;
+		// 	i++;
+		// }
+		// free(cmd->cmd_line);
 	}
 	return (0);
 }

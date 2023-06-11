@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 20:36:00 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/11 17:24:32 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,21 @@ int     is_redrect(char *str)
     return (0);
 }
 
-
 int     main(int ac, char **av, char **env)
 {
     (void)ac;
     (void)av;
+    int fd[2];
+
+    fd[0] = -1;
+    fd[1] = -1;
 	t_list_env	*enev;
-	enev = NULL;
     char *str;
     t_data *lst_words;
     t_cmd_lines *lines;
     t_infos infos;
     infos.env = NULL;
+	enev = NULL;
     grep_env(env, &infos.env);
     if (!av[1])
     {
@@ -61,15 +64,23 @@ int     main(int ac, char **av, char **env)
             {
                 add_history(str);
                 lst_words = lexer(str, &infos);
-                
+
                 if (!lst_words)
-                    continue;
+                    continue ;
                 here_doc_func(lst_words);
                 the_fucking_expand(lst_words);
                 // amb(lst_words);
                 lines = join_words(lst_words);
                 delete_adds(lines);
-                builts_in(lines, &infos.env);
+                // if (builts_in(lines, &infos.env) != 1)
+                    // ft_execution(lines, fd);
+                while(lines)
+                {
+                    ft_execution(lines, fd);
+                    lines = lines->next;
+                }
+                while (wait(0)!= -1)
+                    close(fd[0]);
                 // print_list(lst_words);
                 free(str);
                 clean_list(&lst_words);
