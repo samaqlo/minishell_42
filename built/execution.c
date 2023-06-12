@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/11 17:21:13 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/12 14:08:23 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*join_args(t_cmd_lines *cmd)
 {
 	char	*arg;
-	
+
 	// printf("cmd----- : %s\n", cmd->cmd_line[0]);
 	arg = ft_strjoin("/", cmd->cmd_line[0]);
 	return (arg);
@@ -23,8 +23,8 @@ char	*join_args(t_cmd_lines *cmd)
 
 char	*path_split(t_cmd_lines *cmd)
 {
-	char	*path;
 	char	**split;
+	char	*path;
 	char	*res;
 	char	*str;
 	int		i;
@@ -41,6 +41,13 @@ char	*path_split(t_cmd_lines *cmd)
 		free(res);
 		i++;
 	}
+	if (access(res, F_OK))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd_line[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		res = NULL;
+	}
 	free(str);
 	i = 0;
 	while (split[i])
@@ -51,8 +58,8 @@ char	*path_split(t_cmd_lines *cmd)
 	free(split);
 	return (res);
 }
-		// if (lines->cmd_line[0][0] == '$')
-		// 	lines->cmd_line[0] = print_env(&lines->infos->env, lines->cmd_line[0] + 1);
+// if (lines->cmd_line[0][0] == '$')
+// 	lines->cmd_line[0] = print_env(&lines->infos->env, lines->cmd_line[0] + 1);
 void	ft_execution(t_cmd_lines *lines, int fd[2])
 {
 	char	*path;
@@ -62,6 +69,8 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 
 	// char *const args[] = {"ls", ".", NULL};
 	path = path_split(lines);
+	if (!path)
+		return ;
 	old = fd[0];
 	if (pipe(fd) < 0)
 	{
@@ -76,7 +85,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	}
 	else if (pid == 0)
 	{
-		if(old != -1)
+		if (old != -1)
 		{
 			dup2(old, 0);
 			close(old);
@@ -85,8 +94,9 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(fd[1], 1);
 		close(fd[1]);
 		close(fd[0]);
-		if (execve(path, lines->cmd_line, NULL) == -1)
-			perror("minishell");
+		execve(path, lines->cmd_line, NULL);
+		// if (execve(path, lines->cmd_line, NULL) == -1)
+		// 	perror("minishell");
 	}
 	else
 	{
