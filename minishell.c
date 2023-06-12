@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/13 00:03:13 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:48:00 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ if (!av[1])
             //     }
             //     exit(0);
             lines = join_words(lst_words);
-            delete_adds(lines);
+            if (!delete_adds(lines))
+                continue;
             // if(lines->cmd_line[1])
             //  printf("%c\n", lines->cmd_line[1][0]);
             // puts("ok");

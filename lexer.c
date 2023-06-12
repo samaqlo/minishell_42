@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/12 22:32:38 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:07:12 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int     is_expandable(t_data *lst_words)
         if ((lst_words->type == word || lst_words->type == dq_word) && dollar_in(lst_words->word))
             {
                 val = set_value(lst_words->word, lst_words->infos->env);
-                if (!ft_strcmp(val, ""))
+                if (!ft_strcmp(val, "") || space_in(val))
                     return (free(val), 0);
                 else 
                     return (free(val), 1);

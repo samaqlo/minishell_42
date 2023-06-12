@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/13 00:02:59 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:53:05 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,8 @@ void    clean_lines(t_cmd_lines **lines)
     {
         tmp = *lines;
         *lines = (*lines)->next;
-        freealloc2(tmp->cmd_line);
+        if (tmp->cmd_line[0])
+            freealloc2(tmp->cmd_line);
         free(tmp);
     }
     
@@ -274,7 +275,7 @@ t_cmd_lines *del_lines(t_cmd_lines *lines)
     head = lines;
     while(lines)
     {
-        if (!lines->cmd_line || lines->infile < 0 || lines->outfile < 0)
+        if (!lines->cmd_line[0] || lines->infile < 0 || lines->outfile < 0)
             lines = lines->next;
         else
         {
@@ -306,30 +307,31 @@ int    delete_adds(t_cmd_lines *lines)
         if (type)
         {
                 open_file(lines, type);
-                tmp = delete_red(lines);
-                freealloc2(lines->cmd_line);
-                lines->cmd_line = tmp;
+                if (lines->infile >= 0 && lines->outfile >= 0)
+                {
+                    tmp = delete_red(lines);
+                    freealloc2(lines->cmd_line);
+                    lines->cmd_line = tmp;
+                }
         }
             lines = lines->next;
     }
-    
+    int i = 0;
     lines = head;
     lines = del_lines(lines);
-    if (!lines)
-        return (0);
-    // while (lines)
-    // {
-    //     i = 0;
-    //     while (lines->cmd_line[i])
-    //     {
-    //         printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
-    //         i++;
-    //     }
-    //     printf("infile : [%d]\n", lines->infile);
-    //     printf("oufile : [%d]\n", lines->outfile);
-    //     printf("-------------------------------------------------------------------\n");
-    //     lines = lines->next;
-    // }
+    while (lines)
+    {
+        i = 0;
+        while (lines->cmd_line[i])
+        {
+            printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
+            i++;
+        }
+        printf("infile : [%d]\n", lines->infile);
+        printf("oufile : [%d]\n", lines->outfile);
+        printf("-------------------------------------------------------------------\n");
+        lines = lines->next;
+    }
     // lines = head;
     // i = 0;
     // while(i < lines->infos->n_red)

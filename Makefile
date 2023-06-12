@@ -6,7 +6,7 @@
 #    By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/12 17:51:57 by astalha          ###   ########.fr        #
+#    Updated: 2023/06/13 00:51:12 by astalha          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = libft/ft_isalnum.c libft/ft_isprint.c libft/ft_memcmp.c libft/ft_strlcat.
 		minishell.c lexer.c linkedlist.c ft_substr_parse.c cleaner.c error_centre.c linkedlist_p_to_e.c the_expander.c built.c ft_strcmp.c ft_strrchr_env.c here_doc.c here_doc_expand.c parser.c red.c
 
 OBJS	= $(SRCS:.c=.o)
-CC 		= cc -g
+CC 		= cc
 RM		= rm -rf
 AR		= ar rc
 FLAGS	= -Wall -Werror -Wextra
