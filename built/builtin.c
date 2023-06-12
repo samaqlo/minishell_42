@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/11 15:27:31 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:44:07 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ int	built_echo(char **av, int fd)
 	test = 1;
 	while (av[i])
 	{
-		if (!check_n(av[i]))
+		if (av[i][0])
 		{
-			test = 0;
-			i++;
+			if (!check_n(av[i]))
+			{
+				test = 0;
+				i++;
+			}
+			ft_putstr_fd(av[i], fd);
+			if (av[i + 1])
+				ft_putstr_fd(" ", fd);
 		}
-		ft_putstr_fd( av[i++], fd);
-		if (!av[i + 1])
-			ft_putstr_fd(" ", fd);
+		i++;
 	}
 	if (test == 1)
 		ft_putstr_fd("\n", fd);
@@ -40,7 +44,7 @@ int	built_env(t_list_env *enev, int fd)
 {
 	while (enev)
 	{
-		if (enev->c)
+		if (enev->c && enev->content)
 		{
 			ft_putstr_fd(enev->variable, fd);
 			ft_putstr_fd("=", fd);

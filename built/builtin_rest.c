@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/10 16:14:47 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:38:52 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,18 @@ int	built_export(t_list_env *env, char **av, int fd)
 		else if (av[i] && plus)
 		{
 			if (check_env(env, var))
-				change_env(&env, var, ft_strjoin(print_env(&env, var), cont));
+			{
+				if (print_env(&env, var))
+					change_env(&env, var, ft_strjoin(print_env(&env, var), cont));
+				else
+					change_env(&env, var, ft_strjoin("", cont));
+			}
 			else
 				ft_lstadd_back_env(&env, ft_lstnew_env(cont, var, 1));
 		}
 		else if (av[i] && !check_equal(av[i]))
 		{
-			if (check_env(env, av[i]))
-				change_env(&env, av[i], cont);
-			else
+			if (!check_env(env, av[i]))
 				ft_lstadd_back_env(&env, ft_lstnew_env(NULL, av[i], 1));
 		}
 		free(var);
