@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/10 18:35:01 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/11 15:15:05 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ void	freealloc2(char **ptr);
 void    set_ids(t_data *lst_words);
 t_cmd_lines     *join_words(t_data *lst_words);
 void    open_err(char *file_name, int code);
-void    delete_adds(t_cmd_lines *lines);
+int    delete_adds(t_cmd_lines *lines);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 12:25:31 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/12 13:02:40 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int     priority(char **vars, int i)
     int flag;
 
     flag = 0;
-        printf("pr[%s]\n", vars[i]);
     while (vars[i])
     {
         if (!ft_strcmp(vars[i], "<<"))
@@ -67,7 +66,29 @@ int     priority(char **vars, int i)
     }
     return (flag);
 }
-void     open_file(t_cmd_lines *lines, int type)
+t_cmd_lines *del_node(t_cmd_lines *lines)
+{
+    t_cmd_lines *head;
+
+    if (lines->next)
+    {
+        head = lines->next;
+        freealloc2(lines->cmd_line);
+        free(lines->infos->fds);
+        free(lines);
+        return (head);
+    }
+    else 
+        {
+            freealloc2(lines->cmd_line);
+            free(lines->infos->fds);
+            free(lines);
+            return (NULL);
+        }
+    
+           
+}
+t_cmd_lines *    open_file(t_cmd_lines *lines, int type, int *flag)
 {
     int i = 0;
     int fd;
@@ -82,25 +103,39 @@ void     open_file(t_cmd_lines *lines, int type)
                         lines->infile = fd;
                     lines->infos->fds[lines->infos->index++] = fd;
                     if (lines->infile < 0)
+                    {
                         open_err(lines->cmd_line[i + 1], 0);
+                        *flag = 1;
+                        return(del_node(lines));
+                        
+                    }
                 }
                 else if (type == r_redirect)
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
                     lines->infos->fds[lines->infos->index++] = lines->outfile;
                     if (lines->outfile < 0)
+                    {
                         open_err(lines->cmd_line[i + 1], 1);
+                        *flag = 1;
+                        lines = del_node(lines);
+                    }
                 }
                 else if (type == append)
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_APPEND, 0644);
                     lines->infos->fds[lines->infos->index++] = lines->outfile;             
                     if (lines->outfile < 0)
+                    {
                         open_err(lines->cmd_line[i + 1], 1);
+                        *flag = 1;
+                        lines = del_node(lines);
+                    }
                 }
             }
         i++;
     }
+    return (lines);
 }
 int     get_new_lenght(char **vars)
 {
@@ -119,19 +154,19 @@ int     get_new_lenght(char **vars)
     }
     return (len);
 }
-int     space_in2(char *str)
-{
-    int i;
+// int     space_in2(char *str)
+// {
+//     int i;
 
-    i = 0;
-    while(str[i])
-    {
-        if (ft_strchr(" \t\n\v\f\r", str[i]) && !is_red(str))
-            return (1);
-        i++;
-    }
-    return (0);
-}
+//     i = 0;
+//     while(str[i])
+//     {
+//         if (ft_strchr(" \t\n\v\f\r", str[i]) && !is_red(str))
+//             return (1);
+//         i++;
+//     }
+//     return (0);
+// }
 int     vars_len(char  **vars)
 {
     int i;
@@ -142,49 +177,49 @@ int     vars_len(char  **vars)
     i += 2;
     return (i);
 }
-char   **minisplit(char **vars)
-{
-    int i;
-    int len;
-    int start;
-    char **ret;
-    char *tmp;
-    int j;
+// char   **minisplit(char **vars)
+// {
+//     int i;
+//     int len;
+//     int start;
+//     char **ret;
+//     char *tmp;
+//     int j;
 
-    i = 0;
-    j = 0;
-    ret = malloc(vars_len(vars) * sizeof(char *));
-    tmp = vars[i];
-    while(ft_strchr(" \t\n\v\f\r", tmp[i]))
-        i++;
-    while(tmp[i])
-    {
-        start = i;
-        if (j)
-            break;
-        len = get_len(tmp, &i);
-        if (!j)
-            {
-                ret[j] = ft_substr(tmp, start, len);
-                (j)++;
-            }
-    }
-    ret[j] = ft_substr(tmp, start, ft_strlen(tmp + start));
-    j++;
-    i = 1;
-    while(vars[i])
-    {
-        ret[j] = ft_strdup(vars[i]);
-        i++;
-        j++;
-    }
-    ret[j] = NULL;
-    i = 0;
-    while(ret[i])
-        printf("ret [%s]\n", ret[i++]);
-    freealloc2(vars);
-    return(ret);
-}
+//     i = 0;
+//     j = 0;
+//     ret = malloc(vars_len(vars) * sizeof(char *));
+//     tmp = vars[i];
+//     while(ft_strchr(" \t\n\v\f\r", tmp[i]))
+//         i++;
+//     while(tmp[i])
+//     {
+//         start = i;
+//         if (j)
+//             break;
+//         len = get_len(tmp, &i);
+//         if (!j)
+//             {
+//                 ret[j] = ft_substr(tmp, start, len);
+//                 (j)++;
+//             }
+//     }
+//     ret[j] = ft_substr(tmp, start, ft_strlen(tmp + start));
+//     j++;
+//     i = 1;
+//     while(vars[i])
+//     {
+//         ret[j] = ft_strdup(vars[i]);
+//         i++;
+//         j++;
+//     }
+//     ret[j] = NULL;
+//     i = 0;
+//     while(ret[i])
+//         printf("ret [%s]\n", ret[i++]);
+//     freealloc2(vars);
+//     return(ret);
+// }
 char    **delete_red(t_cmd_lines *lines)
 {
     char **tmp;
@@ -209,30 +244,38 @@ char    **delete_red(t_cmd_lines *lines)
     return (tmp);
 }
 
-void    delete_adds(t_cmd_lines *lines)
+int    delete_adds(t_cmd_lines *lines)
 {
     char **tmp;
     int type;
+    int flag;
 
     type = 0;
     t_cmd_lines *head;
     head = lines;
     while(lines)
     {
-        if (space_in2(lines->cmd_line[0]))
-            {
-                tmp = minisplit(lines->cmd_line);
-                lines->cmd_line = tmp;
-            }
+        // if (space_in2(lines->cmd_line[0]))
+        //     {
+        //         tmp = minisplit(lines->cmd_line);
+        //         lines->cmd_line = tmp;
+        //     }
+        flag = 0;
         type = get_type(lines);
         if (type)
         {
-            open_file(lines, type);
-            tmp = delete_red(lines);
-            freealloc2(lines->cmd_line);
-            lines->cmd_line = tmp;
+            lines = open_file(lines, type, &flag);
+            if (!lines)
+                return (0);
+            if (!flag)
+            {
+                tmp = delete_red(lines);
+                freealloc2(lines->cmd_line);
+                lines->cmd_line = tmp;
+            }
         }
-        lines = lines->next;
+        if (!flag)
+            lines = lines->next;
     }
     lines = head;
     int i = 0;
@@ -256,5 +299,6 @@ void    delete_adds(t_cmd_lines *lines)
         printf("[%d]\n",lines->infos->fds[i]);
         i++;
     }
+    return (1);
 }
 
