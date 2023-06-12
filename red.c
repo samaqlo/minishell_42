@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/12 13:02:40 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:02:59 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,29 +66,29 @@ int     priority(char **vars, int i)
     }
     return (flag);
 }
-t_cmd_lines *del_node(t_cmd_lines *lines)
-{
-    t_cmd_lines *head;
+// t_cmd_lines *del_node(t_cmd_lines *lines)
+// {
+//     t_cmd_lines *head;
 
-    if (lines->next)
-    {
-        head = lines->next;
-        freealloc2(lines->cmd_line);
-        free(lines->infos->fds);
-        free(lines);
-        return (head);
-    }
-    else 
-        {
-            freealloc2(lines->cmd_line);
-            free(lines->infos->fds);
-            free(lines);
-            return (NULL);
-        }
+//     if (lines->next)
+//     {
+//         head = lines->next;
+//         freealloc2(lines->cmd_line);
+//         free(lines->infos->fds);
+//         free(lines);
+//         return (head);
+//     }
+//     else 
+//         {
+//             freealloc2(lines->cmd_line);
+//             free(lines->infos->fds);
+//             free(lines);
+//             return (NULL);
+//         }
     
            
-}
-t_cmd_lines *    open_file(t_cmd_lines *lines, int type, int *flag)
+// }
+int    open_file(t_cmd_lines *lines, int type)
 {
     int i = 0;
     int fd;
@@ -103,12 +103,7 @@ t_cmd_lines *    open_file(t_cmd_lines *lines, int type, int *flag)
                         lines->infile = fd;
                     lines->infos->fds[lines->infos->index++] = fd;
                     if (lines->infile < 0)
-                    {
-                        open_err(lines->cmd_line[i + 1], 0);
-                        *flag = 1;
-                        return(del_node(lines));
-                        
-                    }
+                        return (open_err(lines->cmd_line[i + 1], 0), 0);
                 }
                 else if (type == r_redirect)
                 {
@@ -116,9 +111,7 @@ t_cmd_lines *    open_file(t_cmd_lines *lines, int type, int *flag)
                     lines->infos->fds[lines->infos->index++] = lines->outfile;
                     if (lines->outfile < 0)
                     {
-                        open_err(lines->cmd_line[i + 1], 1);
-                        *flag = 1;
-                        lines = del_node(lines);
+                        return (open_err(lines->cmd_line[i + 1], 1), 0);
                     }
                 }
                 else if (type == append)
@@ -126,16 +119,12 @@ t_cmd_lines *    open_file(t_cmd_lines *lines, int type, int *flag)
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_APPEND, 0644);
                     lines->infos->fds[lines->infos->index++] = lines->outfile;             
                     if (lines->outfile < 0)
-                    {
-                        open_err(lines->cmd_line[i + 1], 1);
-                        *flag = 1;
-                        lines = del_node(lines);
-                    }
+                       return (open_err(lines->cmd_line[i + 1], 1), 0);
                 }
             }
         i++;
     }
-    return (lines);
+    return (1);
 }
 int     get_new_lenght(char **vars)
 {
@@ -243,12 +232,64 @@ char    **delete_red(t_cmd_lines *lines)
     tmp[j] = NULL;
     return (tmp);
 }
+void    clean_lines(t_cmd_lines **lines)
+{
+    t_cmd_lines *tmp;
+    while (*lines)
+    {
+        tmp = *lines;
+        *lines = (*lines)->next;
+        freealloc2(tmp->cmd_line);
+        free(tmp);
+    }
+    
+}
 
+int     strs_len(char **str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+        i++;
+    return (i);
+}
+char    **ft_strdup2(char **strs)
+{
+    char **new;
+    int i = 0;
+    new = (char **)malloc((strs_len(strs) + 1) * sizeof(char *));
+    while(strs[i])
+    {
+        new[i] = ft_strdup(strs[i]);
+        i++;
+    }
+    new[i] = NULL; 
+    return (new);
+}
+t_cmd_lines *del_lines(t_cmd_lines *lines)
+{
+    t_cmd_lines *new = NULL;
+    t_cmd_lines *head;
+    head = lines;
+    while(lines)
+    {
+        if (!lines->cmd_line || lines->infile < 0 || lines->outfile < 0)
+            lines = lines->next;
+        else
+        {
+            ft_lstadd_back_exp(&new, ft_lstnew_exp(ft_strdup2(lines->cmd_line), lines->infile, lines->outfile, lines->infos));
+            lines = lines->next;
+        }
+    }
+    clean_lines(&head);
+    return (new);
+}
 int    delete_adds(t_cmd_lines *lines)
 {
     char **tmp;
     int type;
-    int flag;
+    // int flag;
 
     type = 0;
     t_cmd_lines *head;
@@ -260,45 +301,42 @@ int    delete_adds(t_cmd_lines *lines)
         //         tmp = minisplit(lines->cmd_line);
         //         lines->cmd_line = tmp;
         //     }
-        flag = 0;
+        // flag = 0;
         type = get_type(lines);
         if (type)
         {
-            lines = open_file(lines, type, &flag);
-            if (!lines)
-                return (0);
-            if (!flag)
-            {
+                open_file(lines, type);
                 tmp = delete_red(lines);
                 freealloc2(lines->cmd_line);
                 lines->cmd_line = tmp;
-            }
         }
-        if (!flag)
             lines = lines->next;
     }
+    
     lines = head;
-    int i = 0;
-    while (lines)
-    {
-        i = 0;
-        while (lines->cmd_line[i])
-        {
-            printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
-            i++;
-        }
-        printf("infile : [%d]\n", lines->infile);
-        printf("oufile : [%d]\n", lines->outfile);
-        printf("-------------------------------------------------------------------\n");
-        lines = lines->next;
-    }
-    lines = head;
-    i = 0;
-    while(i < lines->infos->n_red)
-    {
-        printf("[%d]\n",lines->infos->fds[i]);
-        i++;
-    }
+    lines = del_lines(lines);
+    if (!lines)
+        return (0);
+    // while (lines)
+    // {
+    //     i = 0;
+    //     while (lines->cmd_line[i])
+    //     {
+    //         printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
+    //         i++;
+    //     }
+    //     printf("infile : [%d]\n", lines->infile);
+    //     printf("oufile : [%d]\n", lines->outfile);
+    //     printf("-------------------------------------------------------------------\n");
+    //     lines = lines->next;
+    // }
+    // lines = head;
+    // i = 0;
+    // while(i < lines->infos->n_red)
+    // {
+    //     printf("[%d]\n",lines->infos->fds[i]);
+    //     i++;
+    // }
     return (1);
 }
 

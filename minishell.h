@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/11 15:15:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/12 23:37:50 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
-t_cmd_lines     *ft_lstnew_exp(char **content, int fd, t_infos *infos);
+t_cmd_lines	*ft_lstnew_exp(char **content, int in_fd, int out_fd, t_infos *infos);
 void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
 void    split_line(t_data   *cmd_line);
 t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst);
@@ -125,5 +125,6 @@ void    set_ids(t_data *lst_words);
 t_cmd_lines     *join_words(t_data *lst_words);
 void    open_err(char *file_name, int code);
 int    delete_adds(t_cmd_lines *lines);
+int     space_in(char *str);
 
 #endif

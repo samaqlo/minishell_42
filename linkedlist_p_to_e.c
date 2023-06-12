@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 18:36:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/12 23:37:30 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst)
 	return (plst);
 }
 
-t_cmd_lines	*ft_lstnew_exp(char **content, int fd, t_infos *infos)
+t_cmd_lines	*ft_lstnew_exp(char **content, int in_fd, int out_fd, t_infos *infos)
 {
 	t_cmd_lines	*new;
 
@@ -70,8 +70,8 @@ t_cmd_lines	*ft_lstnew_exp(char **content, int fd, t_infos *infos)
 	if (!new)
 		return (NULL);
 	new->cmd_line = content;
-	new->infile = fd;
-	new->outfile = STDOUT_FILENO; 
+	new->infile = in_fd;
+	new->outfile = out_fd; 
 	new->infos = infos;
 	new->next = NULL;
 	return (new);

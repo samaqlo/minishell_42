@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/11 15:22:14 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:03:13 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,21 @@ if (!av[1])
             // while(1);
             the_fucking_expand(lst_words);
             // amb(lst_words);
+            //   while(lst_words)
+            //     {
+            //       printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);
+            //      lst_words = lst_words->next;
+            //     }
+            //     exit(0);
             lines = join_words(lst_words);
             delete_adds(lines);
             // if(lines->cmd_line[1])
             //  printf("%c\n", lines->cmd_line[1][0]);
             // puts("ok");
-            builts_in(lines, &infos.env);
+            // builts_in(lines, &infos.env);
             // print_list(lst_words);
             free(str);
-            clean_list(&lst_words);
+            // clean_list(&lst_words);
         }
     }
 }

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/08 18:37:15 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/12 23:38:35 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,46 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
      }
      vars[i] = NULL;
 
-     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd, head->infos));
+     ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd, STDOUT_FILENO,head->infos));
+}
+int     check_amb(t_data *lst_words)
+{
+    while (lst_words && lst_words->type == space)
+        lst_words = lst_words->next;
+    if ((!ft_strcmp(lst_words->word, "") || space_in(lst_words->word)) && lst_words->type == word)
+        return (1);
+    return (0);
+}
+int     amb_in(t_data *lst_words)
+{
+    if (lst_words->type == pi_pe)
+        lst_words = lst_words->next;
+   while (lst_words && lst_words->type != pi_pe)
+        {
+            if (lst_words->type >= r_redirect && lst_words->type <= append && lst_words->type != here_doc)
+                return (check_amb(lst_words->next));
+            lst_words = lst_words->next;
+        }
+    return (0);
 }
 t_cmd_lines     *join_words(t_data *lst_words)
 {
     t_cmd_lines *p_to_e;
+    t_data *head;
 
+    head = lst_words;
     p_to_e = NULL;
 
+    
     while (lst_words)
     {
         if (lst_words->id == 0 || lst_words->type == pi_pe)
-            fill_vars(lst_words, &p_to_e);
+        {
+            if (amb_in(lst_words))
+               lst_words = lst_words->next;
+            else 
+                fill_vars(lst_words, &p_to_e);
+        }
         lst_words = lst_words->next;
     }
 
@@ -110,7 +138,6 @@ t_cmd_lines     *join_words(t_data *lst_words)
     //     printf("-----------------------------------------\n");
     //     p_to_e = p_to_e->next;
     // }
-    clean_list(&lst_words);
-    
+    clean_list(&head);
     return (p_to_e);
 }
