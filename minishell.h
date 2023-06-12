@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/11 16:42:27 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/12 18:21:08 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 # include "libft/libft.h"
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
+# include <errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # define GREEN "\033[32m"
 # define YELLOW "\033[33m"
 # define BOLD "\033[1m"
@@ -149,5 +151,6 @@ int						built_export(t_list_env *env, char **av, int fd);
 // END built fonctions '_'
 char					*path_split(t_cmd_lines *env);
 void					ft_execution(t_cmd_lines *lines, int fd[2]);
+void                    rl_replace_line(const char *text, int clear_undo);
 
 #endif

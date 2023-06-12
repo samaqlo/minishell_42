@@ -6,30 +6,26 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/11 17:24:32 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/12 18:34:55 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-void    print_list(t_data *lst_words)
+void   sig_handl(int sig)
 {
-    int i;
-     while(lst_words)
+    if(sig == SIGINT && waitpid(-1, NULL, WNOHANG))
     {
-        i = 0;
-        printf("word : [%s] || type : [%d]\n", lst_words->word, lst_words->type);
-        lst_words= lst_words->next;
+        ft_putstr_fd("\n", 1);
+        rl_replace_line("", 0);
+        rl_on_new_line();
+        rl_redisplay();
     }
+    else if(sig == SIGQUIT)
+        return ;
 }
 
-// void    init_help(t_help *help, t_data *lst_words)
-// {
-//     help->n_red = count_red(lst_words);
-//     help->fds = calloc(help->n_red , sizeof(int));
-//     help->index = 0;
-// }
 int     is_redrect(char *str)
 {
     if (!ft_strcmp(str, ">") || !ft_strcmp(str, "<") || !ft_strcmp(str, ">>"))
@@ -57,9 +53,18 @@ int     main(int ac, char **av, char **env)
     {
         while(1)
         {
+            signal(SIGINT, &sig_handl);
+            signal(SIGQUIT, &sig_handl);
+            rl_catch_signals = 0;
             str = readline(BOLD GREEN"tby_shell$ "RESET);
-            if (!*str)
+            if(str && !*str)
                 free(str);
+            else if (!str)
+            {
+                ft_putstr_fd("exit\n", 1);
+                free(str);
+                exit(0);
+            }
             else
             {
                 add_history(str);
@@ -69,23 +74,24 @@ int     main(int ac, char **av, char **env)
                     continue ;
                 here_doc_func(lst_words);
                 the_fucking_expand(lst_words);
-                // amb(lst_words);
                 lines = join_words(lst_words);
                 delete_adds(lines);
-                // if (builts_in(lines, &infos.env) != 1)
-                    // ft_execution(lines, fd);
+                fd[0] = -1;
+                fd[1] = -1;
                 while(lines)
                 {
-                    ft_execution(lines, fd);
+                    // ft_execution(lines, fd);
+                    if (builts_in(lines, &infos.env) != 1)
+                        ft_execution(lines, fd);
                     lines = lines->next;
                 }
-                while (wait(0)!= -1)
-                    close(fd[0]);
-                // print_list(lst_words);
+                while (wait(0)!= -1 || errno != ECHILD)
+                    ;
+                close(fd[0]);
                 free(str);
                 clean_list(&lst_words);
+            }
         }
     }
-}
     exit(100);
 }
