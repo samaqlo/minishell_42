@@ -6,7 +6,7 @@
 #    By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/12 18:01:38 by ohaimad          ###   ########.fr        #
+#    Updated: 2023/06/13 18:54:30 by ohaimad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,16 +30,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) -L $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 
-# LDFLAGS="-L/Users/ohaimad/.brew/opt/readline/lib -l readline" 
-# CPPFLAGS="-I/Users/ohaimad/.brew/opt/readline/include"
 .PHONY: all clean fclean re 
-
-# $(NAME): $(OBJS)
-# 	$(CC) $(FLAGS) $(LDFLAGS) $(OBJS) -o $(NAME)
-	
-
-# %.o: %.c minishell.h
-# 	$(CC) $(FLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)

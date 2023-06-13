@@ -6,17 +6,47 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 18:31:06 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 23:26:02 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	**convert_env(t_list_env *env, char **envp)
+{
+	int	i;
+
+	i = 0;
+	t_list_env	*tmp;
+	
+	tmp = env;
+	while(tmp)
+	{
+		if (tmp->c)
+			i++;
+		tmp = tmp->next;
+	}
+	envp = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (env)
+	{
+		if (env->c)
+		{
+			envp[i] = ft_strjoin(env->variable, "=");
+			if (env->content)
+				envp[i] = ft_strjoin(envp[i], env->content);
+			i++;
+		}
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
+}
+
 char	*join_args(t_cmd_lines *cmd)
 {
 	char	*arg;
 
-	// printf("cmd----- : %s\n", cmd->cmd_line[0]);
 	arg = ft_strjoin("/", cmd->cmd_line[0]);
 	return (arg);
 }
@@ -30,6 +60,8 @@ char	*path_split(t_cmd_lines *cmd)
 	int		i;
 
 	i = 0;
+	if(access(cmd->cmd_line[0], F_OK) == 0)
+		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)
 	{
@@ -65,16 +97,16 @@ char	*path_split(t_cmd_lines *cmd)
 	free(split);
 	return (res);
 }
-// if (lines->cmd_line[0][0] == '$')
-// 	lines->cmd_line[0] = print_env(&lines->infos->env, lines->cmd_line[0] + 1);
+
 void	ft_execution(t_cmd_lines *lines, int fd[2])
 {
 	char	*path;
 	pid_t	pid;
 	int		status;
 	int		old;
+	char **envp;
 
-	// char *const args[] = {"ls", ".", NULL};
+	envp = convert_env(lines->infos->env, envp);
 	path = path_split(lines);
 	if (!path)
 		return ;
@@ -104,7 +136,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		if (builts_in(lines, &lines->infos->env))
 			exit(0);
 		else
-			execve(path, lines->cmd_line, NULL);
+			execve(path, lines->cmd_line, envp);
 		// if (execve(path, lines->cmd_line, NULL) == -1)
 		// 	perror("minishell");
 	}

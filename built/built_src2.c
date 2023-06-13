@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:05:40 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 18:25:53 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 22:26:38 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_env(t_list_env *env, char *var)
 	i = 0;
 	while (env)
 	{
-		if (!ft_strcmp(env->variable, var) && env->c == 1)
+		if (!ft_strcmp(env->variable, var) && env->c)
 			return (i);
 		i++;
 		env = env->next;
