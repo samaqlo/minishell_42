@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 23:26:02 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 23:49:10 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,6 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	int		old;
 	char **envp;
 
-	envp = convert_env(lines->infos->env, envp);
-	path = path_split(lines);
-	if (!path)
-		return ;
 	old = fd[0];
 	if (pipe(fd) < 0)
 	{
@@ -133,10 +129,13 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(fd[1], 1);
 		close(fd[1]);
 		close(fd[0]);
-		if (builts_in(lines, &lines->infos->env))
-			exit(0);
-		else
-			execve(path, lines->cmd_line, envp);
+	if (builts_in(lines, &lines->infos->env))
+		exit(0);
+	envp = convert_env(lines->infos->env, envp);
+	path = path_split(lines);
+	if (!path)
+		return ;
+	execve(path, lines->cmd_line, envp);
 		// if (execve(path, lines->cmd_line, NULL) == -1)
 		// 	perror("minishell");
 	}
