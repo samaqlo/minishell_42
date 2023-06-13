@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 16:15:30 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 18:31:06 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(fd[1], 1);
 		close(fd[1]);
 		close(fd[0]);
-		execve(path, lines->cmd_line, NULL);
+		if (builts_in(lines, &lines->infos->env))
+			exit(0);
+		else
+			execve(path, lines->cmd_line, NULL);
 		// if (execve(path, lines->cmd_line, NULL) == -1)
 		// 	perror("minishell");
 	}

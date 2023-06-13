@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/12 22:44:07 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 18:25:36 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	built_env(t_list_env *enev, int fd)
 {
 	while (enev)
 	{
-		if (enev->c && enev->content)
+		if (enev->c == 1 && enev->content)
 		{
 			ft_putstr_fd(enev->variable, fd);
 			ft_putstr_fd("=", fd);
