@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/12 14:08:23 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 16:15:30 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ char	*path_split(t_cmd_lines *cmd)
 
 	i = 0;
 	path = print_env(&cmd->infos->env, "PATH");
+	if (!path)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd_line[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return (NULL);
+	}
 	split = ft_split(path, ':');
 	str = join_args(cmd);
 	while (split[i])

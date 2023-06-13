@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/12 18:34:55 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 16:26:49 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,11 @@ int     main(int ac, char **av, char **env)
                 fd[1] = -1;
                 while(lines)
                 {
-                    // ft_execution(lines, fd);
                     if (builts_in(lines, &infos.env) != 1)
                         ft_execution(lines, fd);
                     lines = lines->next;
                 }
-                while (wait(0)!= -1 || errno != ECHILD)
+                while (wait(0)!= -1)
                     ;
                 close(fd[0]);
                 free(str);

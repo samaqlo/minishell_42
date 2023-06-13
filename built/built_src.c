@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/12 22:30:29 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/13 16:31:22 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,18 @@ int	check_equal(char *env)
 	}
 	return (0);
 }
-
+void	shell_env(t_list_env **enev)
+{
+	char *shlvl = print_env(enev, "SHLVL");
+	if (!shlvl)
+	{
+		shlvl = ft_strdup("1");
+		ft_lstadd_back_env(enev, ft_lstnew_env(shlvl, "SHLVL", 1));
+		return ;
+	}
+	int shlvl_i = ft_atoi(shlvl) + 1;
+	change_env(enev, "SHLVL", ft_itoa(shlvl_i));
+}
 void	grep_env(char **env, t_list_env **enev)
 {
 	int		i;
@@ -37,6 +48,16 @@ void	grep_env(char **env, t_list_env **enev)
 	char	*variable;
 
 	i = 0;
+	if (!env[0])
+	{
+		content = getcwd(NULL, 0);
+		ft_lstadd_back_env(enev, ft_lstnew_env(content, "PWD", 1));
+		ft_lstadd_back_env(enev, ft_lstnew_env("/usr/bin/env", "_", 1));
+		shell_env(enev);
+		ft_lstadd_back_env(enev, ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", "PATH", 3));
+		free(content);
+		return;
+	}
 	while (env[i])
 	{
 		len_eq = check_equal(env[i]);
@@ -48,7 +69,8 @@ void	grep_env(char **env, t_list_env **enev)
 		free(variable);
 		free(content);
 	}
-	ft_lstadd_back_env(enev, ft_lstnew_env("0", "?", 1));
+	shell_env(enev);
+	// ft_lstadd_back_env(enev, ft_lstnew_env("0", "?", 1));
 }
 
 int	check_n(char *av)
