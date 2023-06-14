@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/12 23:37:50 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/14 02:06:57 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+# include <stdio.h>
+# include <errno.h>
 #include "libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # define GREEN "\033[32m"
 # define YELLOW "\033[33m"
 # define BOLD "\033[1m"
@@ -124,7 +126,30 @@ void	freealloc2(char **ptr);
 void    set_ids(t_data *lst_words);
 t_cmd_lines     *join_words(t_data *lst_words);
 void    open_err(char *file_name, int code);
-int    delete_adds(t_cmd_lines *lines);
+int    delete_adds(t_cmd_lines **lines);
 int     space_in(char *str);
+//  START built fonctions '_'
+t_list_env  *ft_lstlast_env(t_list_env *lst);
+void       ft_lstadd_back_env(t_list_env **lst, t_list_env *new);
+t_list_env  *ft_lstnew_env(char *content, char *variable, int flag);
+void         grep_env(char **env, t_list_env **enev);
+int   check_equal(char *env);
+int   check_n(char *av);
+char   *getpath(char **env);
+char   *print_env(t_list_env **env, char *var);
+void   change_env(t_list_env **env, char *var, char *cont);
+int   check_env(t_list_env *env, char *var);
+int   pars_export(char *av);
+int   built_echo(char **av, int fd);
+int   built_env(t_list_env *enev, int fd);
+int   built_unset(t_list_env *enev, char **av);
+int   built_pwd(t_list_env **env, int fd);
+int   builts_in(t_cmd_lines *cmd, t_list_env **enev);
+int   built_cd(t_list_env *env, char **args);
+int   built_export(t_list_env *env, char **av, int fd);
+// END built fonctions '_'
+char    *path_split(t_cmd_lines *env);
+void    ft_execution(t_cmd_lines *lines, int fd[2]);
+void      rl_replace_line(const char *text, int clear_undo);
 
 #endif

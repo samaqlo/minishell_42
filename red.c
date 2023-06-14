@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/13 00:53:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/14 02:06:37 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ t_cmd_lines *del_lines(t_cmd_lines *lines)
     clean_lines(&head);
     return (new);
 }
-int    delete_adds(t_cmd_lines *lines)
+int    delete_adds(t_cmd_lines **lines)
 {
     char **tmp;
     int type;
@@ -294,44 +294,44 @@ int    delete_adds(t_cmd_lines *lines)
 
     type = 0;
     t_cmd_lines *head;
-    head = lines;
-    while(lines)
+    head = *lines;
+    while(*lines)
     {
-        // if (space_in2(lines->cmd_line[0]))
+        // if (space_in2(*lines->cmd_line[0]))
         //     {
-        //         tmp = minisplit(lines->cmd_line);
-        //         lines->cmd_line = tmp;
+        //         tmp = minisplit(*lines->cmd_line);
+        //         *lines->cmd_line = tmp;
         //     }
         // flag = 0;
-        type = get_type(lines);
+        type = get_type(*lines);
         if (type)
         {
-                open_file(lines, type);
-                if (lines->infile >= 0 && lines->outfile >= 0)
+                open_file(*lines, type);
+                if ((*lines)->infile >= 0 && (*lines)->outfile >= 0)
                 {
-                    tmp = delete_red(lines);
-                    freealloc2(lines->cmd_line);
-                    lines->cmd_line = tmp;
+                    tmp = delete_red(*lines);
+                    freealloc2((*lines)->cmd_line);
+                    (*lines)->cmd_line = tmp;
                 }
         }
-            lines = lines->next;
+            *lines = (*lines)->next;
     }
     int i = 0;
-    lines = head;
-    lines = del_lines(lines);
-    while (lines)
-    {
-        i = 0;
-        while (lines->cmd_line[i])
-        {
-            printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
-            i++;
-        }
-        printf("infile : [%d]\n", lines->infile);
-        printf("oufile : [%d]\n", lines->outfile);
-        printf("-------------------------------------------------------------------\n");
-        lines = lines->next;
-    }
+    *lines = head;
+    *lines = del_lines(*lines);
+    // while (*lines)
+    // {
+    //     i = 0;
+    //     while (*lines->cmd_line[i])
+    //     {
+    //         printf("word %d : [%s]\n", i + 1,lines->cmd_line[i]);
+    //         i++;
+    //     }
+    //     printf("infile : [%d]\n", lines->infile);
+    //     printf("oufile : [%d]\n", lines->outfile);
+    //     printf("-------------------------------------------------------------------\n");
+    //     lines = lines->next;
+    // }
     // lines = head;
     // i = 0;
     // while(i < lines->infos->n_red)
