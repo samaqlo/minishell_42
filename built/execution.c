@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 23:49:10 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/14 18:57:15 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 char	**convert_env(t_list_env *env, char **envp)
 {
-	int	i;
+	int			i;
+	t_list_env	*tmp;
 
 	i = 0;
-	t_list_env	*tmp;
-	
 	tmp = env;
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->c)
 			i++;
@@ -60,7 +59,7 @@ char	*path_split(t_cmd_lines *cmd)
 	int		i;
 
 	i = 0;
-	if(access(cmd->cmd_line[0], F_OK) == 0)
+	if (access(cmd->cmd_line[0], F_OK) == 0)
 		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)
@@ -83,8 +82,9 @@ char	*path_split(t_cmd_lines *cmd)
 	if (access(res, F_OK))
 	{
 		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("no such file or directory: ", 2);
 		ft_putstr_fd(cmd->cmd_line[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd("\n", 2);
 		res = NULL;
 	}
 	free(str);
@@ -104,7 +104,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	pid_t	pid;
 	int		status;
 	int		old;
-	char **envp;
+	char	**envp;
 
 	old = fd[0];
 	if (pipe(fd) < 0)
@@ -129,19 +129,16 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(fd[1], 1);
 		close(fd[1]);
 		close(fd[0]);
-	if (builts_in(lines, &lines->infos->env))
-		exit(0);
-	envp = convert_env(lines->infos->env, envp);
-	path = path_split(lines);
-	if (!path)
-		return ;
-	execve(path, lines->cmd_line, envp);
-		// if (execve(path, lines->cmd_line, NULL) == -1)
-		// 	perror("minishell");
+		if (builts_in(lines, &lines->infos->env))
+			exit(0);
+		envp = convert_env(lines->infos->env, envp);
+		path = path_split(lines);
+		if (execve(path, lines->cmd_line, envp) < 0)
+			exit(0);
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &status, WNOHANG);
 		close(old);
 		close(fd[1]);
 	}
