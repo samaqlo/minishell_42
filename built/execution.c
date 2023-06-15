@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/14 18:57:15 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/15 22:21:27 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ char	*path_split(t_cmd_lines *cmd)
 	int		i;
 
 	i = 0;
-	if (access(cmd->cmd_line[0], F_OK) == 0)
+	if (access(cmd->cmd_line[0], F_OK) == 0 || ft_strrchr(cmd->cmd_line[0], '/'))
 		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("no such file or directory: ", 2);
 		ft_putstr_fd(cmd->cmd_line[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd("\n", 2);
 		return (NULL);
 	}
 	split = ft_split(path, ':');
@@ -82,9 +83,8 @@ char	*path_split(t_cmd_lines *cmd)
 	if (access(res, F_OK))
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd("no such file or directory: ", 2);
 		ft_putstr_fd(cmd->cmd_line[0], 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 		res = NULL;
 	}
 	free(str);
@@ -120,6 +120,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	}
 	else if (pid == 0)
 	{
+		
 		if (old != -1)
 		{
 			dup2(old, 0);
@@ -127,6 +128,10 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		}
 		if (lines->next)
 			dup2(fd[1], 1);
+		if(lines->outfile > 2)
+			dup2(lines->outfile, 1);
+		else if(lines->infile > 2)
+			dup2(lines->infile, 0);
 		close(fd[1]);
 		close(fd[0]);
 		if (builts_in(lines, &lines->infos->env))
@@ -134,7 +139,10 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		envp = convert_env(lines->infos->env, envp);
 		path = path_split(lines);
 		if (execve(path, lines->cmd_line, envp) < 0)
+		{
+			perror("minishell");
 			exit(0);
+		}
 	}
 	else
 	{
