@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 00:23:00 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 00:29:56 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		path = path_split(lines);
 		if (execve(path, lines->cmd_line, envp) < 0)
 		{
+			//anjme3 hadchi f function
 			dir = opendir(path);
 			if(dir)
 			{
