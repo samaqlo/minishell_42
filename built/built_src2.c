@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:05:40 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 22:26:38 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 14:42:15 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	change_env(t_list_env **env, char *var, char *cont)
 			else
 				tmp->content = ft_strdup(cont);
 		}
+		tmp->c = 1;
 		tmp = tmp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/13 22:46:28 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 14:34:52 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,33 @@ int	built_echo(char **av, int fd)
 
 	i = 1;
 	test = 1;
+	// echo "" test --> env 
+	if(!av[1][0] && !av[2])
+	{
+		ft_putstr_fd("\n", fd);
+		return(1);
+	}
 	while (av[i])
 	{
 		if (av[i][0])
 		{
-			if (!check_n(av[i]))
+			if (check_n(av[i]))
 			{
+				ft_putstr_fd(av[i], fd);
 				test = 0;
-				i++;
+				if (av[i + 1])
+					ft_putstr_fd(" ", fd);
 			}
-			ft_putstr_fd(av[i], fd);
-			if (av[i + 1])
-				ft_putstr_fd(" ", fd);
+			if (!test && !check_n(av[i]))
+			{
+				ft_putstr_fd(av[i], fd);
+				if (av[i + 1])
+					ft_putstr_fd(" ", fd);
+			}
 		}
 		i++;
 	}
-	if (test == 1)
+	if (av[1] && check_n(av[1]))
 		ft_putstr_fd("\n", fd);
 	return (1);
 }

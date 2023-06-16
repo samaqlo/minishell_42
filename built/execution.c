@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/15 22:21:27 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 13:38:32 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**convert_env(t_list_env *env, char **envp)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->c)
+		if (tmp->c == 1)
 			i++;
 		tmp = tmp->next;
 	}
@@ -29,7 +29,7 @@ char	**convert_env(t_list_env *env, char **envp)
 	i = 0;
 	while (env)
 	{
-		if (env->c)
+		if (env->c == 1)
 		{
 			envp[i] = ft_strjoin(env->variable, "=");
 			if (env->content)
