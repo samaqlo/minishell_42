@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 14:34:52 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 17:38:21 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,29 @@ int	built_env(t_list_env *enev, int fd)
 	}
 	return (1);
 }
+int	parse_unset(char *unset)
+{
+	int i = 0;
+	if(unset[0] != '_' && !ft_isalpha(unset[0]))
+	{
+		ft_putstr_fd("minishell: unset: `", 2);
+		ft_putstr_fd(unset, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (0);
+	}
+	while(unset[i])
+	{
+		if (unset[i] != '_' && !ft_isalpha(unset[i]) && !isdigit(unset[i]))
+		{
+			ft_putstr_fd("minishell: unset: `", 2);
+			ft_putstr_fd(unset, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 int	built_unset(t_list_env *enev, char **av)
 {
@@ -76,6 +99,7 @@ int	built_unset(t_list_env *enev, char **av)
 	head = enev;
 	while (av[i])
 	{
+		parse_unset(av[i]);
 		while (enev)
 		{
 			if (!ft_strcmp(av[i], enev->variable))
