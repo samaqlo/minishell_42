@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 17:38:21 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 23:40:19 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	built_env(t_list_env *enev, int fd)
 	}
 	return (1);
 }
+
 int	parse_unset(char *unset)
 {
 	int i = 0;
@@ -143,14 +144,11 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 		else if (!ft_strcmp(cmd->cmd_line[0], "pwd")
 				|| !ft_strcmp(cmd->cmd_line[0], "PWD"))
 			return(built_pwd(enev, cmd->outfile));
-		else if (!ft_strcmp(cmd->cmd_line[0], "unset")
-				|| !ft_strcmp(cmd->cmd_line[0], "UNSET"))
+		else if (!ft_strcmp(cmd->cmd_line[0], "unset"))
 			return(built_unset(*enev, cmd->cmd_line));
-		else if (!ft_strcmp(cmd->cmd_line[0], "cd")
-				|| !ft_strcmp(cmd->cmd_line[0], "CD"))
+		else if (!ft_strcmp(cmd->cmd_line[0], "cd"))
 			return(built_cd(*enev, cmd->cmd_line));
-		else if (!ft_strcmp(cmd->cmd_line[0], "export")
-				|| !ft_strcmp(cmd->cmd_line[0], "EXPORT"))
+		else if (!ft_strcmp(cmd->cmd_line[0], "export"))
 			return(built_export(*enev, cmd->cmd_line, cmd->outfile));
 		// while (cmd->cmd_line[i])
 		// {

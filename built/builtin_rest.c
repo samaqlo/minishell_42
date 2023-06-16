@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/16 16:43:09 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 22:30:33 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	built_export(t_list_env *env, char **av, int fd)
 {
 	char	*var;
 	char	*cont;
-	char	*plus;
 	int		i;
 
 	i = 1;
@@ -31,9 +30,8 @@ int	built_export(t_list_env *env, char **av, int fd)
 				ft_putstr_fd("=\"", fd);
 				ft_putstr_fd(env->content, fd);
 				ft_putstr_fd("\"\n", fd);
-				// ft_putstr_fd("declare -x %s=\"%s\"\n", env->variable, env->content);
 			}
-			else if (env->c == 1  && !env->content)
+			else if (env->c == 1 && !env->content)
 			{
 				ft_putstr_fd("declare -x ", fd);
 				ft_putstr_fd(env->variable, fd);
@@ -44,13 +42,6 @@ int	built_export(t_list_env *env, char **av, int fd)
 	}
 	while (av[i])
 	{
-		// plus = ft_strrchr_env(av[i], '+');
-		// if (plus)
-		// {
-		// 	var = ft_substr(av[i], 0, check_equal(av[i]) - 1);
-		// 	printf("var = %s\n", var);
-		// }
-		// else
 		var = ft_substr(av[i], 0, check_equal(av[i]));
 		cont = ft_substr(av[i], check_equal(av[i]) + 1, (ft_strlen(av[i])
 					- check_equal(av[i])));
@@ -59,16 +50,16 @@ int	built_export(t_list_env *env, char **av, int fd)
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(av[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			// ft_putstr_fd("minishell: export: `%s': not a valid identifier\n", av[i]);
 		}
 		else if (av[i] && check_equal(av[i]))
 		{
-			if(av[i][check_equal(av[i]) - 1] == '+')
+			if (av[i][check_equal(av[i]) - 1] == '+')
 			{
 				if (check_env(env, var))
 				{
 					if (print_env(&env, var))
-						change_env(&env, var, ft_strjoin(print_env(&env, var), cont));
+						change_env(&env, var, ft_strjoin(print_env(&env, var),
+									cont));
 					else
 						change_env(&env, var, ft_strjoin("", cont));
 				}
@@ -83,18 +74,6 @@ int	built_export(t_list_env *env, char **av, int fd)
 					ft_lstadd_back_env(&env, ft_lstnew_env(cont, var, 1));
 			}
 		}
-		// else if (av[i] && plus)
-		// {
-		// 	if (check_env(env, var))
-		// 	{
-		// 		if (print_env(&env, var))
-		// 			change_env(&env, var, ft_strjoin(print_env(&env, var), cont));
-		// 		else
-		// 			change_env(&env, var, ft_strjoin("", cont));
-		// 	}
-		// 	else
-		// 		ft_lstadd_back_env(&env, ft_lstnew_env(cont, var, 1));
-		// }
 		else if (av[i] && !check_equal(av[i]))
 		{
 			if (!check_env(env, av[i]))

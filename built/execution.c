@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/16 13:38:32 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 23:17:30 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	pid_t	pid;
 	int		status;
 	int		old;
-	char	**envp;
+	char	**envp = NULL;
 
 	old = fd[0];
 	if (pipe(fd) < 0)
@@ -130,10 +130,14 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(fd[1], 1);
 		if(lines->outfile > 2)
 			dup2(lines->outfile, 1);
-		else if(lines->infile > 2)
+		if(lines->infile > 2)
 			dup2(lines->infile, 0);
 		close(fd[1]);
 		close(fd[0]);
+		if (lines->infile > 2)
+			close(lines->infile);
+		if (lines->outfile > 2)
+			close(lines->outfile);
 		if (builts_in(lines, &lines->infos->env))
 			exit(0);
 		envp = convert_env(lines->infos->env, envp);

@@ -6,7 +6,7 @@
 #    By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/13 18:54:30 by ohaimad          ###   ########.fr        #
+#    Updated: 2023/06/16 23:45:09 by ohaimad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,12 @@ FLAGS	= -Wall -Werror -Wextra
 NAME	= minishell
 
 %.o: %.c minishell.h     
-	$(CC) $(CFLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
+	$(CC) $(FLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -L $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) -L $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 
 .PHONY: all clean fclean re 
 

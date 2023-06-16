@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/11 14:27:04 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 23:28:11 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int     is_red(char *str)
     {
         if (ft_strchr("<>", str[i]))
             return (1);
+        // printf("is_red[%s]\n", str);
         i++;
     }
     return (0);
