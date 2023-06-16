@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/12 18:21:08 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 00:21:19 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <errno.h>
+# include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # define GREEN "\033[32m"

@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/16 23:17:30 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 00:23:00 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	int		status;
 	int		old;
 	char	**envp = NULL;
+	DIR *dir;
 
 	old = fd[0];
 	if (pipe(fd) < 0)
@@ -144,7 +145,20 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		path = path_split(lines);
 		if (execve(path, lines->cmd_line, envp) < 0)
 		{
-			perror("minishell");
+			dir = opendir(path);
+			if(dir)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(lines->cmd_line[0], 2);
+				ft_putstr_fd(": is a directory\n", 2);
+				closedir(dir);
+			}
+			else if (errno == EACCES)
+				perror("minishell");
+			else if (errno == ENOENT)
+				perror("minishell");
+			
+			// perror("minishell");
 			exit(0);
 		}
 	}

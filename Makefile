@@ -6,7 +6,7 @@
 #    By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/16 23:45:09 by ohaimad          ###   ########.fr        #
+#    Updated: 2023/06/16 23:56:37 by ohaimad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS	= $(SRCS:.c=.o)
 CC 		= cc -g
 RM		= rm -rf
 AR		= ar rc
-FLAGS	= -Wall -Werror -Wextra
+FLAGS	= -Wall -Werror -Wextra -fsanitize=address 
 NAME	= minishell
 
 %.o: %.c minishell.h     
