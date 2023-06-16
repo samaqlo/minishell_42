@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 21:47:34 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/16 02:09:04 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,19 @@ int     count_hrdc(t_data *lst_words)
     }
     return (count);
 }
-
+void    c_handl(int sig)
+{
+   close(0);
+}
 void    fill_here_doc(int fd, t_data *del)
 {
     char *input;
     char *expand;
-
+    int  fd2;
+    
     while (1)
     {
+        // signal(SIGINT, &c_handl);
         input = readline(">");
         if (!input || !ft_strcmp(input, del->word))
             break;
@@ -66,11 +71,16 @@ void    fill_here_doc(int fd, t_data *del)
         ft_putchar_fd('\n', fd);
         free(input);
     }
+    if(ttyname(0) == NULL)
+    {
+        fd2 = open(ttyname(2), O_RDWR);
+        dup2(0, fd2);
+    }
     free(input);
 }
 t_data  *join_del(t_data *lst_words)
 {
-    char *str = ft_strdup("");
+    char *str;
     t_data *tmp;
     t_infos *infos;
     char *temp = ft_strdup("");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_src.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/13 23:06:44 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/16 01:59:04 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void	shell_env(t_list_env **enev)
 		return ;
 	}
 	shlvl_i = ft_atoi(shlvl) + 1;
-	change_env(enev, "SHLVL", ft_itoa(shlvl_i));
+	shlvl = ft_itoa(shlvl_i);
+	change_env(enev, "SHLVL", shlvl);
+	free(shlvl);
 }
 
 void	grep_env(char **env, t_list_env **enev)
@@ -76,8 +78,8 @@ void	grep_env(char **env, t_list_env **enev)
 		free(variable);
 		free(content);
 	}
+	ft_lstadd_back_env(enev, ft_lstnew_env("0", "?", 1));
 	shell_env(enev);
-	// ft_lstadd_back_env(enev, ft_lstnew_env("0", "?", 1));
 }
 
 int	check_n(char *av)

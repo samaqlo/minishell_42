@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/14 02:04:18 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/16 02:30:29 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,21 @@ int     count_w(t_data *lst_words)
 char    *join(t_data *lst_words, int *id)
 {
     char *str;
+    char *temp;
 
-    str = ft_strdup("");
+    temp = ft_strdup("");
     while(lst_words && lst_words->type  <= dq_word)
     {
-        str = ft_strjoin(str, lst_words->word);
+        str = ft_strjoin(temp, lst_words->word);
+        free(temp);
+        temp = str;
         lst_words = lst_words->next;
     }
     if (lst_words)
         *id = lst_words->id;
     else
         *id = -1;
-    return str;
+    return (str);
 }
 void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 {
@@ -91,6 +94,8 @@ int     check_amb(t_data *lst_words)
 {
     while (lst_words && lst_words->type == space)
         lst_words = lst_words->next;
+    if (lst_words->next && lst_words->next->type != space)
+        return (0);
     if ((!ft_strcmp(lst_words->word, "") || space_in(lst_words->word)) && lst_words->type == word)
         return (1);
     return (0);
