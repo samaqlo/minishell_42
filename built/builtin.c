@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 12:22:54 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 18:44:54 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,54 @@ int	built_pwd(t_list_env **env, int fd)
 		ft_putstr_fd(print_env(env, "PWD"), fd);
 	return (1);
 }
+int	built_exit(t_cmd_lines *cmd)
+{
+	int i = 0;
+	long res;
+
+	if (cmd->cmd_line[0] && !cmd->cmd_line[1])
+	{
+		ft_putstr_fd("exit\n", 2);
+		exit(0);
+	}
+	if(cmd->cmd_line[1])
+	{
+		if(cmd->cmd_line[1][0] == '-' || cmd->cmd_line[1][0] == '+')
+			i++;
+		while(cmd->cmd_line[1][i])
+		{
+			if(!ft_isdigit(cmd->cmd_line[1][i]))
+			{
+				ft_putstr_fd("exit\n", 2);
+				ft_putstr_fd("minishell: exit: ", 2);
+				ft_putstr_fd(cmd->cmd_line[1], 2);
+				ft_putstr_fd(": numeric argument required\n", 2);
+				exit(255);
+			}
+			i++;
+		}
+	}
+	if (cmd->cmd_line[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
+	res = ft_atoi_overflow(cmd->cmd_line[1]);
+	if(g_global->echo_status == 1)
+	{
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(cmd->cmd_line[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		exit(255);
+	}
+	if(g_global->echo_status == 0)
+	{
+			ft_putstr_fd("exit\n", 2);
+			exit(res);
+	}
+	return(1);
+}
 
 int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 {
@@ -150,8 +198,8 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 			return(built_cd(*enev, cmd->cmd_line));
 		else if (!ft_strcmp(cmd->cmd_line[0], "export"))
 			return(built_export(*enev, cmd->cmd_line, cmd->outfile));
-		// else if (!ft_strcmp(cmd->cmd_line[0], "exit"))
-		// 	return(built_exit(*enev, cmd->cmd_line, cmd->outfile));
+		else if (!ft_strcmp(cmd->cmd_line[0], "exit"))
+			return(built_exit(cmd));
 		// while (cmd->cmd_line[i])
 		// {
 		// 	free(cmd->cmd_line[i]);

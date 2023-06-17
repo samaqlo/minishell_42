@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 12:28:01 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 17:56:20 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	main(int ac, char **av, char **env)
 				}
 				while (wait(0) != -1)
 					;
-				printf("%d\n", g_global->exit_status);
+				// printf("%d\n", g_global->exit_status);
 				close(fd[0]);
 				free(str);
 				clean_list(&lst_words);

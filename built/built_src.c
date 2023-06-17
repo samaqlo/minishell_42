@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 12:52:12 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 17:58:47 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	shell_env(t_list_env **enev)
 	int		shlvl_i;
 
 	shlvl = print_env(enev, "SHLVL");
+	//i case u delet SHLVL it should start with 1
 	if (!shlvl)
 	{
 		shlvl = ft_strdup("1");
@@ -62,7 +63,7 @@ void	grep_env(char **env, t_list_env **enev)
 		ft_lstadd_back_env(enev,
 				ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.",
 					"PATH", 3));
-		free(content);
+		free (content);
 		return ;
 	}
 	while (env[i])
@@ -82,7 +83,7 @@ void	grep_env(char **env, t_list_env **enev)
 
 int	check_n(char *av)
 {
-	int	i;
+	long	i;
 
 	i = 1;
 	if (av[0] && av[0] != '-')

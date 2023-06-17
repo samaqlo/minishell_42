@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 13:06:27 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 18:32:57 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define MINISHEL_H
 
 # include "libft/libft.h"
+# include <dirent.h>
+# include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
-# include <errno.h>
-# include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # define GREEN "\033[32m"
@@ -31,9 +31,11 @@ extern char				**environ;
 
 typedef struct s_global
 {
-	int exit_status;
+	int					exit_status;
+	int					echo_status;
 }						t_global;
-extern t_global *g_global;
+
+extern t_global			*g_global;
 
 enum					words_types
 {
@@ -158,6 +160,7 @@ int						built_export(t_list_env *env, char **av, int fd);
 // END built fonctions '_'
 char					*path_split(t_cmd_lines *env);
 void					ft_execution(t_cmd_lines *lines, int fd[2]);
-void                    rl_replace_line(const char *text, int clear_undo);
+void					rl_replace_line(const char *text, int clear_undo);
+long					ft_atoi_overflow(char *str);
 
 #endif
