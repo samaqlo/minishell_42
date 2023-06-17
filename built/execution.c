@@ -6,11 +6,12 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/15 22:21:27 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 12:29:52 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 char	**convert_env(t_list_env *env, char **envp)
 {
@@ -21,7 +22,7 @@ char	**convert_env(t_list_env *env, char **envp)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->c)
+		if (tmp->c == 1)
 			i++;
 		tmp = tmp->next;
 	}
@@ -29,7 +30,7 @@ char	**convert_env(t_list_env *env, char **envp)
 	i = 0;
 	while (env)
 	{
-		if (env->c)
+		if (env->c == 1)
 		{
 			envp[i] = ft_strjoin(env->variable, "=");
 			if (env->content)
@@ -102,9 +103,9 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 {
 	char	*path;
 	pid_t	pid;
-	int		status;
 	int		old;
-	char	**envp;
+	char	**envp = NULL;
+	DIR *dir;
 
 	old = fd[0];
 	if (pipe(fd) < 0)
@@ -130,23 +131,47 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(fd[1], 1);
 		if(lines->outfile > 2)
 			dup2(lines->outfile, 1);
-		else if(lines->infile > 2)
+		if(lines->infile > 2)
 			dup2(lines->infile, 0);
 		close(fd[1]);
 		close(fd[0]);
+		// if (lines->infile > 2)
+		// 	close(lines->infile);
+		// if (lines->outfile > 2)
+		// 	close(lines->outfile);
 		if (builts_in(lines, &lines->infos->env))
 			exit(0);
 		envp = convert_env(lines->infos->env, envp);
 		path = path_split(lines);
 		if (execve(path, lines->cmd_line, envp) < 0)
 		{
-			perror("minishell");
-			exit(0);
+			if (!path)
+				exit(1);
+			//anjme3 hadchi f function
+			dir = opendir(path);
+			if(dir)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(lines->cmd_line[0], 2);
+				ft_putstr_fd(": is a directory\n", 2);
+				closedir(dir);
+				exit(126);
+			}
+			else if (errno == EACCES)
+			{
+				perror("minishell");
+				exit(126);
+			}
+			else if (errno == ENOENT)
+				perror("minishell");
+			// perror("minishell");
+			exit(127);
 		}
 	}
 	else
 	{
-		waitpid(pid, &status, WNOHANG);
+		if(!lines->next)
+			waitpid(pid, &g_global->exit_status, 0);
 		close(old);
 		close(fd[1]);
 	}

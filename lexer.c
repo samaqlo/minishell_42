@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/15 20:26:49 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 17:59:13 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void    init_args(t_infos *infos)
     infos->pos = 0;
     infos->start = 0;
     infos->index = 0;
+    infos->n_red = 0;
 }
 int     count_red(t_data *lst_words)
 {
@@ -163,7 +164,7 @@ int     is_expandable(t_data *lst_words)
                 if (lst_words->next && lst_words->next->type != space)
                     break;
                 val = set_value(lst_words->word, lst_words->infos->env);
-                if (!ft_strcmp(val, "") || space_in(val))
+                if (!ft_strcmp(val, "") || (space_in(val) && val[ft_strlen(val) - 1] != ' '))
                     return (free(val), 0);
                 else 
                     return (free(val), 1);
@@ -241,10 +242,18 @@ t_data    *lexer(char *str, t_infos *infos)
     if (!syntaxe_checker(lst_words))
         return (free(str1), clean_list(&lst_words), NULL);
     amb(lst_words);
+    // if (glob_i == 1)
+    // {
+    //    printf("%d",lst_words->infos->fds[0]);
+       
+    // }
     head = lst_words;
-    lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
-    lst_words->infos->n_red = count_red(lst_words);
-    fill_fds(lst_words->infos->fds, lst_words->infos->n_red);
+    if (count_red(lst_words) > 0)
+    {
+        lst_words->infos->fds = malloc(count_red(lst_words) * sizeof(int));
+        lst_words->infos->n_red = count_red(lst_words);
+        fill_fds(lst_words->infos->fds, lst_words->infos->n_red);
+    }
     // while(lst_words)
     // {
     //     printf("[%s]  --> [%d]\n", lst_words->word, lst_words->type);

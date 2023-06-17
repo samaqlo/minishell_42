@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 02:30:29 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/16 19:10:56 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ int     count_w(t_data *lst_words)
 {
     int count;
 
-    count = 1;
+    count = 0;
     if (lst_words->type == space || lst_words->type == pi_pe)
         lst_words = lst_words->next;
     while (lst_words)
     {
         if (lst_words->type == pi_pe)
             return (count);
-        if (lst_words->type == space)
+        if (lst_words->type != space)
+        {
+            if ((lst_words->type == dq_word || lst_words->type == word) && !ft_strcmp(lst_words->word, "") && lst_words->exp)
+                count--;
             count++;
+        }
         lst_words = lst_words->next;
     }
     return (count);
@@ -69,6 +73,11 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
         {
             if (lst_words->fd_here_doc > 0)
                 fd = lst_words->fd_here_doc;
+            if ((lst_words->type == dq_word || lst_words->type == word) && !ft_strcmp(lst_words->word, "") && lst_words->exp)  
+                {
+                    lst_words = lst_words->next;
+                    continue;
+                }
             if (lst_words->type <= dq_word)
             {
                 vars[i] = join(lst_words, &id);
@@ -87,7 +96,6 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
         lst_words = lst_words->next;
      }
      vars[i] = NULL;
-
      ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd, STDOUT_FILENO,head->infos));
 }
 int     check_amb(t_data *lst_words)
@@ -96,7 +104,7 @@ int     check_amb(t_data *lst_words)
         lst_words = lst_words->next;
     if (lst_words->next && lst_words->next->type != space)
         return (0);
-    if ((!ft_strcmp(lst_words->word, "") || space_in(lst_words->word)) && lst_words->type == word)
+    if ((!ft_strcmp(lst_words->word, "") || (space_in(lst_words->word) && lst_words->word[ft_strlen(lst_words->word) - 1] != ' ')) && lst_words->type == word)
         return (1);
     return (0);
 }

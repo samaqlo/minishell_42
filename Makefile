@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/13 18:54:30 by ohaimad          ###   ########.fr        #
+#    Updated: 2023/06/16 22:48:06 by astalha          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,14 +16,14 @@ SRCS = libft/ft_isalnum.c libft/ft_isprint.c libft/ft_memcmp.c libft/ft_strlcat.
 		minishell.c lexer.c linkedlist.c ft_substr_parse.c cleaner.c ./built/execution.c error_centre.c linkedlist_p_to_e.c the_expander.c built/utils.c  built/builtin.c built/builtin_rest.c built/built_src.c built/built_src2.c ft_strcmp.c ft_strrchr_env.c here_doc.c here_doc_expand.c parser.c red.c
 
 OBJS	= $(SRCS:.c=.o)
-CC 		= cc -g
+CC 		= cc
 RM		= rm -rf
 AR		= ar rc
 FLAGS	= -Wall -Werror -Wextra
 NAME	= minishell
 
 %.o: %.c minishell.h     
-	$(CC) $(CFLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
+	$(CC) $(FLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 all: $(NAME)
 

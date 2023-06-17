@@ -6,14 +6,14 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 02:51:12 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 20:28:15 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-// t_global    *global;
+t_global	*g_global;
 
 void    print_list(t_data *lst_words)
 {
@@ -49,14 +49,19 @@ int     is_redrect(char *str)
         return (1);
     return (0);
 }
-// void    global_init()
-// {
-//     global->is_here_doc = 0;
-// }
+
+void	ft_handle_status()
+{
+	if(WEXITSTATUS(g_global->exit_status))
+		g_global->exit_status = WEXITSTATUS(g_global->exit_status);
+	else if (WIFSIGNALED(g_global->exit_status))
+		g_global->exit_status = WTERMSIG(g_global->exit_status) + 128;
+}
 
 void    clean_lines2(t_cmd_lines **lines)
 {
     t_cmd_lines *tmp;
+
     if ((*lines)->infos->n_red > 0)
         free((*lines)->infos->fds);
     while(*lines)
@@ -79,19 +84,22 @@ int     main(int ac, char **av, char **env)
     t_infos infos;
     infos.env = NULL;
         int                     fd[2];
+        // glob_i = 0;
     // int i=0;
 // (void)ac;
 // (void)av;
 // (void)env;
     // global_init();
+    g_global = malloc(sizeof(t_global));
+	g_global->exit_status = 0;
     grep_env(env, &infos.env);
 if (!av[1])
 {
     while(1)
     {
-        // signal(SIGINT, &sig_handl);
-        // signal(SIGQUIT, &sig_handl);
-        // rl_catch_signals = 0;
+        signal(SIGINT, &sig_handl);
+        signal(SIGQUIT, &sig_handl);
+        rl_catch_signals = 0;
        str = readline(BOLD GREEN"tby_shell$ "RESET);
        if (str && !*str)
             free(str);
@@ -116,11 +124,15 @@ if (!av[1])
             //     }
             //     exit(0);
             lines = join_words(lst_words);
-            // while(1);
             if (!delete_adds(&lines) || !lines)
+            {
+                free(str);
+                if (infos.n_red > 0)
+                    free(infos.fds);
                 continue;
+            }
                 // while(1);
-                int i;
+                // int i;
     // while(lines)
     // {
     //     i = 0;
@@ -133,11 +145,16 @@ if (!av[1])
     // }
     // exit(0);
     // if (!lines)
-    clean_lines2(&lines);
-    free(str);
-        continue;
+    // printf("addr [%p]\n", lines->infos->fds);
+    // printf("[%p]\n", str);
+    // free(str);
+    
+        // continue;
+        
+    t_cmd_lines *head;
             fd[0] = -1;
             fd[1] = -1;
+            head = lines;
             if (!lines->next && builts_in(lines, &infos.env))
                     ;
             else
@@ -146,6 +163,7 @@ if (!av[1])
                     {
                             ft_execution(lines, fd);
                             lines = lines->next;
+                            ft_handle_status();
                     }
             }
             while (wait(0) != -1)
@@ -159,8 +177,9 @@ if (!av[1])
             // print_list(lst_words);
             free(str);
             // clean_list(&lst_words);
+            // puts("ok");
+            clean_lines2(&head);
         }
     }
 }
-    exit(100);
 }

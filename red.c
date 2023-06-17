@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/14 02:06:37 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 18:35:57 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,42 @@ int    open_file(t_cmd_lines *lines, int type)
 {
     int i = 0;
     int fd;
+    (void)type;
     while(lines->cmd_line[i])
     {
         if (is_red(lines->cmd_line[i]))
             {
-                if (!ft_strcmp(lines->cmd_line[i], "<"))
+                if (!ft_strcmp(lines->cmd_line[i], "<") && lines->cmd_line[i + 1])
                 {
                     fd = open(lines->cmd_line[i + 1], O_RDONLY, 0444);
                     if (priority(lines->cmd_line, i))
                         lines->infile = fd;
                     lines->infos->fds[lines->infos->index++] = fd;
                     if (lines->infile < 0)
+                    {
+                        g_global->exit_status = 1;
                         return (open_err(lines->cmd_line[i + 1], 0), 0);
+                    }
                 }
-                else if (type == r_redirect)
+                else if (!ft_strcmp(lines->cmd_line[i], ">") && lines->cmd_line[i + 1])
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
                     lines->infos->fds[lines->infos->index++] = lines->outfile;
                     if (lines->outfile < 0)
                     {
+                        g_global->exit_status = 1;
                         return (open_err(lines->cmd_line[i + 1], 1), 0);
                     }
                 }
-                else if (type == append)
+                else if (!ft_strcmp(lines->cmd_line[i], ">>")  && lines->cmd_line[i + 1])
                 {
                     lines->outfile = open(lines->cmd_line[i + 1], O_CREAT | O_RDWR | O_APPEND, 0644);
                     lines->infos->fds[lines->infos->index++] = lines->outfile;             
                     if (lines->outfile < 0)
+                    {
+                        g_global->exit_status = 1;
                        return (open_err(lines->cmd_line[i + 1], 1), 0);
+                    }
                 }
             }
         i++;
@@ -135,7 +143,7 @@ int     get_new_lenght(char **vars)
     i = 0;
     while(vars[i])
     {
-        if (is_red(vars[i]))
+        if (is_red(vars[i]) && vars[i + 1])
             i += 2;
         len++;
         if(vars[i])
@@ -220,7 +228,7 @@ char    **delete_red(t_cmd_lines *lines)
     tmp = malloc((get_new_lenght(lines->cmd_line) + 1) * sizeof(char *));
     while(lines->cmd_line[i])
     {
-        if (is_red(lines->cmd_line[i]))
+        if (is_red(lines->cmd_line[i]) && lines->cmd_line[i + 1])
             i += 2;
          else if (lines->cmd_line[i])
         {
@@ -303,6 +311,7 @@ int    delete_adds(t_cmd_lines **lines)
         //         *lines->cmd_line = tmp;
         //     }
         // flag = 0;
+
         type = get_type(*lines);
         if (type)
         {
@@ -316,9 +325,11 @@ int    delete_adds(t_cmd_lines **lines)
         }
             *lines = (*lines)->next;
     }
-    int i = 0;
+    // int i = 0;
     *lines = head;
     *lines = del_lines(*lines);
+    if (!*lines)
+        return(free(tmp), 0);
     // while (*lines)
     // {
     //     i = 0;

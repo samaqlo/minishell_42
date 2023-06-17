@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 21:42:37 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 19:52:11 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,12 @@ char    *set_value(char *var, t_list_env *env)
     // if (ft_strlen(var) == 1)
     //     return (ft_strdup(var));
     tmp = ft_strdup(var + 1);
+    if (!ft_strcmp(tmp, "?"))
+    {
+        free(tmp);
+        tmp = ft_itoa(g_global->exit_status);
+        return (tmp);
+    }
     while(env)
     {
         str = ft_substr(env->variable, 0, ft_strlen(env->variable));
@@ -355,9 +361,11 @@ void    split_line(t_data   *cmd_line)
                      cmd_line->vars[j] = ft_strdup(tmp);
                 else
                   cmd_line->vars[j] = set_value(tmp, cmd_line->infos->env);
+                  cmd_line->exp = 1;
             }
             else if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
             {
+                cmd_line->exp = 1;
                 if (cmd_line->type == word)
                     cmd_line->vars[j] = skip_space(set_value(tmp, cmd_line->infos->env));
                 else

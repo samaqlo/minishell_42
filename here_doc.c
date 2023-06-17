@@ -6,12 +6,13 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 02:09:04 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 18:00:07 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int glob_i  =0 ;
 char    *get_tmp()
 {
     char *name;
@@ -46,6 +47,7 @@ int     count_hrdc(t_data *lst_words)
 }
 void    c_handl(int sig)
 {
+    (void)sig;
    close(0);
 }
 void    fill_here_doc(int fd, t_data *del)
@@ -56,7 +58,7 @@ void    fill_here_doc(int fd, t_data *del)
     
     while (1)
     {
-        // signal(SIGINT, &c_handl);
+        signal(SIGINT, &c_handl);
         input = readline(">");
         if (!input || !ft_strcmp(input, del->word))
             break;
@@ -121,11 +123,13 @@ void    here_doc_func(t_data *lst_words)
         if (lst_words->type == here_doc)
             {
                 name  = get_tmp();
-                 lst_words->fd_here_doc = open(name, O_CREAT | O_RDWR, 777);
-                 lst_words->infos->fds[lst_words->infos->index] = lst_words->fd_here_doc;
-                 lst_words->infos->index++;
+                 lst_words->fd_here_doc = open(name, O_CREAT | O_RDWR, 0777);
                  tmp = get_del(lst_words); 
                 fill_here_doc(lst_words->fd_here_doc, tmp);
+                close(lst_words->fd_here_doc);
+                 lst_words->fd_here_doc = open(name, O_RDONLY, 0444);
+                 lst_words->infos->fds[lst_words->infos->index] = lst_words->fd_here_doc;
+                 lst_words->infos->index++;
                 free(name);
                 if (tmp->tfree)
                 {
