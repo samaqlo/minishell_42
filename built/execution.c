@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 12:29:52 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 22:46:07 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*path_split(t_cmd_lines *cmd)
 	return (res);
 }
 
-void	ft_execution(t_cmd_lines *lines, int fd[2])
+int	ft_execution(t_cmd_lines *lines, int fd[2])
 {
 	char	*path;
 	pid_t	pid;
@@ -111,13 +111,13 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 	if (pipe(fd) < 0)
 	{
 		perror("pipe");
-		exit(1);
+		return (0);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
-		exit(1);
+		return (0);
 	}
 	else if (pid == 0)
 	{
@@ -175,5 +175,5 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		close(old);
 		close(fd[1]);
 	}
-	return ;
+	return (1);
 }

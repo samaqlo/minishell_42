@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 20:28:15 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 22:46:33 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ if (!av[1])
             {
                     while (lines)
                     {
-                            ft_execution(lines, fd);
+                             if (!ft_execution(lines, fd))
+                                break;
                             lines = lines->next;
                             ft_handle_status();
                     }

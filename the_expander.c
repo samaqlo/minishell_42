@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 19:52:11 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 21:51:19 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,13 +355,12 @@ void    split_line(t_data   *cmd_line)
             start = i;
             len = get_len(cmd_line->word, &i);
             tmp = ft_substr(cmd_line->word, start, len);
-            if (!ft_strcmp(cmd_line->word, "$"))
+            if (!ft_strcmp(tmp, "$"))
             {
                 if ((cmd_line->next && cmd_line->next->type == space) || !cmd_line->next)
                      cmd_line->vars[j] = ft_strdup(tmp);
                 else
                   cmd_line->vars[j] = set_value(tmp, cmd_line->infos->env);
-                  cmd_line->exp = 1;
             }
             else if (dollar_in(tmp) && (cmd_line->type == word || cmd_line->type == dq_word) && !check_prev(head, cmd_line->id))
             {
