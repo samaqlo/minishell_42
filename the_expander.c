@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_expander.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/07 20:00:36 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/17 01:37:16 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,11 +382,11 @@ char    *two_to_one(char **vars)
 
 void    the_fucking_expand(t_data *lst_words)
 {
-        split_line(lst_words);
-        while (lst_words)
-        {    
-            free(lst_words->word);
-            lst_words->word = two_to_one(lst_words->vars);
-            lst_words = lst_words->next;
-        }
+    split_line(lst_words);
+    while (lst_words)
+    {    
+        free(lst_words->word);
+        lst_words->word = two_to_one(lst_words->vars);
+        lst_words = lst_words->next;
+    }
 }

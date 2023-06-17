@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 00:21:19 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 01:23:29 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 # define RESET "\033[0m"
 
 extern char				**environ;
+
+typedef struct s_global
+{
+	int exit_status;
+}						t_global;
+extern t_global *g_global;
 
 enum					words_types
 {

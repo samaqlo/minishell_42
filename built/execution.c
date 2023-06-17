@@ -6,11 +6,12 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 00:29:56 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 01:44:47 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 char	**convert_env(t_list_env *env, char **envp)
 {
@@ -102,7 +103,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 {
 	char	*path;
 	pid_t	pid;
-	int		status;
+	// int		status;
 	int		old;
 	char	**envp = NULL;
 	DIR *dir;
@@ -145,6 +146,8 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 		path = path_split(lines);
 		if (execve(path, lines->cmd_line, envp) < 0)
 		{
+			if (!path)
+				exit(1);
 			//anjme3 hadchi f function
 			dir = opendir(path);
 			if(dir)
@@ -155,17 +158,20 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 				closedir(dir);
 			}
 			else if (errno == EACCES)
+			{
 				perror("minishell");
+				exit(126);
+			}
 			else if (errno == ENOENT)
 				perror("minishell");
-			
 			// perror("minishell");
-			exit(0);
+			exit(127);
 		}
 	}
 	else
 	{
-		waitpid(pid, &status, WNOHANG);
+		if(!lines->next)
+			waitpid(pid, &g_global->exit_status, 0);
 		close(old);
 		close(fd[1]);
 	}
