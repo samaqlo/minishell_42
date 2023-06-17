@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 23:40:19 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 12:22:54 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	built_echo(char **av, int fd)
 	i = 1;
 	test = 1;
 	// echo "" test --> env 
-	if(!av[1][0] && !av[2])
+	if(!av[1])
 	{
 		ft_putstr_fd("\n", fd);
 		return(1);
@@ -150,6 +150,8 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 			return(built_cd(*enev, cmd->cmd_line));
 		else if (!ft_strcmp(cmd->cmd_line[0], "export"))
 			return(built_export(*enev, cmd->cmd_line, cmd->outfile));
+		// else if (!ft_strcmp(cmd->cmd_line[0], "exit"))
+		// 	return(built_exit(*enev, cmd->cmd_line, cmd->outfile));
 		// while (cmd->cmd_line[i])
 		// {
 		// 	free(cmd->cmd_line[i]);

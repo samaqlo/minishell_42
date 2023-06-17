@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 01:39:16 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 12:28:01 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_handle_status()
 	else if (WIFSIGNALED(g_global->exit_status))
 		g_global->exit_status = WTERMSIG(g_global->exit_status) + 128;
 }
+
 int	main(int ac, char **av, char **env)
 {
 	int			fd[2];

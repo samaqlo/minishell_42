@@ -2,3 +2,6 @@
  export $cdbds
  export x="ls -la " ---> $x
  ctrl d heredoc
+ echo $$$
+ echo $$
+ 

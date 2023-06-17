@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 01:44:47 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 12:29:52 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 {
 	char	*path;
 	pid_t	pid;
-	// int		status;
 	int		old;
 	char	**envp = NULL;
 	DIR *dir;
@@ -136,10 +135,10 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 			dup2(lines->infile, 0);
 		close(fd[1]);
 		close(fd[0]);
-		if (lines->infile > 2)
-			close(lines->infile);
-		if (lines->outfile > 2)
-			close(lines->outfile);
+		// if (lines->infile > 2)
+		// 	close(lines->infile);
+		// if (lines->outfile > 2)
+		// 	close(lines->outfile);
 		if (builts_in(lines, &lines->infos->env))
 			exit(0);
 		envp = convert_env(lines->infos->env, envp);
@@ -156,6 +155,7 @@ void	ft_execution(t_cmd_lines *lines, int fd[2])
 				ft_putstr_fd(lines->cmd_line[0], 2);
 				ft_putstr_fd(": is a directory\n", 2);
 				closedir(dir);
+				exit(126);
 			}
 			else if (errno == EACCES)
 			{
