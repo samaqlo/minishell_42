@@ -6,12 +6,11 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 12:29:52 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/17 20:45:47 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	**convert_env(t_list_env *env, char **envp)
 {
