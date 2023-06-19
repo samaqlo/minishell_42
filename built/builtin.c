@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 20:18:53 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:47:58 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,8 @@ int	built_exit(t_cmd_lines *cmd)
 int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 {
 	int	i;
-
+	if (cmd->infile < 0 || cmd->outfile < 0)
+		return (0);
 	if (cmd && cmd->cmd_line && cmd->cmd_line[0])
 	{
 		i = 0;

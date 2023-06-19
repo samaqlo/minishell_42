@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 22:46:50 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:10:05 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <dirent.h>
-#include "libft/libft.h"
+# include "libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # define GREEN "\033[32m"

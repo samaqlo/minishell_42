@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 20:25:29 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:46:07 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,27 @@ void    clean_lines2(t_cmd_lines **lines)
         free(tmp);
     }
 
+}
+int     is_built(t_cmd_lines *cmd)
+{
+        if (!ft_strcmp(cmd->cmd_line[0], "echo") || !ft_strcmp(cmd->cmd_line[0],
+				"ECHO"))
+			return(1);
+		else if (!ft_strcmp(cmd->cmd_line[0], "env")
+				|| !ft_strcmp(cmd->cmd_line[0], "ENV"))
+			return(1);
+		else if (!ft_strcmp(cmd->cmd_line[0], "pwd")
+				|| !ft_strcmp(cmd->cmd_line[0], "PWD"))
+			return(1);
+		else if (!ft_strcmp(cmd->cmd_line[0], "unset"))
+			return(1);
+		else if (!ft_strcmp(cmd->cmd_line[0], "cd"))
+			return(1);
+		else if (!ft_strcmp(cmd->cmd_line[0], "export"))
+			return(1);
+		else if (!ft_strcmp(cmd->cmd_line[0], "exit"))
+			return(1);
+        return (0);
 }
 int     main(int ac, char **av, char **env)
 {
@@ -162,10 +183,11 @@ if (!av[1])
             fd[0] = -1;
             fd[1] = -1;
             head = lines;
-            int c =  builts_in(lines, &infos.env);
+            int c ;
             // check ex_st befor execution
-            if (!lines->next && (c == 1 || !c))
+            if (!lines->next && is_built(lines))
             {
+               c =  builts_in(lines, &infos.env);
                 if (!c)
                     g_global->exit_status = 1;
                 else 

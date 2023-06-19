@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 16:53:55 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 23:46:09 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int     count_hrdc(t_data *lst_words)
 void    c_handl(int sig)
 {
     (void)sig;
+    g_global->exit_status = 1;
    close(0);
 }
 void    fill_here_doc(int fd, t_data *del)
