@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 19:08:02 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 15:37:17 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_data	*ft_lstnew(char *content, t_infos	*infos)
 	new->tfree = 0;
 	new->fd_here_doc = -1;
 	new->exp = 0;
+	new->vars = NULL;
 	new->next = NULL;
 	// free(content);
 	return (new);

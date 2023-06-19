@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/16 19:10:56 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:50:18 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,29 +128,29 @@ t_cmd_lines     *join_words(t_data *lst_words)
     head = lst_words;
     p_to_e = NULL;
 
-    
-    while (lst_words)
+    while (head)
     {
-        if (lst_words->id == 0 || lst_words->type == pi_pe)
+        if (head->id == 0 || head->type == pi_pe)
         {
-            if (amb_in(lst_words))
-               lst_words = lst_words->next;
+            if (amb_in(head))
+               head = head->next;
             else 
-                fill_vars(lst_words, &p_to_e);
+                fill_vars(head, &p_to_e);
         }
-        lst_words = lst_words->next;
+        head = head->next;
     }
 
-    // int i;
-    // while(p_to_e)
-    // {
-    //     i = 0;
-    //     while (p_to_e->cmd_line[i])
-    //         printf("pte : [%s]\n", p_to_e->cmd_line[i++]);
-    //     printf("infile --> [%d]\n", p_to_e->infile);
-    //     printf("-----------------------------------------\n");
-    //     p_to_e = p_to_e->next;
-    // }
-    clean_list(&head);
+//     int i;
+//     while(p_to_e)
+//     {
+//         i = 0;
+//         while (p_to_e->cmd_line[i])
+//             printf("pte : [%s]\n", p_to_e->cmd_line[i++]);
+//         printf("infile --> [%d]\n", p_to_e->infile);
+//         printf("-----------------------------------------\n");
+//         p_to_e = p_to_e->next;
+//     }
+// exit (0);
+    clean_list(&lst_words);
     return (p_to_e);
 }

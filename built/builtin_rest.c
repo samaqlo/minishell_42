@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_rest.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/16 22:30:33 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/19 19:59:26 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	built_export(t_list_env *env, char **av, int fd)
 {
-	char	*var;
+	char	*var = NULL;
 	char	*cont;
+	char *tmp;
 	int		i;
 
 	i = 1;
+
 	if (!av[1])
 	{
 		while (env)
@@ -43,6 +45,11 @@ int	built_export(t_list_env *env, char **av, int fd)
 	while (av[i])
 	{
 		var = ft_substr(av[i], 0, check_equal(av[i]));
+		if(av[i][check_equal(av[i]) - 1] == '+')
+		{
+			free(var);
+			var = ft_substr(av[i], 0, check_equal(av[i]) - 1);	
+		}
 		cont = ft_substr(av[i], check_equal(av[i]) + 1, (ft_strlen(av[i])
 					- check_equal(av[i])));
 		if (av[i] && !pars_export(av[i]))
@@ -58,10 +65,17 @@ int	built_export(t_list_env *env, char **av, int fd)
 				if (check_env(env, var))
 				{
 					if (print_env(&env, var))
-						change_env(&env, var, ft_strjoin(print_env(&env, var),
-									cont));
+					{
+						tmp = ft_strjoin(print_env(&env, var), cont);
+						change_env(&env, var, tmp);
+						free(tmp);
+					}
 					else
-						change_env(&env, var, ft_strjoin("", cont));
+					{
+						tmp = ft_strjoin("", cont);
+						change_env(&env, var, tmp);
+						free(tmp);
+					}
 				}
 				else
 					ft_lstadd_back_env(&env, ft_lstnew_env(cont, var, 1));

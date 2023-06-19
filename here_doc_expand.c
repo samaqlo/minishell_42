@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 11:05:04 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/09 22:28:44 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 13:22:14 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ char     *expand_in_hd(char *str, t_list_env *env)
         free(word);
     }
     vars[j] = NULL;
-    return (two_to_one(vars));
+    word = two_to_one(vars);
+    freealloc2(vars);
+    return (word);
 }

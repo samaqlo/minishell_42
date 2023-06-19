@@ -6,12 +6,22 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 17:59:13 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 15:34:55 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int     all_spaces(t_data *words)
+{
+    while(words)
+    {
+        if (words->type != space)
+            return (0);
+        words = words->next;
+    }
+    return (1);
+}
 int quoting_checker(char *str)
 {
     int i;
@@ -221,9 +231,9 @@ t_data    *lexer(char *str, t_infos *infos)
 
     c = quoting_checker(str);
     if (c == 2 || c == 1)
-        return (ft_putstr_fd("quote opened\n", 2),free(str), NULL);
+        return (ft_putstr_fd("quote opened\n", 2), NULL);
     else if (c == 3)
-        return (free(str), NULL);
+        return (NULL);
     init_args(infos);
     while(1)
     {
@@ -239,7 +249,7 @@ t_data    *lexer(char *str, t_infos *infos)
         }
     }
     t_data *head = lst_words;
-    if (!syntaxe_checker(lst_words))
+    if (all_spaces(lst_words) || !syntaxe_checker(lst_words))
         return (free(str1), clean_list(&lst_words), NULL);
     amb(lst_words);
     // if (glob_i == 1)

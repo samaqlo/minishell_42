@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 21:51:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 13:19:19 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,10 +391,10 @@ char    *two_to_one(char **vars)
         tmp = ft_strjoin(line, vars[i]);
         free(line);
         line = tmp;
-        free(vars[i]);
+        // free(vars[i]);
         i++;
     }
-    free(vars);
+    // free(vars);
     return (line);
 }
 

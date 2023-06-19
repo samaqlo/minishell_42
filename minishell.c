@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 22:46:33 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 20:25:29 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void    sig_handl(int sig)
 {
         if (sig == SIGINT && waitpid(-1, NULL, WNOHANG))
         {
+                g_global->exit_status = 1;
                 ft_putstr_fd("\n", 1);
                 rl_replace_line("", 0);
                 rl_on_new_line();
@@ -68,9 +69,11 @@ void    clean_lines2(t_cmd_lines **lines)
     {
         tmp = *lines;
         *lines = (*lines)->next;
-        freealloc2(tmp->cmd_line);
+        if (tmp->cmd_line)
+            freealloc2(tmp->cmd_line);
         free(tmp);
     }
+
 }
 int     main(int ac, char **av, char **env)
 {
@@ -83,7 +86,7 @@ int     main(int ac, char **av, char **env)
     t_cmd_lines *lines;
     t_infos infos;
     infos.env = NULL;
-        int                     fd[2];
+    int                     fd[2];
         // glob_i = 0;
     // int i=0;
 // (void)ac;
@@ -113,7 +116,10 @@ if (!av[1])
             add_history(str);
             lst_words = lexer(str, &infos);
             if (!lst_words)
+            {
+                free(str);
                 continue;
+            }
             here_doc_func(lst_words);
             the_fucking_expand(lst_words);
             // amb(lst_words);
@@ -124,6 +130,8 @@ if (!av[1])
             //     }
             //     exit(0);
             lines = join_words(lst_words);
+            // printf("[%p]\n", lines->cmd_line + 6);
+
             if (!delete_adds(&lines) || !lines)
             {
                 free(str);
@@ -131,8 +139,8 @@ if (!av[1])
                     free(infos.fds);
                 continue;
             }
-                // while(1);
-                // int i;
+// puts("ok");
+    //             int i;
     // while(lines)
     // {
     //     i = 0;
@@ -147,16 +155,22 @@ if (!av[1])
     // if (!lines)
     // printf("addr [%p]\n", lines->infos->fds);
     // printf("[%p]\n", str);
-    // free(str);
-    
+        // clean_lines2(&lines);
+        // free(str);
         // continue;
-        
-    t_cmd_lines *head;
+            t_cmd_lines *head;
             fd[0] = -1;
             fd[1] = -1;
             head = lines;
-            if (!lines->next && builts_in(lines, &infos.env))
-                    ;
+            int c =  builts_in(lines, &infos.env);
+            // check ex_st befor execution
+            if (!lines->next && (c == 1 || !c))
+            {
+                if (!c)
+                    g_global->exit_status = 1;
+                else 
+                    g_global->exit_status = 0;
+            }
             else
             {
                     while (lines)

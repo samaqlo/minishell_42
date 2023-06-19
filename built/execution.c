@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 22:46:07 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 16:52:55 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*path_split(t_cmd_lines *cmd)
 	int		i;
 
 	i = 0;
-	if (access(cmd->cmd_line[0], F_OK) == 0 || ft_strrchr(cmd->cmd_line[0], '/'))
+	if (access(cmd->cmd_line[0], F_OK) == 0 && ft_strrchr(cmd->cmd_line[0], '/'))
 		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)
@@ -139,6 +139,13 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 		// 	close(lines->infile);
 		// if (lines->outfile > 2)
 		// 	close(lines->outfile);
+		if (!lines->cmd_line[0])
+			{
+				if (lines->infile < 0 || lines->outfile < 0)
+					exit(1);
+				else
+					exit(0);
+			}
 		if (builts_in(lines, &lines->infos->env))
 			exit(0);
 		envp = convert_env(lines->infos->env, envp);
@@ -146,7 +153,7 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 		if (execve(path, lines->cmd_line, envp) < 0)
 		{
 			if (!path)
-				exit(1);
+				exit(127);
 			//anjme3 hadchi f function
 			dir = opendir(path);
 			if(dir)
@@ -155,7 +162,7 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 				ft_putstr_fd(lines->cmd_line[0], 2);
 				ft_putstr_fd(": is a directory\n", 2);
 				closedir(dir);
-				exit(126);
+				exit(127);
 			}
 			else if (errno == EACCES)
 			{

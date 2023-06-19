@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/17 21:33:30 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/19 20:18:53 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,5 +217,5 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 		// }
 		// free(cmd->cmd_line);
 	}
-	return (0);
+	return (3);
 }
