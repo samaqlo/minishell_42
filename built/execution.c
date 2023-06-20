@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/20 00:37:33 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:52:24 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,9 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 		if (!lines->cmd_line[0] || lines->cmd_line[0])
 			{
 				if (lines->infile < 0 || lines->outfile < 0)
+				{
 					exit(1);
+				}
 				else if (!lines->cmd_line[0])
 					exit(0);
 			}

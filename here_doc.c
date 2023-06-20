@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 23:46:09 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 17:00:10 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void    c_handl(int sig)
     g_global->exit_status = 1;
    close(0);
 }
-void    fill_here_doc(int fd, t_data *del)
+void    fill_here_doc(int fd, t_data *del, t_data *lst_words)
 {
     char *input;
     char *expand;
@@ -76,6 +76,8 @@ void    fill_here_doc(int fd, t_data *del)
     }
     if(ttyname(0) == NULL)
     {
+        close(lst_words->fd_here_doc);
+        lst_words->fd_here_doc = -1;
         fd2 = open(ttyname(2), O_RDWR);
         dup2(0, fd2);
     }
@@ -126,11 +128,14 @@ void    here_doc_func(t_data *lst_words)
                 name  = get_tmp();
                  lst_words->fd_here_doc = open(name, O_CREAT | O_RDWR, 0777);
                  tmp = get_del(lst_words); 
-                fill_here_doc(lst_words->fd_here_doc, tmp);
-                close(lst_words->fd_here_doc);
-                 lst_words->fd_here_doc = open(name, O_RDONLY, 0444);
-                 lst_words->infos->fds[lst_words->infos->index] = lst_words->fd_here_doc;
-                 lst_words->infos->index++;
+                fill_here_doc(lst_words->fd_here_doc, tmp, lst_words);
+                if (lst_words->fd_here_doc > 0)
+                {
+                    close(lst_words->fd_here_doc);
+                    lst_words->fd_here_doc = open(name, O_RDONLY, 0444);
+                    lst_words->infos->fds[lst_words->infos->index] = lst_words->fd_here_doc;
+                    lst_words->infos->index++;
+                }
                 free(name);
                 if (tmp->tfree)
                 {

@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 00:46:07 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:51:55 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,16 +152,7 @@ if (!av[1])
             //     exit(0);
             lines = join_words(lst_words);
             // printf("[%p]\n", lines->cmd_line + 6);
-
-            if (!delete_adds(&lines) || !lines)
-            {
-                free(str);
-                if (infos.n_red > 0)
-                    free(infos.fds);
-                continue;
-            }
-// puts("ok");
-    //             int i;
+    // int i;
     // while(lines)
     // {
     //     i = 0;
@@ -173,6 +164,15 @@ if (!av[1])
     //     lines = lines->next;
     // }
     // exit(0);
+
+            if (!delete_adds(&lines) || !lines)
+            {
+                free(str);
+                if (infos.n_red > 0)
+                    free(infos.fds);
+                continue;
+            }
+// puts("ok");
     // if (!lines)
     // printf("addr [%p]\n", lines->infos->fds);
     // printf("[%p]\n", str);

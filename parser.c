@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 18:50:18 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:54:46 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void    fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
      {
         if (lst_words->type != space)
         {
-            if (lst_words->fd_here_doc > 0)
+            if (lst_words->fd_here_doc >= -1)
                 fd = lst_words->fd_here_doc;
             if ((lst_words->type == dq_word || lst_words->type == word) && !ft_strcmp(lst_words->word, "") && lst_words->exp)  
                 {
