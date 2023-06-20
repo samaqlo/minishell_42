@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 16:51:55 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:50:43 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void    clean_lines2(t_cmd_lines **lines)
 }
 int     is_built(t_cmd_lines *cmd)
 {
+        if (!cmd->cmd_line[0])
+            return (0);
         if (!ft_strcmp(cmd->cmd_line[0], "echo") || !ft_strcmp(cmd->cmd_line[0],
 				"ECHO"))
 			return(1);
@@ -129,7 +131,7 @@ if (!av[1])
             free(str);
         else if (!str)
         {
-            ft_putstr_fd("exit\n", 1);
+            ft_putstr_fd("\033[11C\033[1Aexit\n", 1);
             free(str);
             exit(0);
         }
@@ -152,6 +154,14 @@ if (!av[1])
             //     exit(0);
             lines = join_words(lst_words);
             // printf("[%p]\n", lines->cmd_line + 6);
+
+            if (!delete_adds(&lines) || !lines)
+            {
+                free(str);
+                if (infos.n_red > 0)
+                    free(infos.fds);
+                continue;
+            }
     // int i;
     // while(lines)
     // {
@@ -164,14 +174,6 @@ if (!av[1])
     //     lines = lines->next;
     // }
     // exit(0);
-
-            if (!delete_adds(&lines) || !lines)
-            {
-                free(str);
-                if (infos.n_red > 0)
-                    free(infos.fds);
-                continue;
-            }
 // puts("ok");
     // if (!lines)
     // printf("addr [%p]\n", lines->infos->fds);
@@ -187,7 +189,7 @@ if (!av[1])
             // check ex_st befor execution
             if (!lines->next && is_built(lines))
             {
-               c =  builts_in(lines, &infos.env);
+               c =  builts_in(lines, &infos.env, 1);
                 if (!c)
                     g_global->exit_status = 1;
                 else 

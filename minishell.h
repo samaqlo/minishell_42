@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 00:10:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:52:05 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_global
     int					echo_status;
 }						t_global;
 extern t_global *g_global;
-// extern int glob_i;
+
 typedef struct s_list_env
 {
     char *variable;
@@ -53,6 +53,7 @@ typedef struct s_list_env
     int     c;
     struct s_list_env *next;
 }               t_list_env;
+
 typedef struct s_infos
 {
     int     n_pipes;
@@ -110,7 +111,7 @@ int     strat_end_checker(char *str);
 // void    get_the_dollar(t_data   *cmd_line);
 int	ft_strcmp(char *s1, char *s2);
 char	*ft_strrchr_env(const char *s, int c);
-int	builts_in(t_cmd_lines *cmd, t_list_env **env);
+// int	builts_in(t_cmd_lines *cmd, t_list_env **env);
 void    print_error(int code, int type);
 void	grep_env(char **env, t_list_env **enev);
 
@@ -152,7 +153,7 @@ int   built_echo(char **av, int fd);
 int   built_env(t_list_env *enev, int fd);
 int   built_unset(t_list_env *enev, char **av);
 int   built_pwd(t_list_env **env, int fd);
-int   builts_in(t_cmd_lines *cmd, t_list_env **enev);
+int	  builts_in(t_cmd_lines *cmd, t_list_env **enev, int flag);
 int   built_cd(t_list_env *env, char **args);
 int   built_export(t_list_env *env, char **av, int fd);
 // END built fonctions '_'

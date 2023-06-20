@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/20 16:52:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:50:51 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 				else if (!lines->cmd_line[0])
 					exit(0);
 			}
-		if (builts_in(lines, &lines->infos->env) == 1)
+		if (builts_in(lines, &lines->infos->env, 0) == 1)
 			exit(0);
 		envp = convert_env(lines->infos->env, envp);
 		path = path_split(lines);

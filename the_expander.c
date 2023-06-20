@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 00:54:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 23:35:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:07:39 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ char  *skip_space(char *str)
         else if (ft_strchr(" \t\n\v\f\r", str[i]))
             i++;
     }
+    free(str);
     return tmp;
 }
 char    *set_value(char *var, t_list_env *env)
@@ -148,7 +149,12 @@ char    *set_value(char *var, t_list_env *env)
         if (!ft_strncmp(tmp, "$", ft_strlen(tmp)))
             return(free(str), free(tmp), ft_strdup(""));
         else if (!ft_strcmp(tmp, str))
-            return (free(str), free(tmp), ft_strdup(env->content));
+        {
+            if (!env->c)
+                return(free(str), free(tmp), ft_strdup(""));
+            else
+                return (free(str), free(tmp), ft_strdup(env->content));
+        }
         env = env->next;
         free(str);
     }

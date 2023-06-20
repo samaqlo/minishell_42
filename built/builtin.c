@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 00:47:58 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/20 23:53:42 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ int	built_pwd(t_list_env **env, int fd)
 		ft_putstr_fd(print_env(env, "PWD"), fd);
 	return (1);
 }
-int	built_exit(t_cmd_lines *cmd)
+int	built_exit(t_cmd_lines *cmd, int flag)
 {
 	int i = 0;
 	long res;
 
+	if (!flag)
+		exit(0);
 	if (cmd->cmd_line[0] && !cmd->cmd_line[1])
 	{
 
@@ -185,7 +187,7 @@ int	built_exit(t_cmd_lines *cmd)
 	return(1);
 }
 
-int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
+int	builts_in(t_cmd_lines *cmd, t_list_env **enev, int flag)
 {
 	int	i;
 	if (cmd->infile < 0 || cmd->outfile < 0)
@@ -209,7 +211,7 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev)
 		else if (!ft_strcmp(cmd->cmd_line[0], "export"))
 			return(built_export(*enev, cmd->cmd_line, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "exit"))
-			return(built_exit(cmd));
+			return(built_exit(cmd, flag));
 		// while (cmd->cmd_line[i])
 		// {
 		// 	free(cmd->cmd_line[i]);
