@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_src2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:05:40 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/19 19:58:27 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:09:29 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	change_env(t_list_env **env, char *var, char *cont)
 			else
 				tmp->content = ft_strdup(cont);
 		}
-		if(tmp->c == 3)
+		if (tmp->c == 3)
 			tmp->c = 1;
 		tmp = tmp->next;
 	}

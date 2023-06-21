@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_src.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/21 16:13:54 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:09:22 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ void	grep_env(char **env, t_list_env **enev)
 		ft_lstadd_back_env(enev, ft_lstnew_env("/usr/bin/env", "_", 1));
 		shell_env(enev);
 		ft_lstadd_back_env(enev,
-				ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.",
-					"PATH", 3));
-		free (content);
+							ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.",
+											"PATH",
+											3));
+		free(content);
 		return ;
 	}
 	while (env[i])
@@ -118,7 +119,7 @@ char	*getpath(char **env)
 
 char	*print_env(t_list_env **env, char *var)
 {
-	t_list_env *tmp;
+	t_list_env	*tmp;
 
 	tmp = *env;
 	while (tmp)
@@ -130,11 +131,11 @@ char	*print_env(t_list_env **env, char *var)
 	return (NULL);
 }
 
-long ft_atoi_overflow(char *str)
+long	ft_atoi_overflow(char *str)
 {
-	long	i;
-	long	n;
-	int	signe;
+	long i;
+	long n;
+	int signe;
 	long long hold;
 
 	i = 0;
@@ -152,7 +153,7 @@ long ft_atoi_overflow(char *str)
 	{
 		hold = n;
 		n = n * 10 + str[i] - 48;
-		if(hold != n / 10)
+		if (hold != n / 10)
 			g_global->echo_status = 1;
 		else
 			g_global->echo_status = 0;

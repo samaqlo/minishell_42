@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/20 23:50:51 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:09:40 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	**convert_env(t_list_env *env, char **envp)
 {
@@ -53,7 +52,6 @@ char	*join_args(t_cmd_lines *cmd)
 
 char	*path_split(t_cmd_lines *cmd)
 {
-	
 	char	**split;
 	char	*path;
 	char	*res;
@@ -61,7 +59,8 @@ char	*path_split(t_cmd_lines *cmd)
 	int		i;
 
 	i = 0;
-	if (access(cmd->cmd_line[0], F_OK) == 0 && ft_strrchr(cmd->cmd_line[0], '/'))
+	if (access(cmd->cmd_line[0], F_OK) == 0 && ft_strrchr(cmd->cmd_line[0],
+			'/'))
 		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)
@@ -105,9 +104,10 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 	char	*path;
 	pid_t	pid;
 	int		old;
-	char	**envp = NULL;
-	DIR *dir;
+	char	**envp;
+	DIR		*dir;
 
+	envp = NULL;
 	old = fd[0];
 	if (pipe(fd) < 0)
 	{
@@ -122,7 +122,6 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 	}
 	else if (pid == 0)
 	{
-		
 		if (old != -1)
 		{
 			dup2(old, 0);
@@ -130,9 +129,9 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 		}
 		if (lines->next)
 			dup2(fd[1], 1);
-		if(lines->outfile > 2)
+		if (lines->outfile > 2)
 			dup2(lines->outfile, 1);
-		if(lines->infile > 2)
+		if (lines->infile > 2)
 			dup2(lines->infile, 0);
 		close(fd[1]);
 		close(fd[0]);
@@ -141,14 +140,14 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 		// if (lines->outfile > 2)
 		// 	close(lines->outfile);
 		if (!lines->cmd_line[0] || lines->cmd_line[0])
+		{
+			if (lines->infile < 0 || lines->outfile < 0)
 			{
-				if (lines->infile < 0 || lines->outfile < 0)
-				{
-					exit(1);
-				}
-				else if (!lines->cmd_line[0])
-					exit(0);
+				exit(1);
 			}
+			else if (!lines->cmd_line[0])
+				exit(0);
+		}
 		if (builts_in(lines, &lines->infos->env, 0) == 1)
 			exit(0);
 		envp = convert_env(lines->infos->env, envp);
@@ -159,7 +158,7 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 				exit(127);
 			//anjme3 hadchi f function
 			dir = opendir(path);
-			if(dir)
+			if (dir)
 			{
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(lines->cmd_line[0], 2);
@@ -180,7 +179,7 @@ int	ft_execution(t_cmd_lines *lines, int fd[2])
 	}
 	else
 	{
-		if(!lines->next)
+		if (!lines->next)
 			waitpid(pid, &g_global->exit_status, 0);
 		close(old);
 		close(fd[1]);

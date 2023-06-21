@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist_p_to_e.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 14:24:35 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:10:52 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new)
 }
 
 void	ft_lstadd_front_exp(t_cmd_lines **lst, t_cmd_lines *new)
-{	
+{
 	if (!new)
 		return ;
 	new->next = *lst;
@@ -35,7 +35,7 @@ void	ft_lstadd_front_exp(t_cmd_lines **lst, t_cmd_lines *new)
 
 int	ft_lstsize_exp(t_cmd_lines *lst)
 {
-	int		i;
+	int			i;
 	t_cmd_lines	*plst;
 
 	i = 0;
@@ -62,16 +62,17 @@ t_cmd_lines	*ft_lstlast_exp(t_cmd_lines *lst)
 	return (plst);
 }
 
-t_cmd_lines	*ft_lstnew_exp(char **content, int in_fd, int out_fd, t_infos *infos)
+t_cmd_lines	*ft_lstnew_exp(char **content, int in_fd, int out_fd,
+		t_infos *infos)
 {
 	t_cmd_lines	*new;
 
-	new = (t_cmd_lines *) malloc (sizeof (t_cmd_lines));
+	new = (t_cmd_lines *)malloc(sizeof(t_cmd_lines));
 	if (!new)
 		return (NULL);
 	new->cmd_line = content;
 	new->infile = in_fd;
-	new->outfile = out_fd; 
+	new->outfile = out_fd;
 	new->infos = infos;
 	new->next = NULL;
 	return (new);

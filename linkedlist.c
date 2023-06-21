@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 16:54:56 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:10:55 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ void	ft_lstadd_back(t_data **lst, t_data *new)
 	t_data	*lastlst;
 
 	if (!new->word)
-		{
-			new->infos->is_finish = 1;
-			return ;
-		}
+	{
+		new->infos->is_finish = 1;
+		return ;
+	}
 	if (!*lst && new)
 	{
 		*lst = new;
 		return ;
 	}
-	lastlst = ft_lstlast (*lst);
+	lastlst = ft_lstlast(*lst);
 	lastlst->next = new;
 }
 
 void	ft_lstadd_front(t_data **lst, t_data *new)
-{	
+{
 	if (!new)
 		return ;
 	new->next = *lst;
@@ -69,28 +69,28 @@ t_data	*ft_lstlast(t_data *lst)
 }
 void	set_type(t_data *new)
 {
-	if (!ft_strncmp(new->word, "|",ft_strlen(new->word)))
+	if (!ft_strncmp(new->word, "|", ft_strlen(new->word)))
 	{
 		new->infos->n_pipes++;
 		new->type = pi_pe;
 	}
-	else if (!ft_strncmp(new->word, ">",ft_strlen(new->word)) || !ft_strncmp(new->word, ">|",ft_strlen(new->word)))
+	else if (!ft_strncmp(new->word, ">", ft_strlen(new->word))
+			|| !ft_strncmp(new->word, ">|", ft_strlen(new->word)))
 		new->type = r_redirect;
-	else if (!ft_strncmp(new->word, "<",ft_strlen(new->word)))
+	else if (!ft_strncmp(new->word, "<", ft_strlen(new->word)))
 		new->type = l_redirect;
-	else if (!ft_strncmp(new->word, ">>",ft_strlen(new->word)))
+	else if (!ft_strncmp(new->word, ">>", ft_strlen(new->word)))
 		new->type = append;
-	else if (!ft_strncmp(new->word, "<<",ft_strlen(new->word)))
+	else if (!ft_strncmp(new->word, "<<", ft_strlen(new->word)))
 		new->type = here_doc;
 	else
 		new->type = word;
-		
 }
-t_data	*ft_lstnew(char *content, t_infos	*infos)
+t_data	*ft_lstnew(char *content, t_infos *infos)
 {
 	t_data	*new;
 
-	new = (t_data *) malloc (sizeof (t_data));
+	new = (t_data *)malloc(sizeof(t_data));
 	if (!new)
 		return (NULL);
 	new->infos = infos;

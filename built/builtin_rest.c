@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_rest.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/20 23:05:06 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:09:32 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	built_export(t_list_env *env, char **av, int fd)
 {
-	char	*var = NULL;
+	char	*var;
 	char	*cont;
-	char *tmp;
+	char	*tmp;
 	int		i;
 
+	var = NULL;
 	i = 1;
-
 	if (!av[1])
 	{
 		while (env)
@@ -45,10 +45,10 @@ int	built_export(t_list_env *env, char **av, int fd)
 	while (av[i])
 	{
 		var = ft_substr(av[i], 0, check_equal(av[i]));
-		if(av[i][check_equal(av[i]) - 1] == '+')
+		if (av[i][check_equal(av[i]) - 1] == '+')
 		{
 			free(var);
-			var = ft_substr(av[i], 0, check_equal(av[i]) - 1);	
+			var = ft_substr(av[i], 0, check_equal(av[i]) - 1);
 		}
 		cont = ft_substr(av[i], check_equal(av[i]) + 1, (ft_strlen(av[i])
 					- check_equal(av[i])));
@@ -118,11 +118,11 @@ int	built_cd(t_list_env *env, char **args)
 		change_env(&env, "PWD", getcwd(str, sizeof(str)));
 	}
 	else if (access(args[1], F_OK) == -1)
-		{
-			ft_putstr_fd("minishell: cd: ", 2);
-        	ft_putstr_fd(args[1], 2);
-        	ft_putstr_fd(": No such file or directory\n", 2);
-		}
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
 	else if (access(args[1], R_OK) == -1)
 		ft_putstr_fd("Permission denied\n", 2);
 	else if (access(args[1], X_OK) == -1)
