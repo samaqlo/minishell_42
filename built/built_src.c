@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/17 20:10:46 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:13:54 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	shell_env(t_list_env **enev)
 	{
 		shlvl = ft_strdup("1");
 		ft_lstadd_back_env(enev, ft_lstnew_env(shlvl, "SHLVL", 1));
+		free(shlvl);
 		return ;
 	}
 	shlvl_i = ft_atoi(shlvl) + 1;

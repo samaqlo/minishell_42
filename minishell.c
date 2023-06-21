@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 23:50:43 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:55:31 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,10 @@ int     is_built(t_cmd_lines *cmd)
 			return(1);
         return (0);
 }
+void    f(void)
+{
+    system("leaks minishell");
+}
 int     main(int ac, char **av, char **env)
 {
 	t_list_env	*enev;
@@ -133,6 +137,7 @@ if (!av[1])
         {
             ft_putstr_fd("\033[11C\033[1Aexit\n", 1);
             free(str);
+            // clean_in_exit(&infos.env, g_global);
             exit(0);
         }
      else{

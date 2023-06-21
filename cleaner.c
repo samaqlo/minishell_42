@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 20:36:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:03:30 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,18 @@ void     clean_list(t_data   **lst_words)
 	}
 	// free(words);
 	*lst_words = NULL;
+}
+void	clean_in_exit(t_list_env **env, t_global *g_global)
+{
+	t_list_env *tmp;
+
+	while(*env)
+	{
+		tmp = *env;
+		*env = (*env)->next;
+		free(tmp->content);
+		free(tmp->variable);
+		free(tmp);
+	}
+	free(g_global);
 }

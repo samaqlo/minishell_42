@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 16:54:46 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:52:27 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,11 @@ t_cmd_lines     *join_words(t_data *lst_words)
         if (head->id == 0 || head->type == pi_pe)
         {
             if (amb_in(head))
-               head = head->next;
-            else 
+            {
+                g_global->exit_status = 1;
+                // head = head->next;
+            }
+            // else 
                 fill_vars(head, &p_to_e);
         }
         head = head->next;

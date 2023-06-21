@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/20 23:52:05 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:03:41 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,5 @@ char    *path_split(t_cmd_lines *env);
 int	ft_execution(t_cmd_lines *lines, int fd[2]);
 void      rl_replace_line(const char *text, int clear_undo);
 long ft_atoi_overflow(char *str);
-
+void	clean_in_exit(t_list_env **env, t_global *g_global);
 #endif

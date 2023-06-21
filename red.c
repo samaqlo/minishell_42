@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/19 18:53:26 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:55:27 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,11 @@ char    **delete_red(t_cmd_lines *lines)
     {
         if (is_red(lines->cmd_line[i]) && lines->cmd_line[i + 1])
             i += 2;
+        else if (is_red(lines->cmd_line[i]) && !lines->cmd_line[i + 1])
+        {
+            lines->infile = -1;
+            i += 1;
+        }
          else if (lines->cmd_line[i])
         {
             tmp[j] = ft_strdup(lines->cmd_line[i]);
