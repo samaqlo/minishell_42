@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 17:10:08 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/22 05:23:12 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	freealloc2(char **ptr)
 	i = 0;
 	if (!ptr)
 		return ;
-	// if (!ptr[i])
-	// 	i++;
 	while (ptr[i])
 	{
 		free(ptr[i]);
@@ -46,7 +44,6 @@ void	clean_list(t_data **lst_words)
 		words = words->next;
 		free(tmp);
 	}
-	// free(words);
 	*lst_words = NULL;
 }
 void	clean_in_exit(t_list_env **env, t_global *g_global)
@@ -62,4 +59,33 @@ void	clean_in_exit(t_list_env **env, t_global *g_global)
 		free(tmp);
 	}
 	free(g_global);
+}
+void  ft_close(t_infos *infos)
+{
+	int i;
+
+	i = 0;
+	while(i < infos->n_red)
+	{
+		close(infos->fds[i]);
+		i++;
+	}
+}
+void	clean_lines2(t_cmd_lines **lines)
+{
+	t_cmd_lines	*tmp;
+
+	if ((*lines)->infos->n_red > 0)
+	{
+		ft_close((*lines)->infos);
+		free((*lines)->infos->fds);
+	}
+	while (*lines)
+	{
+		tmp = *lines;
+		*lines = (*lines)->next;
+		if (tmp->cmd_line)
+			freealloc2(tmp->cmd_line);
+		free(tmp);
+	}
 }

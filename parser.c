@@ -3,56 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 17:11:21 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/22 04:24:09 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_w(t_data *lst_words)
-{
-	int	count;
-
-	count = 0;
-	if (lst_words->type == space || lst_words->type == pi_pe)
-		lst_words = lst_words->next;
-	while (lst_words)
-	{
-		if (lst_words->type == pi_pe)
-			return (count);
-		if (lst_words->type != space)
-		{
-			if ((lst_words->type == dq_word || lst_words->type == word)
-				&& !ft_strcmp(lst_words->word, "") && lst_words->exp)
-				count--;
-			count++;
-		}
-		lst_words = lst_words->next;
-	}
-	return (count);
-}
-char	*join(t_data *lst_words, int *id)
-{
-	char	*str;
-	char	*temp;
-
-	temp = ft_strdup("");
-	while (lst_words && lst_words->type <= dq_word)
-	{
-		str = ft_strjoin(temp, lst_words->word);
-		free(temp);
-		temp = str;
-		lst_words = lst_words->next;
-	}
-	if (lst_words)
-		*id = lst_words->id;
-	else
-		*id = -1;
-	return (str);
-}
 void	fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 {
 	char	**vars;
@@ -61,10 +20,7 @@ void	fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 	int		fd;
 	int		i;
 
-	head = lst_words;
-	i = 0;
-	id = 0;
-	fd = STDIN_FILENO;
+	initvr(&head, &i, &fd,lst_words);
 	vars = (char **)malloc((count_w(lst_words) + 1) * sizeof(char *));
 	if (lst_words->type == pi_pe)
 		lst_words = lst_words->next;
@@ -72,28 +28,11 @@ void	fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 	{
 		if (lst_words->type != space)
 		{
-			if (lst_words->fd_here_doc >= -1)
-				fd = lst_words->fd_here_doc;
-			if ((lst_words->type == dq_word || lst_words->type == word)
-				&& !ft_strcmp(lst_words->word, "") && lst_words->exp)
-			{
-				lst_words = lst_words->next;
-				continue ;
-			}
-			if (lst_words->type <= dq_word)
-			{
-				vars[i] = join(lst_words, &id);
-				i++;
-				if (id < 0)
-					break ;
-				while (lst_words->id + 1 != id)
-					lst_words = lst_words->next;
-			}
-			else
-			{
-				vars[i] = ft_strdup(lst_words->word);
-				i++;
-			}
+			id = fill_vars3(&lst_words, &i, vars, &fd);
+			if (!id)
+				break;
+			else if (id == 1)
+				continue;
 		}
 		lst_words = lst_words->next;
 	}
@@ -139,27 +78,11 @@ t_cmd_lines	*join_words(t_data *lst_words)
 		if (head->id == 0 || head->type == pi_pe)
 		{
 			if (amb_in(head))
-			{
 				g_global->exit_status = 1;
-				// head = head->next;
-			}
-			// else
 			fill_vars(head, &p_to_e);
 		}
 		head = head->next;
 	}
-
-	//     int i;
-	//     while(p_to_e)
-	//     {
-	//         i = 0;
-	//         while (p_to_e->cmd_line[i])
-	//             printf("pte : [%s]\n", p_to_e->cmd_line[i++]);
-	//         printf("infile --> [%d]\n", p_to_e->infile);
-	//         printf("-----------------------------------------\n");
-	//         p_to_e = p_to_e->next;
-	//     }
-	// exit (0);
 	clean_list(&lst_words);
 	return (p_to_e);
 }
