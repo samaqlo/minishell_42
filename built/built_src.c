@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_src.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/21 17:09:22 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/22 18:54:55 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	shell_env(t_list_env **enev)
 	int		shlvl_i;
 
 	shlvl = print_env(enev, "SHLVL");
-	//i case u delet SHLVL it should start with 1
 	if (!shlvl)
 	{
 		shlvl = ft_strdup("1");
@@ -47,7 +46,20 @@ void	shell_env(t_list_env **enev)
 	change_env(enev, "SHLVL", shlvl);
 	free(shlvl);
 }
+void	unset_env(t_list_env **enev)
+{
+	char *content;
 
+	content = getcwd(NULL, 0);
+	ft_lstadd_back_env(enev, ft_lstnew_env(content, "PWD", 1));
+	ft_lstadd_back_env(enev, ft_lstnew_env("/usr/bin/env", "_", 1));
+	shell_env(enev);
+	ft_lstadd_back_env(enev,
+						ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.",
+										"PATH",
+										3));
+	free(content);
+}
 void	grep_env(char **env, t_list_env **enev)
 {
 	int		i;
@@ -59,15 +71,7 @@ void	grep_env(char **env, t_list_env **enev)
 	i = 0;
 	if (!env[0])
 	{
-		content = getcwd(NULL, 0);
-		ft_lstadd_back_env(enev, ft_lstnew_env(content, "PWD", 1));
-		ft_lstadd_back_env(enev, ft_lstnew_env("/usr/bin/env", "_", 1));
-		shell_env(enev);
-		ft_lstadd_back_env(enev,
-							ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.",
-											"PATH",
-											3));
-		free(content);
+		unset_env(enev);
 		return ;
 	}
 	while (env[i])
@@ -101,65 +105,4 @@ int	check_n(char *av)
 		i++;
 	}
 	return (0);
-}
-
-char	*getpath(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PATH", 4) == 0)
-			return (env[i] + 4);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*print_env(t_list_env **env, char *var)
-{
-	t_list_env	*tmp;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->variable, var) && tmp->content && tmp->c)
-			return (tmp->content);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-long	ft_atoi_overflow(char *str)
-{
-	long i;
-	long n;
-	int signe;
-	long long hold;
-
-	i = 0;
-	n = 0;
-	signe = 1;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			signe = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		hold = n;
-		n = n * 10 + str[i] - 48;
-		if (hold != n / 10)
-			g_global->echo_status = 1;
-		else
-			g_global->echo_status = 0;
-		i++;
-	}
-	if (!ft_strcmp(str, "-9223372036854775808"))
-		g_global->echo_status = 0;
-	return (n * signe);
 }

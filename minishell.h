@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 04:56:28 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/22 19:53:24 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ enum					e_words_types
 	pi_pe,
 	space
 };
+typedef struct s_norm
+{
+	char *var;
+	char *cont;
+}				t_norm;
 
 typedef struct s_global
 {
@@ -225,5 +230,19 @@ char	**delete_red(t_cmd_lines *lines);
 void	clean_lines(t_cmd_lines **lines);
 int	strs_len(char **str);
 char	**ft_strdup2(char **strs);
+//error centre 
+int	check_for_errors(int *types, int len);
+int		conditions2(int *types, int j, int i, int len);
+void	open_err(char *file_name, int code);
+void	print_error(int code, int type);
+void	print_code_0(int type);
+//builts export
+void	exprt_no_args(t_list_env *env, int fd);
+void	concat(t_list_env **env, char *var, char *cont);
+void	set_var(t_list_env **env, char *var, char *cont);
+void	print_exprt_err(char *str);
+void	ft_export(char **av, int i, t_list_env **env, t_norm *chars);
+//built exit
+int	built_exit(t_cmd_lines *cmd, int flag);
 
 #endif

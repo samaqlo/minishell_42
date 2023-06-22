@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 17:53:34 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 05:23:26 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/22 18:01:48 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,8 @@ void	open_err(char *file_name, int code)
 		ft_putstr_fd(": Permission denied\n", 2);
 	}
 }
-int	check_for_errors(int *types, int len)
+int		conditions2(int *types, int j, int i, int len)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 1;
-	if (types[i] == pi_pe)
-		return (print_error(1, 0), free(types), 0);
-	while (j <= len)
-	{
 		if ((types[i] >= r_redirect) && j == len)
 			return (print_error(1, 0), free(types), 0);
 		else if (((types[i] >= r_redirect && types[i] <= append)
@@ -80,6 +71,21 @@ int	check_for_errors(int *types, int len)
 				return (print_error(0, types[j + 1]), free(types), 0);
 			return (print_error(1, 0), free(types), 0);
 		}
+	return (1);
+}
+int	check_for_errors(int *types, int len)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 1;
+	if (types[i] == pi_pe)
+		return (print_error(1, 0), free(types), 0);
+	while (j <= len)
+	{
+		if (!conditions2(types, j, i, len))
+			return (0);
 		i++;
 		j++;
 	}
@@ -87,29 +93,5 @@ int	check_for_errors(int *types, int len)
 	if (types[i] >= r_redirect && types[i] != space)
 		return (print_error(1, 0), free(types), 0);
 	free(types);
-	return (1);
-}
-int	syntaxe_checker(t_data *cmd_line)
-{
-	int i;
-	int len;
-	int *types;
-
-	i = 0;
-	len = ft_lstsize(cmd_line);
-	types = malloc(len * sizeof(int));
-	while (cmd_line)
-	{
-		if (cmd_line->type != space)
-		{
-			types[i] = cmd_line->type;
-			cmd_line = cmd_line->next;
-			i++;
-		}
-		else
-			cmd_line = cmd_line->next;
-	}
-	if (!check_for_errors(types, len))
-		return (0);
 	return (1);
 }

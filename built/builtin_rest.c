@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_rest.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/21 17:09:32 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/22 19:36:35 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,94 +14,39 @@
 
 int	built_export(t_list_env *env, char **av, int fd)
 {
-	char	*var;
-	char	*cont;
-	char	*tmp;
+	t_norm	chars;
 	int		i;
 
-	var = NULL;
+	chars.var = NULL;
 	i = 1;
 	if (!av[1])
-	{
-		while (env)
-		{
-			if (env->c == 1 && env->content)
-			{
-				ft_putstr_fd("declare -x ", fd);
-				ft_putstr_fd(env->variable, fd);
-				ft_putstr_fd("=\"", fd);
-				ft_putstr_fd(env->content, fd);
-				ft_putstr_fd("\"\n", fd);
-			}
-			else if (env->c == 1 && !env->content)
-			{
-				ft_putstr_fd("declare -x ", fd);
-				ft_putstr_fd(env->variable, fd);
-				ft_putstr_fd("\n", fd);
-			}
-			env = env->next;
-		}
-	}
+		exprt_no_args(env, fd);
 	while (av[i])
 	{
-		var = ft_substr(av[i], 0, check_equal(av[i]));
+		chars.var = ft_substr(av[i], 0, check_equal(av[i]));
 		if (av[i][check_equal(av[i]) - 1] == '+')
 		{
-			free(var);
-			var = ft_substr(av[i], 0, check_equal(av[i]) - 1);
+			free(chars.var);
+			chars.var = ft_substr(av[i], 0, check_equal(av[i]) - 1);
 		}
-		cont = ft_substr(av[i], check_equal(av[i]) + 1, (ft_strlen(av[i])
+		chars.cont = ft_substr(av[i], check_equal(av[i]) + 1, (ft_strlen(av[i])
 					- check_equal(av[i])));
-		if (av[i] && !pars_export(av[i]))
-		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(av[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-		}
-		else if (av[i] && check_equal(av[i]))
-		{
-			if (av[i][check_equal(av[i]) - 1] == '+')
-			{
-				if (check_env(env, var))
-				{
-					if (print_env(&env, var))
-					{
-						tmp = ft_strjoin(print_env(&env, var), cont);
-						change_env(&env, var, tmp);
-						free(tmp);
-					}
-					else
-					{
-						tmp = ft_strjoin("", cont);
-						change_env(&env, var, tmp);
-						free(tmp);
-					}
-				}
-				else
-					ft_lstadd_back_env(&env, ft_lstnew_env(cont, var, 1));
-			}
-			else
-			{
-				if (check_env(env, var))
-					change_env(&env, var, cont);
-				else
-					ft_lstadd_back_env(&env, ft_lstnew_env(cont, var, 1));
-			}
-		}
-		else if (av[i] && !check_equal(av[i]))
-		{
-			if (!check_env(env, av[i]))
-				ft_lstadd_back_env(&env, ft_lstnew_env(NULL, av[i], 1));
-			else
-				change_env(&env, av[i], print_env(&env, av[i]));
-		}
-		free(var);
-		free(cont);
+		ft_export(av, i, &env, &chars);
 		i++;
 	}
 	return (1);
 }
-
+int		no_args(t_list_env **env, char *str)
+{
+	if (!print_env(env, "HOME"))
+	{
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return (0);
+	}
+	chdir(print_env(env, "HOME"));
+	change_env(env, "PWD", getcwd(str, sizeof(str)));
+	return (1);
+}
 int	built_cd(t_list_env *env, char **args)
 {
 	char	str[1024];
@@ -109,13 +54,8 @@ int	built_cd(t_list_env *env, char **args)
 	change_env(&env, "OLDPWD", print_env(&env, "PWD"));
 	if (!args[1])
 	{
-		if (!print_env(&env, "HOME"))
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
+		if (!no_args(&env, str))
 			return (0);
-		}
-		chdir(print_env(&env, "HOME"));
-		change_env(&env, "PWD", getcwd(str, sizeof(str)));
 	}
 	else if (access(args[1], F_OK) == -1)
 	{
