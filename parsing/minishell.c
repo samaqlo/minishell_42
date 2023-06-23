@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 13:03:25 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:08:59 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	if (!ttyname(0))
+		return (ft_putstr_fd("Error\n", 2), 0);
 	init_env(&infos, env);
 	if (!av[1])
 	{
