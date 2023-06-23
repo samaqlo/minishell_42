@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/23 12:49:08 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/23 17:08:14 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ int	no_args(t_list_env **env, char *str)
 	return (1);
 }
 
+void	err_chdir(char *str)
+{
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": Not a directory\n", 2);
+}
+
 int	built_cd(t_list_env *env, char **args)
 {
 	char	str[1024];
@@ -71,7 +78,8 @@ int	built_cd(t_list_env *env, char **args)
 		ft_putstr_fd("Permission denied\n", 2);
 	else if (args[1])
 	{
-		chdir(args[1]);
+		if (chdir(args[1]) < 0)
+			return (err_chdir(args[1]), 0);
 		change_env(&env, "PWD", getcwd(str, sizeof(str)));
 	}
 	return (1);

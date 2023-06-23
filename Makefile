@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+         #
+#    By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/23 09:47:14 by astalha          ###   ########.fr        #
+#    Updated: 2023/06/23 16:19:11 by ohaimad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS	= $(SRCS:.c=.o)
 CC 		= cc
 RM		= rm -rf
 AR		= ar rc
-FLAGS	= -Wall -Werror -Wextra
+FLAGS	= -Wall -Wextra -Werror
 NAME	= minishell
 
 %.o: %.c minishell.h  
@@ -38,7 +38,7 @@ NAME	= minishell
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -L $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) -L $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 
 .PHONY: all clean fclean re 
 

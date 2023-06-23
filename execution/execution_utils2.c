@@ -6,7 +6,7 @@
 /*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:26:35 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 12:49:35 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:24:11 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*path_split(t_cmd_lines *cmd)
 	split = ft_split(path, ':');
 	str = join_args(cmd);
 	res = get_binary(split, str);
-	if (access(res, F_OK))
+	if (access(res, F_OK) || !ft_strcmp(cmd->cmd_line[0], ""))
 	{
 		err_cmd(cmd->cmd_line[0]);
 		res = NULL;
