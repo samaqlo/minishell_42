@@ -6,14 +6,12 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 19:55:15 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:18:33 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-// unset don't remove $pwd $old_pwd $HOME
 int	built_env(t_list_env *enev, int fd)
 {
 	while (enev)
@@ -82,14 +80,19 @@ int	built_pwd(t_list_env **env, int fd)
 {
 	char	str[1024];
 
-	(void)env;
-	if (getcwd(str, sizeof(str)))
+ 	if (getcwd(str, sizeof(str)))
 	{
 		ft_putstr_fd(str, fd);
 		ft_putstr_fd("\n", fd);
 	}
 	else
-		ft_putstr_fd(print_env(env, "PWD"), fd);
+	{
+		if (strcmp(print_env(env, "PWD"), ""))
+			ft_putstr_fd(print_env(env, "PWD"), fd);
+		else 
+			ft_putstr_fd(".", fd);
+		ft_putstr_fd("\n", fd);
+	}
 	return (1);
 }
 
