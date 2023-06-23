@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:54:55 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 19:56:18 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:48:35 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_echo(char **av, int i, int fd)
 {
-	int test;
+	int	test;
 
 	test = 1;
 	if (av[i][0])
@@ -34,6 +34,7 @@ void	ft_echo(char **av, int i, int fd)
 		}
 	}
 }
+
 int	built_echo(char **av, int fd)
 {
 	int	i;

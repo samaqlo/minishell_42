@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:34:59 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:04 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:09:42 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_substr_parse(char const *s, t_infos *infos)
 	while (s[i] && i < infos->len)
 	{
 		while ((infos->is_quote == 1 && s[infos->start] == '\'')
-				|| (infos->is_quote == 2 && s[infos->start] == '\"'))
+			|| (infos->is_quote == 2 && s[infos->start] == '\"'))
 			infos->start++;
 		ptr[i++] = s[infos->start++];
 	}

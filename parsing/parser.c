@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:00 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:21:38 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 	int		fd;
 	int		i;
 
-	initvr(&head, &i, &fd,lst_words);
+	initvr(&head, &i, &fd, lst_words);
 	vars = (char **)malloc((count_w(lst_words) + 1) * sizeof(char *));
 	if (lst_words->type == pi_pe)
 		lst_words = lst_words->next;
@@ -30,16 +30,17 @@ void	fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 		{
 			id = fill_vars3(&lst_words, &i, vars, &fd);
 			if (!id)
-				break;
+				break ;
 			else if (id == 1)
-				continue;
+				continue ;
 		}
 		lst_words = lst_words->next;
 	}
 	vars[i] = NULL;
 	ft_lstadd_back_exp(p_to_e, ft_lstnew_exp(vars, fd, STDOUT_FILENO,
-				head->infos));
+			head->infos));
 }
+
 int	check_amb(t_data *lst_words)
 {
 	while (lst_words && lst_words->type == space)
@@ -52,6 +53,7 @@ int	check_amb(t_data *lst_words)
 		return (1);
 	return (0);
 }
+
 int	amb_in(t_data *lst_words)
 {
 	if (lst_words->type == pi_pe)
@@ -65,14 +67,14 @@ int	amb_in(t_data *lst_words)
 	}
 	return (0);
 }
+
 t_cmd_lines	*join_words(t_data *lst_words)
 {
-	t_cmd_lines *p_to_e;
-	t_data *head;
+	t_cmd_lines	*p_to_e;
+	t_data		*head;
 
 	head = lst_words;
 	p_to_e = NULL;
-
 	while (head)
 	{
 		if (head->id == 0 || head->type == pi_pe)

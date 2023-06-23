@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:53:58 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:10:38 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ enum					e_words_types
 };
 typedef struct s_norm
 {
-	char *var;
-	char *cont;
-}				t_norm;
+	char				*var;
+	char				*cont;
+}						t_norm;
 
 typedef struct s_global
 {
@@ -150,90 +150,94 @@ void					rl_replace_line(const char *text, int clear_undo);
 long					ft_atoi_overflow(char *str);
 void					clean_in_exit(t_list_env **env, t_global *g_global);
 
-t_cmd_lines	*parsing(char *str, t_infos *infos);
-void	execution(t_cmd_lines *lines, t_infos *infos, int c);
-void	tby_shell(char *str, t_infos *infos);
-void	clean_lines2(t_cmd_lines **lines);
-int	is_redrect(char *str);
-int	is_built(t_cmd_lines *cmd);
+t_cmd_lines				*parsing(char *str, t_infos *infos);
+void					execution(t_cmd_lines *lines, t_infos *infos, int c);
+void					tby_shell(char *str, t_infos *infos);
+void					clean_lines2(t_cmd_lines **lines);
+int						is_redrect(char *str);
+int						is_built(t_cmd_lines *cmd);
 //ecp utils
-int	check_prev(t_data *lst_words, int id);
-int	check_next_2hd(t_data *lst_words, int id);
-void	set_ids(t_data *lst_words);
-int	count_words(char *str);
-int	get_len(char *str, int *i);
-char *expand(t_list_env *env);
-char	*skip_space(char *str);
-int		len_of_space(char *str);
-int	dollar_in(char *str);
-int	space_in(char *str);
-void	fill_vars2(t_data *cmd_line, char *tmp, int j, t_data *head);
-int	len_of_word(char *str, int *i);
-int	dollar_len(char *str, int *i);
-int	white_sp_len(char *str, int *i);
-char	*set_value(char *var, t_list_env *env);
+int						check_prev(t_data *lst_words, int id);
+int						check_next_2hd(t_data *lst_words, int id);
+void					set_ids(t_data *lst_words);
+int						count_words(char *str);
+int						get_len(char *str, int *i);
+char					*expand(t_list_env *env);
+char					*skip_space(char *str);
+int						len_of_space(char *str);
+int						dollar_in(char *str);
+int						space_in(char *str);
+void					fill_vars2(t_data *cmd_line, char *tmp, int j,
+							t_data *head);
+int						len_of_word(char *str, int *i);
+int						dollar_len(char *str, int *i);
+int						white_sp_len(char *str, int *i);
+char					*set_value(char *var, t_list_env *env);
 //lexer
-int	all_spaces(t_data *words);
-int	quoting_checker(char *str);
-int	strat_end_checker(char *str);
-int	quote_len(char *str, t_infos *infos);
-int	white_sp(char *str, t_infos *infos);
-int		conditions(t_infos *infos, char *str, int *i, int *len);
-int	word_len(char *str, t_infos *infos);
-void	init_args(t_infos *infos);
-int	count_red(t_data *lst_words);
-int	is_expandable(t_data *lst_words);
+int						all_spaces(t_data *words);
+int						quoting_checker(char *str);
+int						strat_end_checker(char *str);
+int						quote_len(char *str, t_infos *infos);
+int						white_sp(char *str, t_infos *infos);
+int						conditions(t_infos *infos, char *str, int *i, int *len);
+int						word_len(char *str, t_infos *infos);
+void					init_args(t_infos *infos);
+int						count_red(t_data *lst_words);
+int						is_expandable(t_data *lst_words);
 //here_doc
-char	*get_tmp(void);
-int	count_hrdc(t_data *lst_words);
-void	c_handl(int sig);
-void	sig_D(t_data *lst_words);
-void	fill_here_doc(int fd, t_data *del, t_data *lst_words);
-t_data	*join_del(t_data *lst_words);
+char					*get_tmp(void);
+int						count_hrdc(t_data *lst_words);
+void					c_handl(int sig);
+void					sig_d(t_data *lst_words);
+void					fill_here_doc(int fd, t_data *del, t_data *lst_words);
+t_data					*join_del(t_data *lst_words);
 //parser
-int	count_w(t_data *lst_words);
-char	*join(t_data *lst_words, int *id);
-int	fill_vars3(t_data **lst_words, int *i, char **vars, int *fd);
-void	initvr(t_data **head, int *i, int *fd, t_data *lst_words);
+int						count_w(t_data *lst_words);
+char					*join(t_data *lst_words, int *id);
+int						fill_vars3(t_data **lst_words, int *i, char **vars,
+							int *fd);
+void					initvr(t_data **head, int *i, int *fd,
+							t_data *lst_words);
 // red
-int	get_type(t_cmd_lines *line);
-int	is_red(char *str);
-void	set_fd(int **fds, int fd);
-int	priority(char **vars, int i);
-int	inred(t_cmd_lines *lines, int i);
-int		outred(t_cmd_lines *lines, int i);
-int 	appendred(t_cmd_lines *lines, int i);
-int		redirections(t_cmd_lines *lines, int i);
-int	open_file(t_cmd_lines *lines);
-int	get_new_lenght(char **vars);
-int	vars_len(char **vars);
-char	**delete_red(t_cmd_lines *lines);
-void	clean_lines(t_cmd_lines **lines);
-int	strs_len(char **str);
-char	**ft_strdup2(char **strs);
-//error centre 
-int	check_for_errors(int *types, int len);
-int		conditions2(int *types, int j, int i, int len);
-void	open_err(char *file_name, int code);
-void	print_error(int code, int type);
-void	print_code_0(int type);
+int						get_type(t_cmd_lines *line);
+int						is_red(char *str);
+void					set_fd(int **fds, int fd);
+int						priority(char **vars, int i);
+int						inred(t_cmd_lines *lines, int i);
+int						outred(t_cmd_lines *lines, int i);
+int						appendred(t_cmd_lines *lines, int i);
+int						redirections(t_cmd_lines *lines, int i);
+int						open_file(t_cmd_lines *lines);
+int						get_new_lenght(char **vars);
+int						vars_len(char **vars);
+char					**delete_red(t_cmd_lines *lines);
+void					clean_lines(t_cmd_lines **lines);
+int						strs_len(char **str);
+char					**ft_strdup2(char **strs);
+//error centre
+int						check_for_errors(int *types, int len);
+int						conditions2(int *types, int j, int i, int len);
+void					open_err(char *file_name, int code);
+void					print_error(int code, int type);
+void					print_code_0(int type);
 //builts export
-void	exprt_no_args(t_list_env *env, int fd);
-void	concat(t_list_env **env, char *var, char *cont);
-void	set_var(t_list_env **env, char *var, char *cont);
-void	print_exprt_err(char *str);
-void	ft_export(char **av, int i, t_list_env **env, t_norm *chars);
+void					exprt_no_args(t_list_env *env, int fd);
+void					concat(t_list_env **env, char *var, char *cont);
+void					set_var(t_list_env **env, char *var, char *cont);
+void					print_exprt_err(char *str);
+void					ft_export(char **av, int i, t_list_env **env,
+							t_norm *chars);
 //built exit
-int	built_exit(t_cmd_lines *cmd, int flag);
+int						built_exit(t_cmd_lines *cmd, int flag);
 //exec
-char	**convert_env(t_list_env *env, char **envp, int i);
-char	*join_args(t_cmd_lines *cmd);
-void	err_file(char *str);
-void	err_cmd(char *str);
-char	*get_binary(char **split, char *str);
-void	err_127(char *str, DIR *dir);
-int	execve_fail(char *path, t_cmd_lines *lines);
-void	ft_wait(t_cmd_lines *lines, int pid, int old, int fd);
-void	fds_manager(t_cmd_lines *lines, int *fd, int old);
+char					**convert_env(t_list_env *env, char **envp, int i);
+char					*join_args(t_cmd_lines *cmd);
+void					err_file(char *str);
+void					err_cmd(char *str);
+char					*get_binary(char **split, char *str);
+void					err_127(char *str, DIR *dir);
+int						execve_fail(char *path, t_cmd_lines *lines);
+void					ft_wait(t_cmd_lines *lines, int pid, int old, int fd);
+void					fds_manager(t_cmd_lines *lines, int *fd, int old);
 
 #endif

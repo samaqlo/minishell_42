@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:45:21 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:36:38 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:08:34 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	is_redrect(char *str)
 		return (1);
 	return (0);
 }
+
 int	is_built(t_cmd_lines *cmd)
 {
 	if (!cmd->cmd_line[0])
@@ -26,10 +27,10 @@ int	is_built(t_cmd_lines *cmd)
 			"ECHO"))
 		return (1);
 	else if (!ft_strcmp(cmd->cmd_line[0], "env") || !ft_strcmp(cmd->cmd_line[0],
-				"ENV"))
+			"ENV"))
 		return (1);
 	else if (!ft_strcmp(cmd->cmd_line[0], "pwd") || !ft_strcmp(cmd->cmd_line[0],
-				"PWD"))
+			"PWD"))
 		return (1);
 	else if (!ft_strcmp(cmd->cmd_line[0], "unset"))
 		return (1);

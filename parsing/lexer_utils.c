@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 00:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:29 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:14:38 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	all_spaces(t_data *words)
 	}
 	return (1);
 }
+
 int	quoting_checker(char *str)
 {
 	int	i;
@@ -50,20 +51,23 @@ int	quoting_checker(char *str)
 	}
 	return (flag);
 }
+
 int	strat_end_checker(char *str)
 {
 	int	i;
 
 	i = 0;
 	if (str[i] == '|')
-		return (ft_putstr_fd("minishell: syntax error near unexpected token `|\'\n",
-				2), 0);
+		return (ft_putstr_fd(
+				"minishell: syntax error near unexpected token `|\'\n", 2), 0);
 	i = ft_strlen(str) - 1;
 	if (ft_strchr("><|", str[i]))
-		return (ft_putstr_fd("minishell: syntax error near unexpected token `newline\'\n",
+		return (ft_putstr_fd(
+				"minishell: syntax error near unexpected token `newline\'\n",
 				2), 0);
 	return (1);
 }
+
 int	quote_len(char *str, t_infos *infos)
 {
 	int	i;

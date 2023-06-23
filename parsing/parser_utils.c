@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 04:23:02 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:56 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:02:55 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	count_w(t_data *lst_words)
 	}
 	return (count);
 }
+
 char	*join(t_data *lst_words, int *id)
 {
 	char	*str;
@@ -53,9 +54,10 @@ char	*join(t_data *lst_words, int *id)
 		*id = -1;
 	return (str);
 }
+
 int	fill_vars3(t_data **lst_words, int *i, char **vars, int *fd)
 {
-	int id;
+	int	id;
 
 	id = 0;
 	if ((*lst_words)->fd_here_doc >= -1)
@@ -76,8 +78,9 @@ int	fill_vars3(t_data **lst_words, int *i, char **vars, int *fd)
 	}
 	else
 		vars[(*i)++] = ft_strdup((*lst_words)->word);
-	return -1;
+	return (-1);
 }
+
 void	initvr(t_data **head, int *i, int *fd, t_data *lst_words)
 {
 	*i = 0;

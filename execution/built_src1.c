@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_src1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:05 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 19:01:54 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:23:25 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ char	*print_env(t_list_env **env, char *var)
 	}
 	return (NULL);
 }
+
 void	echo_status_func(char *str, long i, long *n)
 {
-	long long hold;
+	long long	hold;
 
 	while (str[i] >= '0' && str[i] <= '9')
 	{
@@ -59,9 +60,9 @@ void	echo_status_func(char *str, long i, long *n)
 
 long	ft_atoi_overflow(char *str)
 {
-	long i;
-	long n;
-	int signe;
+	long	i;
+	long	n;
+	int		signe;
 
 	i = 0;
 	n = 0;

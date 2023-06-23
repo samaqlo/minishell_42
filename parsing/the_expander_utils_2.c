@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_expander_utils_2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:39:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:27 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:47:44 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	space_in(char *str)
 	}
 	return (0);
 }
+
 int	dollar_in(char *str)
 {
 	int	i;
@@ -40,10 +41,11 @@ int	dollar_in(char *str)
 	}
 	return (0);
 }
-int		len_of_space(char *str)
+
+int	len_of_space(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -57,6 +59,7 @@ int		len_of_space(char *str)
 	j++;
 	return (j);
 }
+
 char	*skip_space(char *str)
 {
 	int		i;
@@ -84,7 +87,8 @@ char	*skip_space(char *str)
 	free(str);
 	return (tmp);
 }
-char *expand(t_list_env *env)
+
+char	*expand(t_list_env *env)
 {
 	if (!env->c)
 		return (ft_strdup(""));

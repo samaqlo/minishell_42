@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:50 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:19:35 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_data	*ft_lstlast(t_data *lst)
 		plst = plst->next;
 	return (plst);
 }
+
 void	set_type(t_data *new)
 {
 	if (!ft_strncmp(new->word, "|", ft_strlen(new->word)))
@@ -67,7 +68,7 @@ void	set_type(t_data *new)
 		new->type = pi_pe;
 	}
 	else if (!ft_strncmp(new->word, ">", ft_strlen(new->word))
-			|| !ft_strncmp(new->word, ">|", ft_strlen(new->word)))
+		|| !ft_strncmp(new->word, ">|", ft_strlen(new->word)))
 		new->type = r_redirect;
 	else if (!ft_strncmp(new->word, "<", ft_strlen(new->word)))
 		new->type = l_redirect;
@@ -78,6 +79,7 @@ void	set_type(t_data *new)
 	else
 		new->type = word;
 }
+
 t_data	*ft_lstnew(char *content, t_infos *infos)
 {
 	t_data	*new;

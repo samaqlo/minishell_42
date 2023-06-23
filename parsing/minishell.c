@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:53 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:03:25 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	sig_handl(int sig)
 	else if (sig == SIGQUIT)
 		return ;
 }
+
 void	init_env(t_infos *infos, char **env)
 {
 	infos->env = NULL;
@@ -35,7 +36,7 @@ void	init_env(t_infos *infos, char **env)
 	grep_env(env, &infos->env);
 }
 
-int		protection(char *str)
+int	protection(char *str)
 {
 	if (str && !*str)
 	{
@@ -50,13 +51,14 @@ int		protection(char *str)
 	}
 	return (1);
 }
+
 int	main(int ac, char **av, char **env)
 {
-	t_infos infos;
+	t_infos	infos;
+	char	*str;
+
 	(void)ac;
 	(void)av;
-	char *str;
-
 	init_env(&infos, env);
 	if (!av[1])
 	{
@@ -67,7 +69,7 @@ int	main(int ac, char **av, char **env)
 			rl_catch_signals = 0;
 			str = readline("tby_shell$ ");
 			if (!protection(str))
-				continue;
+				continue ;
 			else
 				tby_shell(str, &infos);
 		}

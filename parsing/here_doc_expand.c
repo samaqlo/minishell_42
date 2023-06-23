@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_expand.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 11:05:04 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:07 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:17:06 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char **ft_init(int *i, int *j, int *len, char *str)
+char	**ft_init(int *i, int *j, char *str)
 {
-	char **vars;
+	char	**vars;
+
 	*i = 0;
 	*j = 0;
-	*len = 0;
 	vars = malloc((count_words(str) + 1) * sizeof(char *));
 	return (vars);
 }
+
 char	*expand_in_hd(char *str, t_list_env *env)
 {
 	int		i;
 	int		j;
 	int		start;
-	int		len;
 	char	*word;
 	char	**vars;
 
-	vars = ft_init(&i, &j, &len, str);
+	vars = ft_init(&i, &j, str);
 	while (str[i])
 	{
 		start = i;
-		len = get_len(str, &i);
-		word = ft_substr(str, start, len);
+		word = ft_substr(str, start, get_len(str, &i));
 		if (!ft_strcmp("$", word))
 			vars[j++] = ft_strdup(word);
 		else if (*word == '$')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:35:10 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 19:35:36 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:49:48 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ void	exprt_no_args(t_list_env *env, int fd)
 		env = env->next;
 	}
 }
+
 void	concat(t_list_env **env, char *var, char *cont)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (check_env(*env, var))
 	{
@@ -55,6 +56,7 @@ void	concat(t_list_env **env, char *var, char *cont)
 	else
 		ft_lstadd_back_env(env, ft_lstnew_env(cont, var, 1));
 }
+
 void	set_var(t_list_env **env, char *var, char *cont)
 {
 	if (check_env(*env, var))
@@ -62,12 +64,14 @@ void	set_var(t_list_env **env, char *var, char *cont)
 	else
 		ft_lstadd_back_env(env, ft_lstnew_env(cont, var, 1));
 }
+
 void	print_exprt_err(char *str)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
+
 void	ft_export(char **av, int i, t_list_env **env, t_norm *chars)
 {
 	if (av[i] && !pars_export(av[i]))
@@ -75,7 +79,7 @@ void	ft_export(char **av, int i, t_list_env **env, t_norm *chars)
 	else if (av[i] && check_equal(av[i]))
 	{
 		if (av[i][check_equal(av[i]) - 1] == '+')
-				concat(env, chars->var, chars->cont);
+			concat(env, chars->var, chars->cont);
 		else
 			set_var(env, chars->var, chars->cont);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:24:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 11:12:32 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:24:06 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*join_args(t_cmd_lines *cmd)
 	arg = ft_strjoin("/", cmd->cmd_line[0]);
 	return (arg);
 }
+
 void	err_file(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -62,10 +63,11 @@ void	err_cmd(char *str)
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
+
 char	*get_binary(char **split, char *str)
 {
-	int i;
-	char *res;
+	int		i;
+	char	*res;
 
 	i = 0;
 	while (split[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:52:21 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 19:52:51 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:22:27 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ void	exit_err_255(char *str)
 	ft_putstr_fd(": numeric argument required\n", 2);
 	exit(255);
 }
+
 void	ifndegit(t_cmd_lines *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (cmd->cmd_line[1][0] == '-' || cmd->cmd_line[1][0] == '+')
-			i++;
+		i++;
 	while (cmd->cmd_line[1][i])
 	{
 		if (!ft_isdigit(cmd->cmd_line[1][i]))
@@ -34,6 +35,7 @@ void	ifndegit(t_cmd_lines *cmd)
 		i++;
 	}
 }
+
 int	built_exit(t_cmd_lines *cmd, int flag)
 {
 	int		i;

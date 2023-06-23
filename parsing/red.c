@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:17 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:21:44 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ t_cmd_lines	*del_lines(t_cmd_lines *lines)
 	while (lines)
 	{
 		ft_lstadd_back_exp(&new, ft_lstnew_exp(ft_strdup2(lines->cmd_line),
-					lines->infile, lines->outfile, lines->infos));
+				lines->infile, lines->outfile, lines->infos));
 		lines = lines->next;
 	}
 	clean_lines(&head);
 	return (new);
 }
+
 int	delete_adds(t_cmd_lines **lines)
 {
 	char		**tmp;

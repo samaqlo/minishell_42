@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:36:44 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:50:05 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	freealloc2(char **ptr)
 	free(ptr);
 	ptr = NULL;
 }
+
 void	clean_list(t_data **lst_words)
 {
 	t_data	*words;
@@ -46,9 +47,10 @@ void	clean_list(t_data **lst_words)
 	}
 	*lst_words = NULL;
 }
+
 void	clean_in_exit(t_list_env **env, t_global *g_global)
 {
-	t_list_env *tmp;
+	t_list_env	*tmp;
 
 	while (*env)
 	{
@@ -60,17 +62,19 @@ void	clean_in_exit(t_list_env **env, t_global *g_global)
 	}
 	free(g_global);
 }
-void  ft_close(t_infos *infos)
+
+void	ft_close(t_infos *infos)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < infos->n_red)
+	while (i < infos->n_red)
 	{
 		close(infos->fds[i]);
 		i++;
 	}
 }
+
 void	clean_lines2(t_cmd_lines **lines)
 {
 	t_cmd_lines	*tmp;

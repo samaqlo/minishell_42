@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_rest.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:09:26 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/23 11:53:52 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:49:08 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	built_export(t_list_env *env, char **av, int fd)
 	}
 	return (1);
 }
-int		no_args(t_list_env **env, char *str)
+
+int	no_args(t_list_env **env, char *str)
 {
 	if (!print_env(env, "HOME"))
 	{
@@ -47,6 +48,7 @@ int		no_args(t_list_env **env, char *str)
 	change_env(env, "PWD", getcwd(str, sizeof(str)));
 	return (1);
 }
+
 int	built_cd(t_list_env *env, char **args)
 {
 	char	str[1024];

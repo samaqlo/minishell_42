@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:42 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:51:16 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	amb(t_data *lst_words)
 			lst_words = lst_words->next;
 	}
 }
+
 void	fill_fds(int *tab, int len)
 {
 	int	i;
@@ -52,10 +53,11 @@ void	fill_fds(int *tab, int len)
 		i++;
 	}
 }
+
 void	fill_list_words(t_infos *infos, char *str, t_data **lst_words)
 {
-	t_data *tmp;
-	char 	*str1;
+	t_data	*tmp;
+	char	*str1;
 
 	init_args(infos);
 	while (1)
@@ -72,6 +74,7 @@ void	fill_list_words(t_infos *infos, char *str, t_data **lst_words)
 		}
 	}
 }
+
 t_data	*lexer(char *str, t_infos *infos)
 {
 	t_data	*lst_words;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_src.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:03:52 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/22 18:54:55 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:22:56 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,21 @@ void	shell_env(t_list_env **enev)
 	change_env(enev, "SHLVL", shlvl);
 	free(shlvl);
 }
+
 void	unset_env(t_list_env **enev)
 {
-	char *content;
+	char	*content;
 
 	content = getcwd(NULL, 0);
 	ft_lstadd_back_env(enev, ft_lstnew_env(content, "PWD", 1));
 	ft_lstadd_back_env(enev, ft_lstnew_env("/usr/bin/env", "_", 1));
 	shell_env(enev);
 	ft_lstadd_back_env(enev,
-						ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.",
-										"PATH",
-										3));
+		ft_lstnew_env("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", "PATH",
+			3));
 	free(content);
 }
+
 void	grep_env(char **env, t_list_env **enev)
 {
 	int		i;

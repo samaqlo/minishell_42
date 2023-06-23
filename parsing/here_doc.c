@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:37:15 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:50:43 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_data	*join_del(t_data *lst_words)
 	tmp->tfree = 1;
 	return (tmp);
 }
+
 t_data	*get_del(t_data *lst_words)
 {
 	lst_words = lst_words->next;
@@ -43,6 +44,7 @@ t_data	*get_del(t_data *lst_words)
 		return (lst_words);
 	return (join_del(lst_words));
 }
+
 void	here_doc_exec(t_data *lst_words)
 {
 	char	*name;
@@ -66,6 +68,7 @@ void	here_doc_exec(t_data *lst_words)
 		free(tmp);
 	}
 }
+
 void	here_doc_func(t_data *lst_words)
 {
 	set_ids(lst_words);

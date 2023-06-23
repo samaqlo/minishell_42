@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   red_utils_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 04:53:19 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:04 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:58:11 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		outred(t_cmd_lines *lines, int i)
+int	outred(t_cmd_lines *lines, int i)
 {
 	if (!ft_strcmp(lines->cmd_line[i + 1], ""))
-		return (lines->outfile = -1, open_err(lines->cmd_line[i
-				+ 1], 0), 0);
+		return (lines->outfile = -1, open_err(lines->cmd_line[i + 1], 0), 0);
 	lines->outfile = open(lines->cmd_line[i + 1],
 			O_CREAT | O_RDWR | O_TRUNC, 0644);
 	lines->infos->fds[lines->infos->index++] = lines->outfile;
@@ -28,11 +27,10 @@ int		outred(t_cmd_lines *lines, int i)
 	return (1);
 }
 
-int 	appendred(t_cmd_lines *lines, int i)
+int	appendred(t_cmd_lines *lines, int i)
 {
 	if (!ft_strcmp(lines->cmd_line[i + 1], ""))
-		return (lines->outfile = -1, open_err(lines->cmd_line[i
-				+ 1], 0), 0);
+		return (lines->outfile = -1, open_err(lines->cmd_line[i + 1], 0), 0);
 	lines->outfile = open(lines->cmd_line[i + 1],
 			O_CREAT | O_RDWR | O_APPEND, 0644);
 	lines->infos->fds[lines->infos->index++] = lines->outfile;
@@ -43,27 +41,27 @@ int 	appendred(t_cmd_lines *lines, int i)
 	}
 	return (1);
 }
-int		redirections(t_cmd_lines *lines, int i)
+
+int	redirections(t_cmd_lines *lines, int i)
 {
 	if (!ft_strcmp(lines->cmd_line[i], "<") && lines->cmd_line[i + 1])
 	{
 		if (!inred(lines, i))
 			return (0);
 	}
-	else if (!ft_strcmp(lines->cmd_line[i], ">") && lines->cmd_line[i
-			+ 1])
+	else if (!ft_strcmp(lines->cmd_line[i], ">") && lines->cmd_line[i + 1])
 	{
 		if (!outred(lines, i))
 			return (0);
 	}
-	else if (!ft_strcmp(lines->cmd_line[i], ">>") && lines->cmd_line[i
-			+ 1])
+	else if (!ft_strcmp(lines->cmd_line[i], ">>") && lines->cmd_line[i + 1])
 	{
 		if (!appendred(lines, i))
 			return (0);
 	}
 	return (1);
 }
+
 int	open_file(t_cmd_lines *lines)
 {
 	int	i;
@@ -80,6 +78,7 @@ int	open_file(t_cmd_lines *lines)
 	}
 	return (1);
 }
+
 int	get_new_lenght(char **vars)
 {
 	int	i;

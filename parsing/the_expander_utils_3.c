@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_expander_utils_3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:42:05 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:30 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:21:54 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	white_sp_len(char *str, int *i)
 	}
 	return (len);
 }
+
 int	dollar_len(char *str, int *i)
 {
 	int	len;
@@ -71,6 +72,7 @@ int	dollar_len(char *str, int *i)
 	}
 	return (len);
 }
+
 int	len_of_word(char *str, int *i)
 {
 	int	len;
@@ -97,12 +99,12 @@ void	fill_vars2(t_data *cmd_line, char *tmp, int j, t_data *head)
 			cmd_line->vars[j] = set_value(tmp, cmd_line->infos->env);
 	}
 	else if (dollar_in(tmp) && (cmd_line->type == word
-				|| cmd_line->type == dq_word) && !check_prev(head,
-				cmd_line->id))
+			|| cmd_line->type == dq_word) && !check_prev(head,
+			cmd_line->id))
 	{
 		cmd_line->exp = 1;
 		if (cmd_line->type == word)
-			cmd_line->vars[j] = skip_space(set_value(tmp,
+				cmd_line->vars[j] = skip_space(set_value(tmp,
 						cmd_line->infos->env));
 		else
 			cmd_line->vars[j] = set_value(tmp, cmd_line->infos->env);

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 20:33:28 by ohaimad           #+#    #+#             */
-/*   Updated: 2023/06/23 09:26:57 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:45:50 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 int	ft_execution(t_cmd_lines *lines, int fd[2])
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 04:51:39 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 11:22:44 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:20:27 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	get_type(t_cmd_lines *line)
 	}
 	return (0);
 }
+
 int	is_red(char *str)
 {
 	int	i;
@@ -44,6 +45,7 @@ int	is_red(char *str)
 	}
 	return (0);
 }
+
 void	set_fd(int **fds, int fd)
 {
 	int	i;
@@ -53,6 +55,7 @@ void	set_fd(int **fds, int fd)
 		i++;
 	*fds[i] = fd;
 }
+
 int	priority(char **vars, int i)
 {
 	int	flag;
@@ -68,13 +71,13 @@ int	priority(char **vars, int i)
 	}
 	return (flag);
 }
+
 int	inred(t_cmd_lines *lines, int i)
 {
-	int fd;
+	int	fd;
 
 	if (!ft_strcmp(lines->cmd_line[i + 1], ""))
-		return (lines->infile = -1, open_err(lines->cmd_line[i + 1],
-				0), 0);
+		return (lines->infile = -1, open_err(lines->cmd_line[i + 1], 0), 0);
 	fd = open(lines->cmd_line[i + 1], O_RDONLY, 0444);
 	if (priority(lines->cmd_line, i))
 		lines->infile = fd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_expander_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:07 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:34 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:48:09 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	check_prev(t_data *lst_words, int id)
 	}
 	return (0);
 }
+
 int	check_next_2hd(t_data *lst_words, int id)
 {
 	if (lst_words->type == space)
@@ -36,6 +37,7 @@ int	check_next_2hd(t_data *lst_words, int id)
 	}
 	return (0);
 }
+
 void	set_ids(t_data *lst_words)
 {
 	int	i;
@@ -48,6 +50,7 @@ void	set_ids(t_data *lst_words)
 		lst_words = lst_words->next;
 	}
 }
+
 int	count_words(char *str)
 {
 	int	i;
@@ -75,6 +78,7 @@ int	count_words(char *str)
 	}
 	return (count);
 }
+
 int	get_len(char *str, int *i)
 {
 	if (str[*i] == '$' && (ft_isdigit(str[*i + 1]) || str[*i + 1] == '?'))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 04:55:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 11:24:28 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:55:24 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	vars_len(char **vars)
 	i += 2;
 	return (i);
 }
+
 char	**delete_red(t_cmd_lines *lines)
 {
 	char	**tmp;
@@ -43,6 +44,7 @@ char	**delete_red(t_cmd_lines *lines)
 	tmp[j] = NULL;
 	return (tmp);
 }
+
 void	clean_lines(t_cmd_lines **lines)
 {
 	t_cmd_lines	*tmp;
@@ -68,10 +70,11 @@ int	strs_len(char **str)
 		i++;
 	return (i);
 }
+
 char	**ft_strdup2(char **strs)
 {
-	char	**new;
 	int		i;
+	char	**new;
 
 	i = 0;
 	new = (char **)malloc((strs_len(strs) + 1) * sizeof(char *));

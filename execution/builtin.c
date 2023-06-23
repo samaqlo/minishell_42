@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 23:37:52 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 12:18:33 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 13:23:39 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	built_pwd(t_list_env **env, int fd)
 {
 	char	str[1024];
 
- 	if (getcwd(str, sizeof(str)))
+	if (getcwd(str, sizeof(str)))
 	{
 		ft_putstr_fd(str, fd);
 		ft_putstr_fd("\n", fd);
@@ -89,7 +89,7 @@ int	built_pwd(t_list_env **env, int fd)
 	{
 		if (strcmp(print_env(env, "PWD"), ""))
 			ft_putstr_fd(print_env(env, "PWD"), fd);
-		else 
+		else
 			ft_putstr_fd(".", fd);
 		ft_putstr_fd("\n", fd);
 	}
@@ -106,10 +106,10 @@ int	builts_in(t_cmd_lines *cmd, t_list_env **enev, int flag)
 				"ECHO"))
 			return (built_echo(cmd->cmd_line, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "env")
-				|| !ft_strcmp(cmd->cmd_line[0], "ENV"))
+			|| !ft_strcmp(cmd->cmd_line[0], "ENV"))
 			return (built_env(*enev, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "pwd")
-				|| !ft_strcmp(cmd->cmd_line[0], "PWD"))
+			|| !ft_strcmp(cmd->cmd_line[0], "PWD"))
 			return (built_pwd(enev, cmd->outfile));
 		else if (!ft_strcmp(cmd->cmd_line[0], "unset"))
 			return (built_unset(*enev, cmd->cmd_line));

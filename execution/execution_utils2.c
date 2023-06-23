@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:26:35 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 11:10:52 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:49:35 by ohaimad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	*path_split(t_cmd_lines *cmd)
 	char	*str;
 
 	if (access(cmd->cmd_line[0], F_OK) == 0 && (ft_strrchr(cmd->cmd_line[0],
-			'/') || !access(cmd->cmd_line[0], X_OK)))
+				'/') || !access(cmd->cmd_line[0], X_OK)))
 		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)
-		return (err_file(cmd->cmd_line[0]) ,NULL);
+		return (err_file(cmd->cmd_line[0]), NULL);
 	split = ft_split(path, ':');
 	str = join_args(cmd);
 	res = get_binary(split, str);
@@ -37,6 +37,7 @@ char	*path_split(t_cmd_lines *cmd)
 	freealloc2(split);
 	return (res);
 }
+
 void	err_127(char *str, DIR *dir)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -45,9 +46,10 @@ void	err_127(char *str, DIR *dir)
 	closedir(dir);
 	exit(127);
 }
+
 int	execve_fail(char *path, t_cmd_lines *lines)
 {
-	DIR		*dir;
+	DIR	*dir;
 
 	if (!path)
 		exit(127);
@@ -61,6 +63,7 @@ int	execve_fail(char *path, t_cmd_lines *lines)
 	exit(127);
 	return (1);
 }
+
 void	ft_wait(t_cmd_lines *lines, int pid, int old, int fd)
 {
 	if (!lines)
@@ -68,6 +71,7 @@ void	ft_wait(t_cmd_lines *lines, int pid, int old, int fd)
 	close(old);
 	close(fd);
 }
+
 void	fds_manager(t_cmd_lines *lines, int *fd, int old)
 {
 	if (old != -1)
