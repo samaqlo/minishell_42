@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:40:54 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:38:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:57:46 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_cmd_lines	*parsing(char *str, t_infos *infos)
 	here_doc_func(lst_words);
 	the_fucking_expand(lst_words);
 	lines = join_words(lst_words);
+	// int i = 0;
 	if (!delete_adds(&lines) || !lines)
 	{
 		free(str);

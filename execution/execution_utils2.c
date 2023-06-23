@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:26:35 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:28:09 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 11:10:52 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*path_split(t_cmd_lines *cmd)
 	char	*res;
 	char	*str;
 
-	if (access(cmd->cmd_line[0], F_OK) == 0 && ft_strrchr(cmd->cmd_line[0],
-			'/'))
+	if (access(cmd->cmd_line[0], F_OK) == 0 && (ft_strrchr(cmd->cmd_line[0],
+			'/') || !access(cmd->cmd_line[0], X_OK)))
 		return (cmd->cmd_line[0]);
 	path = print_env(&cmd->infos->env, "PATH");
 	if (!path)

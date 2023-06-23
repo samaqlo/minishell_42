@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:24:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:28:19 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 11:12:32 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	err_file(char *str)
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
 }
+
 void	err_cmd(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
