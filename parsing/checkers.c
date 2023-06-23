@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:45:21 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 05:22:57 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:36:38 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	is_redrect(char *str)
 {

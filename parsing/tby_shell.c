@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:40:54 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 05:02:39 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:38:24 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_cmd_lines	*parsing(char *str, t_infos *infos)
 {

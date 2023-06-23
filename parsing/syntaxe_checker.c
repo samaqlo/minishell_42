@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr_env.c                                   :+:      :+:    :+:   */
+/*   syntaxe_checker.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/10 18:35:43 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/10 18:35:47 by astalha          ###   ########.fr       */
+/*   Created: 2023/06/22 18:00:13 by astalha           #+#    #+#             */
+/*   Updated: 2023/06/23 09:38:20 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-char	*ft_strrchr_env(const char *s, int c)
+int	syntaxe_checker(t_data *cmd_line)
 {
-	size_t	i;
+	int i;
+	int len;
+	int *types;
 
-	i = ft_strlen(s);
-	while (i > 0)
+	i = 0;
+	len = ft_lstsize(cmd_line);
+	types = malloc(len * sizeof(int));
+	while (cmd_line)
 	{
-		if (s[i] == c)
-			return (ft_substr(s, 0, i));
-		i--;
+		if (cmd_line->type != space)
+		{
+			types[i] = cmd_line->type;
+			cmd_line = cmd_line->next;
+			i++;
+		}
+		else
+			cmd_line = cmd_line->next;
 	}
-	if (s[i] == c)
-		return (ft_substr(s, 0, i));
-	return (0);
+	if (!check_for_errors(types, len))
+		return (0);
+	return (1);
 }

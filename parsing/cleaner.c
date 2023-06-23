@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:22 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 05:23:12 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:36:44 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	freealloc2(char **ptr)
 {

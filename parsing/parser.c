@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:28:17 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 04:24:09 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:38:00 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	fill_vars(t_data *lst_words, t_cmd_lines **p_to_e)
 {

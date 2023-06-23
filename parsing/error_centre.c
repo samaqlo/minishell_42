@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 17:53:34 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 18:01:48 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:36:48 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	print_code_0(int type)
 {

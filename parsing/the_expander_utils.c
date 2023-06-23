@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:07 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 21:35:17 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:38:34 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_prev(t_data *lst_words, int id)
 {

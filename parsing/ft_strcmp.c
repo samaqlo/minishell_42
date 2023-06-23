@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 18:35:34 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/10 18:35:38 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:36:51 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr_parse.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 23:34:59 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 17:10:35 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:04 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_substr_parse(char const *s, t_infos *infos)
 {

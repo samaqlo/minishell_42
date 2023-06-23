@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 00:37:47 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 00:38:59 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:20 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int		conditions(t_infos *infos, char *str, int *i, int *len)
 {

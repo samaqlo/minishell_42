@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:31:44 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:50 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_lstadd_back(t_data **lst, t_data *new)
 {

@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 01:00:56 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 01:02:48 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:10 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*get_tmp(void)
 {

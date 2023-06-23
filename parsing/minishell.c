@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:44 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 02:34:27 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:53 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_global	*g_global;
 

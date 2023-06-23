@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:34:26 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 00:39:04 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:42 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*get_next_to_red(t_data *lst_words)
 {

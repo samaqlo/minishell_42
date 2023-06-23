@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist_p_to_e.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 17:10:52 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:47 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new)
 {

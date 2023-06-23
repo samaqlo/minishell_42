@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 04:23:02 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 04:23:17 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:56 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	count_w(t_data *lst_words)
 {

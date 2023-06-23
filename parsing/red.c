@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:33:15 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 04:56:39 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:38:17 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_cmd_lines	*del_lines(t_cmd_lines *lines)
 {

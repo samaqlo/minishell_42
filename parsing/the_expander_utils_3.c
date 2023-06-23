@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:42:05 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 21:42:41 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:38:30 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*set_value(char *var, t_list_env *env)
 {

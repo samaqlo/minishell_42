@@ -6,11 +6,11 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 00:21:42 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 01:02:54 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:37:15 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_data	*join_del(t_data *lst_words)
 {
