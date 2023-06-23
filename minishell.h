@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/23 09:27:35 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:53:58 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,27 +98,20 @@ typedef struct s_data
 extern t_global			*g_global;
 
 char					*getpath(char **env);
-int						quoting_checker(char *str);
 t_data					*lexer(char *str, t_infos *infos);
 char					*ft_substr_parse(char const *s, t_infos *infos);
 //linked_list
 void					ft_lstadd_back(t_data **lst, t_data *new);
-void					ft_lstadd_front(t_data **lst, t_data *new);
 int						ft_lstsize(t_data *lst);
 t_data					*ft_lstlast(t_data *lst);
 t_data					*ft_lstnew(char *content, t_infos *infos);
 //cleaners
 void					clean_list(t_data **lst_words);
-
 int						syntaxe_checker(t_data *cmd_line);
-int						strat_end_checker(char *str);
 // void    get_the_dollar(t_data   *cmd_line);
 int						ft_strcmp(char *s1, char *s2);
 char					*ft_strrchr_env(const char *s, int c);
 // int	builts_in(t_cmd_lines *cmd, t_list_env **env);
-void					print_error(int code, int type);
-void					grep_env(char **env, t_list_env **enev);
-
 t_cmd_lines				*ft_lstnew_exp(char **content, int in_fd, int out_fd,
 							t_infos *infos);
 void					ft_lstadd_back_exp(t_cmd_lines **lst, t_cmd_lines *new);
@@ -126,22 +119,11 @@ void					split_line(t_data *cmd_line);
 t_cmd_lines				*ft_lstlast_exp(t_cmd_lines *lst);
 void					the_fucking_expand(t_data *lst_words);
 void					here_doc_func(t_data *lst_words);
-int						dollar_in(char *str);
-int						get_len(char *str, int *i);
-int						len_of_word(char *str, int *i);
-int						dollar_len(char *str, int *i);
-int						white_sp_len(char *str, int *i);
-char					*set_value(char *var, t_list_env *env);
-void					print_list(t_data *lst_words);
-int						count_words(char *str);
 char					*expand_in_hd(char *str, t_list_env *env);
 char					*two_to_one(char **vars);
 void					freealloc2(char **ptr);
-void					set_ids(t_data *lst_words);
 t_cmd_lines				*join_words(t_data *lst_words);
-void					open_err(char *file_name, int code);
 int						delete_adds(t_cmd_lines **lines);
-int						space_in(char *str);
 //  START built fonctions '_'
 t_list_env				*ft_lstlast_env(t_list_env *lst);
 void					ft_lstadd_back_env(t_list_env **lst, t_list_env *new);
@@ -149,7 +131,6 @@ t_list_env				*ft_lstnew_env(char *content, char *variable, int flag);
 void					grep_env(char **env, t_list_env **enev);
 int						check_equal(char *env);
 int						check_n(char *av);
-char					*getpath(char **env);
 char					*print_env(t_list_env **env, char *var);
 void					change_env(t_list_env **env, char *var, char *cont);
 int						check_env(t_list_env *env, char *var);
