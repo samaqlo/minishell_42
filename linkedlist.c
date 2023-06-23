@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohaimad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 18:04:14 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/21 17:10:55 by ohaimad          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:31:44 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ void	ft_lstadd_back(t_data **lst, t_data *new)
 	}
 	lastlst = ft_lstlast(*lst);
 	lastlst->next = new;
-}
-
-void	ft_lstadd_front(t_data **lst, t_data *new)
-{
-	if (!new)
-		return ;
-	new->next = *lst;
-	*lst = new;
 }
 
 int	ft_lstsize(t_data *lst)
@@ -108,6 +100,5 @@ t_data	*ft_lstnew(char *content, t_infos *infos)
 	new->exp = 0;
 	new->vars = NULL;
 	new->next = NULL;
-	// free(content);
 	return (new);
 }

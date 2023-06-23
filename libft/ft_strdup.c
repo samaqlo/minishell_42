@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 00:23:56 by astalha           #+#    #+#             */
-/*   Updated: 2023/05/20 19:05:12 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:29:14 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup(const char *src)
 
 	i = 0;
 	if (!src)
-		return NULL;
+		return (NULL);
 	while (src[i])
 		i++;
 	l = i;

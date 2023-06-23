@@ -6,7 +6,7 @@
 /*   By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:51:31 by astalha           #+#    #+#             */
-/*   Updated: 2023/06/22 19:53:24 by astalha          ###   ########.fr       */
+/*   Updated: 2023/06/23 09:27:35 by astalha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,5 +244,15 @@ void	print_exprt_err(char *str);
 void	ft_export(char **av, int i, t_list_env **env, t_norm *chars);
 //built exit
 int	built_exit(t_cmd_lines *cmd, int flag);
+//exec
+char	**convert_env(t_list_env *env, char **envp, int i);
+char	*join_args(t_cmd_lines *cmd);
+void	err_file(char *str);
+void	err_cmd(char *str);
+char	*get_binary(char **split, char *str);
+void	err_127(char *str, DIR *dir);
+int	execve_fail(char *path, t_cmd_lines *lines);
+void	ft_wait(t_cmd_lines *lines, int pid, int old, int fd);
+void	fds_manager(t_cmd_lines *lines, int *fd, int old);
 
 #endif

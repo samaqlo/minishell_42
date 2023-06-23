@@ -6,7 +6,7 @@
 #    By: astalha <astalha@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 11:11:05 by astalha           #+#    #+#              #
-#    Updated: 2023/06/22 19:55:58 by astalha          ###   ########.fr        #
+#    Updated: 2023/06/23 09:28:32 by astalha          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ SRCS = libft/ft_isalnum.c libft/ft_isprint.c libft/ft_memcmp.c libft/ft_strlcat.
 		libft/ft_memmove.c   libft/ft_strlen.c  libft/ft_strrchr.c libft/ft_toupper.c  libft/ft_isdigit.c libft/ft_memchr.c  libft/ft_memset.c libft/ft_strdup.c libft/ft_substr.c libft/ft_split.c libft/ft_putstr_fd.c libft/ft_putnbr_fd.c\
 		minishell.c lexer.c linkedlist.c ft_substr_parse.c cleaner.c ./built/execution.c error_centre.c linkedlist_p_to_e.c the_expander.c built/utils.c  built/builtin.c built/builtin_rest.c built/built_src.c built/built_src1.c built/built_src2.c ft_strcmp.c \
 		ft_strrchr_env.c here_doc.c here_doc_expand.c parser.c red.c checkers.c tby_shell.c the_expander_utils.c the_expander_utils_2.c the_expander_utils_3.c lexer_utils_1.c lexer_utils.c here_doc_utils.c parser_utils.c red_utils.c red_utils_1.c \
-		red_utils_2.c syntaxe_checker.c built/export_funcs.c built/built_exit.c built/built_echo.c
+		red_utils_2.c syntaxe_checker.c built/export_funcs.c built/built_exit.c built/built_echo.c built/execution_utils2.c built/execution_utils.c
 
 OBJS	= $(SRCS:.c=.o)
 CC 		= cc
