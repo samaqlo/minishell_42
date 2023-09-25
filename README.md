@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/samaqlo">
     <picture>
-    <img alt="philosophers" src="https://user-images.githubusercontent.com/40824677/149231106-b3b63b76-633f-4618-a5af-c9526bcdd10f.png" width=500>
+    <img alt="philosophers" src="https://velog.velcdn.com/images/hidaehyunlee/post/ab99830a-bf6f-4f08-a7a8-2f52a05f4289/107346925-9e9e0a80-6b08-11eb-920a-2382ce24ad95.png" width=500>
     </picture>
   </a>
 </p>
@@ -162,7 +162,7 @@ By far the hardest part of this project was handling all the edge cases.  Before
 ### Clone the repository:
 ``` 
 git clone https://github.com/samaqlo/minishell_42
-cd minishell
+cd minishell_42
 make
 ```
 ### Run Minishell
