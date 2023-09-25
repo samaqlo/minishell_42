@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/samaqlo">
     <picture>
-    <img alt="philosophers" src="https://velog.velcdn.com/images/hidaehyunlee/post/ab99830a-bf6f-4f08-a7a8-2f52a05f4289/107346925-9e9e0a80-6b08-11eb-920a-2382ce24ad95.png" width=500>
+    <img src="https://velog.velcdn.com/images/hidaehyunlee/post/ab99830a-bf6f-4f08-a7a8-2f52a05f4289/107346925-9e9e0a80-6b08-11eb-920a-2382ce24ad95.png" width=500>
     </picture>
   </a>
 </p>
